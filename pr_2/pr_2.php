@@ -319,7 +319,7 @@ format_problem(24);
 
 $chars = range('a', 'z');
 shuffle($chars);
-$string = null;
+$string = "";
 
 // for( $i = 0; $i < 6; $i++ )
 // {
@@ -369,7 +369,7 @@ format_problem(27);
 
 $ar = range(1, 8);
 
-foreach ($ar as $_key) 
+foreach ($ar as $_v) 
 {
     echo array_shift($ar);
     echo array_pop($ar);
