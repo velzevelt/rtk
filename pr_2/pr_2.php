@@ -78,7 +78,7 @@ echo $sum / $arr_length; // 15 / 5
 format_problem(5);
 
 $arr = range(1, 100);
-print_r($arr);
+// print_r($arr);
 
 /** 6
 Создайте массив, заполненный буквами от 'a' до 'z'. */
@@ -86,7 +86,7 @@ print_r($arr);
 format_problem(6);
 
 $arr = range("a", "z");
-print_r($arr);
+// print_r($arr);
 
 
 /** 7
@@ -287,9 +287,9 @@ echo array_rand($ar);
 format_problem(21);
 
 $ar = [ 'a' => 1, 'b' => 2, 'c' => 3 ];
-$rand_i = $ar[ array_rand($ar) ];
+$rand_var = $ar[ array_rand($ar) ];
 
-echo $rand_i;
+echo $rand_var;
 
 
 /** 22 Дан массив $arr. Перемешайте его элементы в случайном порядке. */
@@ -327,11 +327,13 @@ $string = "";
 // }
 
 $chars = array_slice($chars, 0, 6);
+// $string = join("", $chars);
+
 foreach($chars as $key => $value)
 {
     $string .= $value;
 }
-// $string = join("", $chars);
+
 
 var_dump($string);
 

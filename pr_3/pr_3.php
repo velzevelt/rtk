@@ -124,14 +124,14 @@ var_dump(is_lucky(585855));
 
 
 
-
+/** возвращает количество всех возможных счастливых билетов */
 function count_tickets(): int
 {
     $count = 0;
     $ticket = [];
     for($i = 0; $i < 1000000; $i++)
     {
-        for($k = $i, $j = 0; $j < 6; $j++, $k /= 10) /// 200.002 -> 200.002
+        for($k = $i, $j = 0; $j < 6; $j++, $k /= 10)
         {
             $ticket[$j] = $k % 10;
         }
@@ -143,17 +143,22 @@ function count_tickets(): int
     return $count;
 }
 
+/** проверяет, является ли заданный билет счастливым, билет не может начинаться с 0 */
 function is_lucky(int $num): bool
 {
     $result = false;
     $ticket = [];
 
+    /** функция работает только с 6-значными числами */
     if( strlen($num) != 6 )
     {
         return $result;
     }
 
-    for($i = 0, $k = $num; $i < 6; $i++, $k /= 10) // reversed
+    /** разбирает число на цифры в обратном порядке
+     *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
+     */
+    for($i = 0, $k = $num; $i < 6; $i++, $k /= 10)
     {
         $ticket[$i] = $k % 10;
     } 
@@ -196,12 +201,13 @@ print_r($a);
 
 
 
-
-function get_friendly_numbers(int $from = 1, int $to = 25) : array
+/** ищет дружественные числа в диапазоне */
+function get_friendly_numbers(int $from = 1, int $to = 500) : array
 {   
     $result = [];
     $divisors = [];
 
+    /** считаем делители заранее, так как это дорогая операция */
     for($x = $from; $x <= $to; $x++)
     {
         $divisors[$x] = sum( get_divisors($x) );
@@ -226,11 +232,11 @@ function get_friendly_numbers(int $from = 1, int $to = 25) : array
         }
     }    
     
-    // var_dump($divisors);
 
     return $result;
 }
 
+/** возвращает делители числа, исключая само число */
 function get_divisors(int $num): array
 {
     $result = [];
@@ -251,6 +257,8 @@ function sum(array $ar) : int
     return array_sum($ar);
 }
 
+
+/** проверяет, являются ли указанные числа дружественными */
 function is_friendly(int $a, int $b): bool
 {
     $result = false;
