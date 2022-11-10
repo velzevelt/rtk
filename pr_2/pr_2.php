@@ -23,9 +23,8 @@ require_once "../etc/tools.php";
 format_problem(1);
 $arr = [ 1, 2, 3, 4 ];
 
-/** [ '0' => 1, '1' => 2, '2' => 3, '3' => 4 ] */
 
-echo $arr[ count( $arr ) ];
+echo $arr[ $arr[count( $arr ) - 2] ];
 
 /** 2
 Дан массив с числами. Проверьте, что в нем есть элемент со значением 3 */
@@ -56,10 +55,10 @@ echo array_sum($arr);
 format_problem(4);
 
 $arr = range(1, 5);
-$sum = array_sum($arr); //-> 15
-$arr_length = count($arr); // -> 5
+$sum = array_sum($arr); 
+$arr_length = count($arr); 
 
-echo $sum / $arr_length; // 15 / 5
+echo $sum / $arr_length; 
 
 /** 5
 Создайте массив, заполненный числами от 1 до 100 */

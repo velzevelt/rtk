@@ -16,11 +16,6 @@ class Snake
 
     function __construct($filename, $out_path = ".o")
     {
-        // if( $file = fopen($filename, 'r') )
-        // {
-        //     $_base_line = fread($file, filesize($filename));
-        //     fclose($file);
-        // }
         $this->_base_line = file_get_contents($filename);
         $this->_filename = $filename . $out_path;
     }
@@ -47,6 +42,10 @@ class Snake
 $snake = new Snake("snake.txt");
 $snake->main();
 
-
+class Snake2D
+{
+    private $_space = [ [] ]; // x y
+    private $_filename = '';
+}
 
 ?>
