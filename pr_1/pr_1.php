@@ -13,22 +13,9 @@
 
 <pre style = "font-size: 18px; font-family: Arial; color:white; white-space: nowrap"> 
 <?php
-/** 
- *          Практическая работа № 1
- *           "Работа со строками"
- *                                  ИВ2-22
- *                                  Гребенников Д
- * 
- *      
-*/
 
-function format_problem(string $problem_id)
-{
-    $message = "Задание <empty style = 'color: #EEEE9B;'>$problem_id</empty>";
-    echo "<h4 style = 'color: #ACD1AF'>";
-    echo $message;
-    echo "</h4>";
-}
+require_once "../etc/tools.php";
+
 //  Задание 1.1 Дана строка «php». Сделайте из нее строку «PHP»
 
 // Решение

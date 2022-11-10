@@ -13,21 +13,8 @@
 
 <pre style = "font-size: 18px; font-family: Arial; color:white">
 <?php
-/**
- *          Практическая работа № 2
- *            "Работа с массивами"
- *                          ИВ2-22
- *                          Гребенников Д
- * 
- */
 
-function format_problem(string $problem_id)
-{
-    $message = "Задание <empty style = 'color: #EEEE9B;'>$problem_id</empty>";
-    echo "<h4 style = 'color: #ACD1AF'>";
-    echo $message;
-    echo "</h4>";
-}
+require_once "../etc/tools.php";
 
 
 /** 1 Дан массив $arr. С помощью функции count выведите последний элемент данного
@@ -36,7 +23,9 @@ function format_problem(string $problem_id)
 format_problem(1);
 $arr = [ 1, 2, 3, 4 ];
 
-echo $arr[ count($arr) - 1 ];
+/** [ '0' => 1, '1' => 2, '2' => 3, '3' => 4 ] */
+
+echo $arr[ count( $arr ) ];
 
 /** 2
 Дан массив с числами. Проверьте, что в нем есть элемент со значением 3 */
@@ -196,7 +185,7 @@ echo $pos;
 format_problem(17);
 $ar = ['a', '-', 'b', '-', 'c', '-', 'd'];
 $pos = array_search("-", $ar);
-$ar = array_splice($ar, $pos);
+array_splice($ar, $pos, 1);
 
 print_r($ar);
 
@@ -327,12 +316,12 @@ $string = "";
 // }
 
 $chars = array_slice($chars, 0, 6);
-// $string = join("", $chars);
+$string = join("", $chars);
 
-foreach($chars as $key => $value)
-{
-    $string .= $value;
-}
+// foreach($chars as $key => $value)
+// {
+//     $string .= $value;
+// }
 
 
 var_dump($string);

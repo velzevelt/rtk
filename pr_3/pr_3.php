@@ -14,13 +14,7 @@
 <pre style = "font-size: 22px; font-family: Arial; color:white">
 <?php 
 
-function format_problem(string $problem_id)
-{
-    $message = "Задание <empty style = 'color: #EEEE9B;'>$problem_id</empty>";
-    echo "<h4 style = 'color: #ACD1AF'>";
-    echo $message;
-    echo "</h4>";
-}
+require_once "../etc/tools.php";
 
 
 /** 1. Сделайте функцию, которая принимает строку на русском языке, а
