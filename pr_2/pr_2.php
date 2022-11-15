@@ -12,8 +12,7 @@
 <h2 style = "color:white; text-align: center; ">"Работа с массивами"</h2>
 
 <pre style = "font-size: 18px; font-family: Arial; color:white">
-<?php
-
+<?php 
 require_once "../etc/tools.php";
 
 
@@ -24,7 +23,7 @@ format_problem(1);
 $arr = [ 1, 2, 3, 4 ];
 
 
-echo $arr[ $arr[count( $arr ) - 2] ];
+echo $arr[ count($arr) ];
 
 /** 2
 Дан массив с числами. Проверьте, что в нем есть элемент со значением 3 */
@@ -56,7 +55,7 @@ format_problem(4);
 
 $arr = range(1, 5);
 $sum = array_sum($arr); 
-$arr_length = count($arr); 
+$arr_length = count($arr) + 1; 
 
 echo $sum / $arr_length; 
 
@@ -449,8 +448,132 @@ $ar = array_diff( $ar_1, $ar_2 );
 
 print_r($ar);
 
+
 ?>
 </pre>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
