@@ -51,7 +51,7 @@ $example = [
                     'name' => 'item_6',
                     'items' => [],
                 ],
-                
+
             ]
         ],
 

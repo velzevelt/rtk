@@ -5,9 +5,6 @@ function format_problem(string $problem_id)
     echo $message;
 }
 
-// phpinfo();
-
-
 
 
 
@@ -241,3 +238,4 @@ function count(array $array): int
 
 # change php.ini in openserver config
 # disable_functions = count
+

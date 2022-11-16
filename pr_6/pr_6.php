@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 # Задача 1. Написать программу, змейку, которая съедает линию
 # Результат работы класса – файл в котором на первой строчке исходная линия, а 
@@ -19,18 +19,16 @@ class Snake
         $this->_base_line = file_get_contents($filename);
         $this->_filename = $filename . $out_path;
     }
-    
+
     function main(): void
-    {   
-        if( $file = fopen( $this->_filename, "w+") )
-        {
+    {
+        if ($file = fopen($this->_filename, "w+")) {
             $line = $this->_base_line;
 
-            for($head_pos = 0, $j = strlen( $line ); $head_pos < $j; $head_pos++)
-            {
-               $line[$head_pos] = '>';
-               $line = substr_replace($line, str_repeat('*', $head_pos), 0, $head_pos);
-               fwrite($file, $line . "\n"); 
+            for ($head_pos = 0, $j = strlen($line); $head_pos < $j; $head_pos++) {
+                $line[$head_pos] = '>';
+                $line = substr_replace($line, str_repeat('*', $head_pos), 0, $head_pos);
+                fwrite($file, $line . "\n");
             }
 
             fclose($file);
@@ -44,8 +42,6 @@ $snake->main();
 
 class Snake2D
 {
-    private $_space = [ [] ]; // x y
+    private $_space = [[]]; // x y
     private $_filename = '';
 }
-
-?>

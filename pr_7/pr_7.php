@@ -1,5 +1,5 @@
 <pre>
-<?php 
+<?php
 const ROUNDS = 3;
 
 const MAX_UNITS_IN_ARMY = 5;
@@ -12,14 +12,13 @@ const LOG_FILE = 'log.txt';
 
 file_put_contents(LOG_FILE, "");
 
-for( $i = 1; $i <= ROUNDS; $i++ )
-{
+for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( new Army('white'), new Army('black') );
+    $game = new Game(new Army('white'), new Army('black'));
     $game->main();
 }
 
-echo nl2br( file_get_contents(LOG_FILE) );
+echo nl2br(file_get_contents(LOG_FILE));
 
 class Game
 {
@@ -43,37 +42,34 @@ class Game
         $current_player = $first_player;
 
         $move_id = 1;
-        
-        while( $current_player->can_move() )
-        {
+
+        while ($current_player->can_move()) {
             file_put_contents(LOG_FILE, "Ход $move_id: $current_player->name атакует\n", FILE_APPEND);
             $current_player->make_move();
 
-            if( $current_player->is_winner() )
-            {
+            if ($current_player->is_winner()) {
                 break;
             }
 
             $current_player = $current_player == $first_player ? $second_player : $first_player;
             $move_id++;
-            
+
             file_put_contents(LOG_FILE, "\n", FILE_APPEND);
         }
-        
+
         $winner = $first_player->is_winner() ? $first_player : $second_player;
-        
+
         $game_result = "Победитель: $winner->name, осталось юнитов " . $winner->count_alive();
         $game_result .= " их общее здоровье составляет " . $winner->get_units_health();
 
-        if( $winner->count_alive() != MAX_UNITS_IN_ARMY ) # Если кто-то погиб, сообщаем об этом
+        if ($winner->count_alive() != MAX_UNITS_IN_ARMY) # Если кто-то погиб, сообщаем об этом
         {
             $game_result .= " убиты юниты с ключами " . $winner->get_dead();
         }
 
-        $game_result .= "\n\n";      
+        $game_result .= "\n\n";
 
         file_put_contents(LOG_FILE, $game_result, FILE_APPEND);
-
     }
 }
 
@@ -86,9 +82,8 @@ class Army
 
     function __construct($name = '')
     {
-        for($i = 0; $i < MAX_UNITS_IN_ARMY; $i++)
-        {
-            array_push( $this->units, new Unit() );
+        for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
+            array_push($this->units, new Unit());
         }
         $this->name = $name;
     }
@@ -96,32 +91,31 @@ class Army
 
     function make_move()
     {
-        foreach($this->units as $unit_id => $unit)
-        {
-            if( !($unit->is_alive()) ) # Мертвецы не могут атаковать
+        foreach ($this->units as $unit_id => $unit) {
+            if (!($unit->is_alive())) # Мертвецы не могут атаковать
             {
                 continue;
             }
 
-            $target_id = array_rand( $this->enemy_units );
+            $target_id = array_rand($this->enemy_units);
             $target = $this->enemy_units[$target_id];
 
-            while( !($target->is_alive()) ) # Нельзя атаковать мертвых, ищем живую цель
+            while (!($target->is_alive())) # Нельзя атаковать мертвых, ищем живую цель
             {
-                if( $this->is_winner() ) # Игрок победил, у противника не осталось юнитов
+                if ($this->is_winner()) # Игрок победил, у противника не осталось юнитов
                 {
                     break 2;
                 }
-                $target_id = array_rand( $this->enemy_units );
+                $target_id = array_rand($this->enemy_units);
                 $target = $this->enemy_units[$target_id];
             }
 
-            $unit -> attack($target);
-            file_put_contents( LOG_FILE, "юнит $unit_id нанес урон $unit->damage вражескому юниту $target_id, у врага осталось $target->health здоровья\n", FILE_APPEND );
+            $unit->attack($target);
+            file_put_contents(LOG_FILE, "юнит $unit_id нанес урон $unit->damage вражескому юниту $target_id, у врага осталось $target->health здоровья\n", FILE_APPEND);
 
-            if( !($target->is_alive()) ) # Регистрация убитого противника
+            if (!($target->is_alive())) # Регистрация убитого противника
             {
-                file_put_contents( LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND );
+                file_put_contents(LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND);
                 $this->kills++;
             }
         }
@@ -141,9 +135,8 @@ class Army
     function get_units_health(): int
     {
         $res = 0;
-        foreach($this -> units as $unit)
-        {
-            if( $unit->destroyed ) # Здоровье только живых
+        foreach ($this->units as $unit) {
+            if ($unit->destroyed) # Считаем здоровье только живчиков
             {
                 continue;
             }
@@ -156,10 +149,8 @@ class Army
     {
         $res = "";
 
-        foreach( $this -> units as $key => $unit )
-        {
-            if($unit->destroyed)
-            {
+        foreach ($this->units as $key => $unit) {
+            if ($unit->destroyed) {
                 $res .= $key;
                 $res .= " ";
             }
@@ -171,10 +162,8 @@ class Army
     function count_alive(): int
     {
         $res = 0;
-        foreach( $this-> units as $unit)
-        {
-            if($unit->active)
-            {
+        foreach ($this->units as $unit) {
+            if ($unit->active) {
                 $res++;
             }
         }
@@ -190,31 +179,29 @@ class Unit
     public $destroyed = false;
 
     function __construct()
-    {   
-        $this -> health = MAX_UNIT_HEALTH;
-        $this -> damage = random_int(MIN_UNIT_DAMAGE, MAX_UNIT_DAMAGE);
+    {
+        $this->health = MAX_UNIT_HEALTH;
+        $this->damage = random_int(MIN_UNIT_DAMAGE, MAX_UNIT_DAMAGE);
     }
 
     function take_damage($damage)
     {
         $this->health -= $damage;
 
-        if($this->health < MIN_UNIT_HEALTH)
-        {
+        if ($this->health < MIN_UNIT_HEALTH) {
             $this->active = false;
             $this->destroyed = true;
         }
-
     }
 
     function attack(Unit $target)
     {
-        $target->take_damage( $this->damage );
+        $target->take_damage($this->damage);
     }
 
     function is_alive(): bool
     {
-        return ($this->active and !($this->destroyed) );
+        return ($this->active and !($this->destroyed));
     }
 }
 

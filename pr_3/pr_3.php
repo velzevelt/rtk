@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Практическая 3</title>
 </head>
-<body style = "background-color: black; color: white">
-    
-<h1 style = "color:white; text-align: center"> <b>Практическая работа</b> 3</h1>
-<h2 style = "color:white; text-align: center">"Использование пользовательских функций"</h2>
-    
-<pre style = "font-size: 22px; font-family: Arial; color:white">
-<?php 
+
+<body style="background-color: black; color: white">
+
+    <h1 style="color:white; text-align: center"> <b>Практическая работа</b> 3</h1>
+    <h2 style="color:white; text-align: center">"Использование пользовательских функций"</h2>
+
+    <pre style="font-size: 22px; font-family: Arial; color:white">
+<?php
 
 require_once "../etc/tools.php";
 
@@ -26,9 +28,9 @@ $var = "шиншилла";
 
 echo translit($var);
 
-function translit(string $text) : string
+function translit(string $text): string
 {
-    $dictionary = [  
+    $dictionary = [
         "а" => "a",
         "б" => "b",
         "в" => "v",
@@ -84,25 +86,23 @@ echo str_plural(4, 'яблоко', 'яблока', 'яблок');
 
 
 
-function str_plural(int $amount, string $singular, string $two_four, string $plural) : string
+function str_plural(int $amount, string $singular, string $two_four, string $plural): string
 {
     $result = "";
 
-    switch ( $amount ) 
-    {
+    switch ($amount) {
         case 1:
             $result = $amount . " " . $singular;
             break;
 
-        case in_array( $amount, range(2, 4) ):
+        case in_array($amount, range(2, 4)):
             $result = $amount . " " . $two_four;
             break;
 
         default:
             $result = $amount . " " . $plural;
-            
     }
-    
+
     return $result;
 }
 
@@ -123,14 +123,11 @@ function count_tickets(): int
 {
     $count = 0;
     $ticket = [];
-    for($i = 0; $i < 1000000; $i++)
-    {
-        for($k = $i, $j = 0; $j < 6; $j++, $k /= 10)
-        {
+    for ($i = 0; $i < 1000000; $i++) {
+        for ($k = $i, $j = 0; $j < 6; $j++, $k /= 10) {
             $ticket[$j] = $k % 10;
         }
-        if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5])
-        {
+        if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
             $count++;
         }
     }
@@ -144,21 +141,18 @@ function is_lucky(int $num): bool
     $ticket = [];
 
     /** функция работает только с 6-значными числами */
-    if( strlen($num) != 6 )
-    {
+    if (strlen($num) != 6) {
         return $result;
     }
 
     /** разбирает число на цифры в обратном порядке
      *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
      */
-    for($i = 0, $k = $num; $i < 6; $i++, $k /= 10)
-    {
+    for ($i = 0, $k = $num; $i < 6; $i++, $k /= 10) {
         $ticket[$i] = $k % 10;
-    } 
+    }
 
-    if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5])
-    {
+    if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
     }
 
@@ -196,36 +190,31 @@ print_r($a);
 
 
 /** ищет дружественные числа в диапазоне */
-function get_friendly_numbers(int $from = 1, int $to = 500) : array
-{   
+function get_friendly_numbers(int $from = 1, int $to = 500): array
+{
     $result = [];
     $divisors = [];
 
     /** считаем делители заранее, так как это дорогая операция */
-    for($x = $from; $x <= $to; $x++)
-    {
-        $divisors[$x] = sum( get_divisors($x) );
+    for ($x = $from; $x <= $to; $x++) {
+        $divisors[$x] = sum(get_divisors($x));
     }
 
-    for($x = $from; $x <= $to; $x++)
-    {
-        for($y = $from + 1; $y <= $to; $y++)
-        {
-            if($x == $y)
-            {
+    for ($x = $from; $x <= $to; $x++) {
+        for ($y = $from + 1; $y <= $to; $y++) {
+            if ($x == $y) {
                 continue;
             }
 
             $sum_1 = $divisors[$x];
             $sum_2 = $divisors[$y];
 
-            if($sum_1 == $y and $sum_2 == $x)
-            {
+            if ($sum_1 == $y and $sum_2 == $x) {
                 $result[$x] = $y;
             }
         }
-    }    
-    
+    }
+
 
     return $result;
 }
@@ -235,10 +224,8 @@ function get_divisors(int $num): array
 {
     $result = [];
 
-    for ($i = 1; $i < $num; $i++)
-    {
-        if ($num % $i == 0)
-        {
+    for ($i = 1; $i < $num; $i++) {
+        if ($num % $i == 0) {
             array_push($result, $i);
         }
     }
@@ -246,7 +233,7 @@ function get_divisors(int $num): array
     return $result;
 }
 
-function sum(array $ar) : int
+function sum(array $ar): int
 {
     return array_sum($ar);
 }
@@ -257,8 +244,8 @@ function is_friendly(int $a, int $b): bool
 {
     $result = false;
 
-    $sum_1 = sum( get_divisors($a) );
-    $sum_2 = sum( get_divisors($b) );
+    $sum_1 = sum(get_divisors($a));
+    $sum_2 = sum(get_divisors($b));
 
     $result = ($sum_1 == $b and $sum_2 == $a);
 
@@ -271,4 +258,5 @@ function is_friendly(int $a, int $b): bool
 </pre>
 
 </body>
+
 </html>

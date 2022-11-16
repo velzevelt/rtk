@@ -93,4 +93,3 @@ echo "<br>";
 
 echo $fox -> getAmountOfLimbs();
 echo "<br>";
-?>

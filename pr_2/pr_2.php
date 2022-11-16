@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Практическая 2</title>
 </head>
-<body style = "background-color: black">
-    
-<h1 style = "color:white; text-align: center">Практическая работа 2</h1>
-<h2 style = "color:white; text-align: center; ">"Работа с массивами"</h2>
 
-<pre style = "font-size: 18px; font-family: Arial; color:white">
-<?php 
+<body style="background-color: black">
+
+    <h1 style="color:white; text-align: center">Практическая работа 2</h1>
+    <h2 style="color:white; text-align: center; ">"Работа с массивами"</h2>
+
+    <pre style="font-size: 18px; font-family: Arial; color:white">
+<?php
 require_once "../etc/tools.php";
 
 
@@ -20,10 +22,10 @@ require_once "../etc/tools.php";
 массива. */
 
 format_problem(1);
-$arr = [ 1, 2, 3, 4 ];
+$arr = [1, 2, 3, 4];
 
 
-echo $arr[ count($arr) ];
+echo $arr[count($arr)];
 
 /** 2
 Дан массив с числами. Проверьте, что в нем есть элемент со значением 3 */
@@ -54,10 +56,10 @@ echo array_sum($arr);
 format_problem(4);
 
 $arr = range(1, 5);
-$sum = array_sum($arr); 
-$arr_length = count($arr) + 1; 
+$sum = array_sum($arr);
+$arr_length = count($arr) + 1;
 
-echo $sum / $arr_length; 
+echo $sum / $arr_length;
 
 /** 5
 Создайте массив, заполненный числами от 1 до 100 */
@@ -80,7 +82,7 @@ $arr = range("a", "z");
 Найдите сумму чисел от 1 до 100 не используя цикл. */
 
 format_problem(7);
-echo array_sum( range(1, 100) );
+echo array_sum(range(1, 100));
 
 /** 8
 Даны два массива: первый с элементами 1, 2, 3, второй с элементами 'a', 'b', 'c'.
@@ -88,7 +90,7 @@ echo array_sum( range(1, 100) );
 
 format_problem(8);
 $arr_1 = range(1, 3);
-$arr_2 = [ "a", "b", "c" ];
+$arr_2 = ["a", "b", "c"];
 
 $arr = array_merge($arr_1, $arr_2);
 
@@ -120,7 +122,7 @@ print_r($ar);
 format_problem(11);
 
 $ar = range(1, 5);
-array_splice( $ar, 3, 0, [ "a", "b", "c" ] );
+array_splice($ar, 3, 0, ["a", "b", "c"]);
 
 print_r($ar);
 
@@ -129,7 +131,7 @@ print_r($ar);
 массива, а в $values – значения. */
 
 format_problem(12);
-$ar = [ 'a' => 1, 'b' => 2, 'c' => 3 ];
+$ar = ['a' => 1, 'b' => 2, 'c' => 3];
 $keys = array_keys($ar);
 $values = array_values($ar);
 
@@ -144,7 +146,7 @@ format_problem(13);
 $ar_1 = ['a', 'b', 'c'];
 $ar_2 = [1, 2, 3];
 
-$ar = array_combine( $ar_1, $ar_2 );
+$ar = array_combine($ar_1, $ar_2);
 print_r($ar);
 
 
@@ -192,7 +194,7 @@ print_r($ar);
 
 format_problem(18);
 $ar = ['a', 'b', 'c', 'd', 'e'];
-$ar = array_replace($ar, [ "0" => "!", "3" => "!!" ]);
+$ar = array_replace($ar, ["0" => "!", "3" => "!!"]);
 
 print_r($ar);
 
@@ -202,41 +204,41 @@ print_r($ar);
 
 format_problem(19);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 sort($ar);
 print_r($ar);
 
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 asort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 arsort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 ksort($ar);
 print_r($ar);
 
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 krsort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 natcasesort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 natsort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 rsort($ar);
 print_r($ar);
 
-$ar = ['3'=>'a', '1'=>'c', '2'=>'e', '4'=>'b'];
+$ar = ['3' => 'a', '1' => 'c', '2' => 'e', '4' => 'b'];
 shuffle($ar);
 print_r($ar);
 
@@ -255,7 +257,7 @@ print_r($ar);
 
 format_problem(20);
 
-$ar = [ 'a' => 1, 'b' => 2, 'c' => 3 ];
+$ar = ['a' => 1, 'b' => 2, 'c' => 3];
 
 echo array_rand($ar);
 
@@ -273,8 +275,8 @@ echo array_rand($ar);
 
 format_problem(21);
 
-$ar = [ 'a' => 1, 'b' => 2, 'c' => 3 ];
-$rand_var = $ar[ array_rand($ar) ];
+$ar = ['a' => 1, 'b' => 2, 'c' => 3];
+$rand_var = $ar[array_rand($ar)];
 
 echo $rand_var;
 
@@ -330,7 +332,7 @@ var_dump($string);
 
 format_problem(25);
 
-$ar = [ 'a', 'b', 'c', 'b', 'a' ];
+$ar = ['a', 'b', 'c', 'b', 'a'];
 $ar = array_unique($ar);
 
 print_r($ar);
@@ -358,8 +360,7 @@ format_problem(27);
 
 $ar = range(1, 8);
 
-foreach ($ar as $_v) 
-{
+foreach ($ar as $_v) {
     echo array_shift($ar);
     echo array_pop($ar);
 }
@@ -369,7 +370,7 @@ foreach ($ar as $_v)
 
 format_problem(28);
 
-$ar = [ 'a', 'b', 'c' ];
+$ar = ['a', 'b', 'c'];
 $ar = array_pad($ar, 6, "-");
 
 print_r($ar);
@@ -384,7 +385,7 @@ format_problem(29);
 $ar = range(1, 20);
 $chunk_size = 4;
 
-print_r( array_chunk($ar, $chunk_size) );
+print_r(array_chunk($ar, $chunk_size));
 
 
 
@@ -393,7 +394,7 @@ print_r( array_chunk($ar, $chunk_size) );
 
 format_problem(30);
 
-$ar = [ 'a', 'b', 'c', 'b', 'a' ];
+$ar = ['a', 'b', 'c', 'b', 'a'];
 
 print_r(array_count_values($ar));
 
@@ -404,7 +405,7 @@ print_r(array_count_values($ar));
 format_problem(31);
 
 $ar = range(1, 5);
-$ar = array_map( 'sqrt', $ar );
+$ar = array_map('sqrt', $ar);
 
 print_r($ar);
 
@@ -414,8 +415,8 @@ print_r($ar);
 
 format_problem(32);
 
-$ar = [ '<b>php</b>', '<i>html</i>' ];
-$ar = array_map( 'strip_tags', $ar );
+$ar = ['<b>php</b>', '<i>html</i>'];
+$ar = array_map('strip_tags', $ar);
 
 print_r($ar);
 
@@ -429,7 +430,7 @@ $ar = [];
 $ar_1 = range(1, 5);
 $ar_2 = range(3, 7);
 
-$ar = array_intersect( $ar_1, $ar_2 );
+$ar = array_intersect($ar_1, $ar_2);
 
 print_r($ar);
 
@@ -444,7 +445,7 @@ $ar = [];
 $ar_1 = range(1, 5);
 $ar_2 = range(3, 7);
 
-$ar = array_diff( $ar_1, $ar_2 );
+$ar = array_diff($ar_1, $ar_2);
 
 print_r($ar);
 
@@ -453,127 +454,5 @@ print_r($ar);
 </pre>
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
