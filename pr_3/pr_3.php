@@ -24,7 +24,7 @@ require_once "../etc/tools.php";
 
 format_problem(1);
 
-$var = "шиншилла";
+$var = "шиншилла МИР !! ЩУКА";
 
 echo translit($var);
 
@@ -66,8 +66,22 @@ function translit(string $text): string
         "я" => "ya",
     ];
 
-    $text = strtr($text, $dictionary);
+    $upper_keys = array_keys($dictionary);
+    foreach($upper_keys as &$upper) {
+        $upper = mb_strtoupper($upper);
+    }
+    unset($upper);
 
+    $upper_values = array_values($dictionary);
+    foreach($upper_values as &$upper) {
+        $upper = mb_strtoupper($upper);
+    }
+    unset($upper);
+
+    $upper = array_combine($upper_keys, $upper_values);
+    $dictionary = array_merge($dictionary, $upper);
+
+    $text = strtr( $text, $dictionary);
     return $text;
 }
 
@@ -82,7 +96,7 @@ function translit(string $text): string
 
 format_problem(2);
 
-echo str_plural(4, 'яблоко', 'яблока', 'яблок');
+echo str_plural(16, 'яблоко', 'яблока', 'яблок');
 
 
 
@@ -91,14 +105,15 @@ function str_plural(int $amount, string $singular, string $two_four, string $plu
     $result = "";
 
     switch ($amount) {
+        case 0:
+            $result = $amount . " " . $plural;
+            break;
         case 1:
             $result = $amount . " " . $singular;
             break;
-
-        case in_array($amount, range(2, 4)):
+        case $amount >= 2 and $amount <= 4:
             $result = $amount . " " . $two_four;
             break;
-
         default:
             $result = $amount . " " . $plural;
     }
@@ -155,7 +170,6 @@ function is_lucky(int $num): bool
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
     }
-
     return $result;
 }
 

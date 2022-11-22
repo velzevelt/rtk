@@ -4,8 +4,12 @@
 
 function factrorial(int $n): int
 {
-    if ($n <= 0) {
+    if ($n == 0) {
         return 1;
+    }
+
+    if($n > 0) {
+        return -1; # Undefined
     }
 
     if ($n == 1) {
@@ -66,6 +70,8 @@ $example = [
 
 ];
 
+# ul - unordered list
+# li - list item
 
 function make_list(array $from): string
 {
