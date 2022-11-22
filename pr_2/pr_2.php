@@ -22,10 +22,11 @@ require_once "../etc/tools.php";
 массива. */
 
 format_problem(1);
-$arr = [1, 2, 3, 4, 54];
+$arr = [1, 2, 3, 4, '5' => 54];
 
 
-echo $arr[count($arr, FAKE_COUNT)] . "<br>";
+echo $arr[ count( $arr) ]  . "<br>";
+
 
 var_dump($arr);
 var_dump(count($arr));
@@ -58,11 +59,11 @@ echo array_sum($arr);
 
 format_problem(4);
 
-$arr = range(1, 5);
+$arr = [1, 2, 3, 4, 5, 'jk' => 8, 'kjh' => 'jhbkjhkjh'];
 $sum = array_sum($arr);
-$arr_length = count($arr) + 1;
+$arr_length = count($arr);
 
-echo $sum / $arr_length;
+echo $sum / $arr_length; //error
 
 /** 5
 Создайте массив, заполненный числами от 1 до 100 */
@@ -77,8 +78,8 @@ $arr = range(1, 100);
 
 format_problem(6);
 
-$arr = range("a", "z");
-// print_r($arr);
+$arr = range("a", "я");
+// print_r($arr); error
 
 
 /** 7
@@ -92,10 +93,10 @@ echo array_sum(range(1, 100));
 Сделайте из них массив с элементами 1, 2, 3, 'a', 'b', 'c'. */
 
 format_problem(8);
-$arr_1 = range(1, 3);
-$arr_2 = ["a", "b", "c"];
+$arr_1 = [1,2,3];
+$arr_2 = ["a", "b", "c", 45, 'lkj' =>'lkj'];
 
-$arr = array_merge($arr_1, $arr_2);
+$arr = array_merge($arr_1, $arr_2); // count - 3+3
 
 print_r($arr);
 
@@ -104,8 +105,8 @@ print_r($arr);
 из него массив $result с элементами 2, 3, 4 */
 
 format_problem(9);
-$arr_1 = range(1, 5);
-$result = array_slice($arr_1, 1, 3);
+$arr_1 = [1,2,3,4,5,6];
+$result = array_slice($arr_1, 1, 3); // 1.5.6
 
 print_r($result);
 
@@ -113,8 +114,8 @@ print_r($result);
 в [1, 4, 5]. */
 
 format_problem(10);
-$ar = range(1, 5);
-array_splice($ar, 1, 2);
+$ar = [1,2,3,1=>5,2=>6,3=>7];
+array_splice($ar, 1, 2); //1567
 
 print_r($ar);
 
@@ -408,7 +409,17 @@ print_r(array_count_values($ar));
 format_problem(31);
 
 $ar = range(1, 5);
-$ar = array_map('sqrt', $ar);
+var_dump( array_map('sqrt', $ar) );
+
+$sqrt = function($x) {
+    return sqrt($x);
+};
+
+var_dump( array_map($sqrt, $ar) );
+var_dump( array_map(function($x) { return sqrt($x); }, $ar) );
+var_dump( array_map( fn($x) => sqrt($x), $ar ));
+
+
 
 print_r($ar);
 

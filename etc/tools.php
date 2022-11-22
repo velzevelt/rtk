@@ -218,22 +218,22 @@ function format_problem(string $problem_id)
 
 
 
-const TRUE_COUNT = 1;
-const FAKE_COUNT = 0;
+const COUNT_TRUE = 1;
+const COUNT_LAST = 0;
 
 
 
 
 
 /**count redefine*/
-function count(array $array, int $mode = TRUE_COUNT ): int
+function count(array $array, int $mode = COUNT_TRUE ): int
 {
     $res = 0;
     foreach($array as $_v)
     {
         $res++;
     }
-    if($mode != TRUE_COUNT)
+    if($mode != COUNT_TRUE)
     {
         $res--;
     }

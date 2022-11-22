@@ -178,7 +178,7 @@ function is_lucky(int $num): bool
 format_problem(4);
 
 
-$a = get_friendly_numbers(1, 1000);
+$a = get_friendly_numbers(1, 3000);
 
 // var_dump(sum(get_divisors(284)));
 
