@@ -22,10 +22,13 @@ require_once "../etc/tools.php";
 массива. */
 
 format_problem(1);
-$arr = [1, 2, 3, 4];
+$arr = [1, 2, 3, 4, 54];
 
 
-echo $arr[count($arr)];
+echo $arr[count($arr, FAKE_COUNT)] . "<br>";
+
+var_dump($arr);
+var_dump(count($arr));
 
 /** 2
 Дан массив с числами. Проверьте, что в нем есть элемент со значением 3 */
