@@ -11,7 +11,7 @@
 
 class Snake
 {
-    private $_base_line = "";
+    protected $_base_line = "";
     private $_filename = "";
 
     function __construct($filename, $out_path = ".o")
@@ -37,11 +37,19 @@ class Snake
 }
 
 
-$snake = new Snake("snake.txt");
-$snake->main();
+// $snake = new Snake("snake.txt");
+// $snake->main();
 
-class Snake2D
+$snake2D = new Snake2D('snake2D.txt');
+$snake2D->main();
+
+class Snake2D extends Snake
 {
     private $_space = [[]]; // x y
-    private $_filename = '';
+
+
+    function main(): void
+    {
+        var_dump($this->_base_line);
+    }
 }
