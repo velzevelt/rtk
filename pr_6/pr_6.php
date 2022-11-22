@@ -45,11 +45,5 @@ $snake2D->main();
 
 class Snake2D extends Snake
 {
-    private $_space = [[]]; // x y
-
-
-    function main(): void
-    {
-        var_dump($this->_base_line);
-    }
+    
 }
