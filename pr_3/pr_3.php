@@ -66,23 +66,19 @@ function translit(string $text): string
         "я" => "ya",
     ];
 
-    $upper_keys = array_keys($dictionary);
-    foreach($upper_keys as &$upper) {
-        $upper = mb_strtoupper($upper);
+    foreach ($dictionary as $key => $val) {
+        $dictionary[mb_strtoupper($key)] = mb_strtoupper($val);
     }
-    unset($upper);
 
-    $upper_values = array_values($dictionary);
-    foreach($upper_values as &$upper) {
-        $upper = mb_strtoupper($upper);
+    $dictionary_fl = array_flip($dictionary);
+    $text = mb_str_split($text);
+    foreach ($text as $k => $v) {
+        if (in_array($v, $dictionary_fl)) {
+            $text[$k] = $dictionary[$v];
+        }
     }
-    unset($upper);
 
-    $upper = array_combine($upper_keys, $upper_values);
-    $dictionary = array_merge($dictionary, $upper);
-
-    $text = strtr( $text, $dictionary);
-    return $text;
+    return join($text);
 }
 
 
