@@ -8,7 +8,7 @@ function factrorial(int $n): int
         return 1;
     }
 
-    if($n > 0) {
+    if($n < 0) {
         return -1; # Undefined
     }
 
