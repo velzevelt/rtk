@@ -7,5 +7,5 @@ private _ ?
 use sleep and usleep; no output
 
 [pr_10] 
-imagick import problem
-install php-imagick; reimport with external php-composer
+imagine import problem
+use standart imagick for save

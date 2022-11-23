@@ -20,9 +20,10 @@ if ( isset($_POST['send']) )
 }
 
 
+
 $imagine = new Imagine();
-$imagine -> open('assets/image.png')
-         -> save('out/i.png');
+$imagine -> open('assets/image.jpg') -> show('jpg');
+
 
 
 // $image_wm = new ImageWatermark('assets/image.jpg', 'assets/watermark.png');

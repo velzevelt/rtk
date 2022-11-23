@@ -73,7 +73,7 @@ function translit(string $text): string
         if( array_key_exists($val, $dictionary) ) {
             $text[$key] = $dictionary[$val];
         } 
-        if( array_key_exists($val, $ud) ) {
+        elseif( array_key_exists($val, $ud) ) {
             $text[$key] = $ud[$val];
         }
     }
