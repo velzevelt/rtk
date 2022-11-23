@@ -188,14 +188,12 @@ function form_ticket(string $num): array {
 }
 
 # 1 - 1200
-$res = [];
 for ($i = 1; $i < 1200; $i++) {
     if(is_lucky($i)) {
-        $res[] = form_ticket($i);
+        print_r(form_ticket($i)) . '<br>';
     }
 }
 
-var_dump($res);
 
 
 /** 4. Дружественные числа - два различных числа, для которых сумма всех
