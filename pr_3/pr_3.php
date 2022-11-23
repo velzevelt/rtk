@@ -157,12 +157,10 @@ function count_tickets(): int
 function is_lucky(string $num): bool
 {
     $result = false;
-    $ticket = form_ticket($num);
-
-    // if (count($ticket) != 6) {
-    //     $ticket = array_pad($ticket, 6, 0);
-    // }
-
+    $ticket = str_split($num);
+    if (count($ticket) != 6) {
+        $ticket = array_pad($ticket, 6, '0');
+    }
     // /** функция работает только с 6-значными числами */
     // if (count($ticket) != 6) {
     //     return $result;
@@ -174,23 +172,21 @@ function is_lucky(string $num): bool
     // for ($i = 0, $k = $num; $i < 6; $i++, $k /= 10) {
     //     $ticket[$i] = $k % 10;
     // }
+
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
     }
     return $result;
 }
+
 function form_ticket(string $num): array {
-    $ticket = str_split($num);
-    if (count($ticket) != 6) {
-        $ticket = array_pad($ticket, 6, '0');
-    }
     return $ticket;
 }
 
-# 1 - 1200
+# 1 - 1200 pad - нельзя одна функция - счастливый - вывод
 for ($i = 1; $i < 1200; $i++) {
     if(is_lucky($i)) {
-        print_r(form_ticket($i)) . '<br>';
+        echo join(form_ticket($i)) . "<br>";
     }
 }
 
