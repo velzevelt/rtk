@@ -67,13 +67,12 @@ function translit(string $text): string
     ];
 
     $text = mb_str_split($text);
-    /**  */
+    $ud = array_combine( array_map('mb_strtoupper', array_keys($dictionary)), array_map('mb_strtoupper', $dictionary) );
 
     foreach ($text as $key => $val) {
         if( array_key_exists($val, $dictionary) ) {
             $text[$key] = $dictionary[$val];
         } 
-        $ud = array_combine( array_map('mb_strtoupper', array_keys($dictionary)), array_map('mb_strtoupper', $dictionary) );
         if( array_key_exists($val, $ud) ) {
             $text[$key] = $ud[$val];
         }
