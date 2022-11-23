@@ -179,14 +179,11 @@ function is_lucky(string $num): bool
     return $result;
 }
 
-function form_ticket(string $num): array {
-    return $ticket;
-}
 
 # 1 - 1200 pad - нельзя одна функция - счастливый - вывод
 for ($i = 1; $i < 1200; $i++) {
     if(is_lucky($i)) {
-        echo join(form_ticket($i)) . "<br>";
+        
     }
 }
 
