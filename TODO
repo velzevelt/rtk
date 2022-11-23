@@ -4,7 +4,8 @@
 [pr_9] 
 PSR2
 private _ ?
+use sleep and usleep; no output
 
 [pr_10] 
-library import problem
+imagick import problem
 install php-imagick; reimport with external php-composer
