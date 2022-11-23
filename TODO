@@ -1,5 +1,10 @@
-pr_6 .2
+[pr_6] 
+.2*
 
-pr_9 PSR2
+[pr_9] 
+PSR2
+private _ ?
 
-pr_10
+[pr_10] 
+library import problem
+install php-imagick; reimport with external php-composer
