@@ -24,7 +24,7 @@ require_once "../etc/tools.php";
 
 format_problem(1);
 
-$var = "шиншилла МИР !! ЩУКА";
+$var = "шиншилла МИР !! ЩУКА Щщука";
 
 echo translit($var);
 
@@ -67,16 +67,26 @@ function translit(string $text): string
     ];
 
     $text = mb_str_split($text);
+    $previous = 0;
 
     foreach ($text as $key => $val) {
-        $l_val = mb_strtolower($val);
-        
+        $low_val = mb_strtolower($val);
+
         if (array_key_exists($val, $dictionary)) {
             $text[$key] = $dictionary[$val];
-        } elseif (array_key_exists($l_val, $dictionary)) {
-            $text[$key] = mb_strtoupper($dictionary[$l_val]);
+
+            if( !array_key_exists($text[$previous], $dictionary) ) { # Предыдущий - Большая? -> Уменьшает следующие
+                $first = $text[$previous][0];
+                $next = mb_substr($text[$previous], 1);
+                $next = mb_strtolower($next);
+                $text[$previous] = $first . $next;
+            }
+        } elseif (array_key_exists($low_val, $dictionary)) {
+            $text[$key] = mb_strtoupper($dictionary[$low_val]);
         }
+        $previous = $key;
     }
+
 
     return join($text);
 }
@@ -125,8 +135,6 @@ function str_plural(int $amount, string $singular, string $two_four, string $plu
 
 format_problem(3);
 
-var_dump(is_lucky(585855));
-
 
 
 /** возвращает количество всех возможных счастливых билетов */
@@ -146,31 +154,48 @@ function count_tickets(): int
 }
 
 /** проверяет, является ли заданный билет счастливым, билет не может начинаться с 0 */
-function is_lucky(int $num): bool
+function is_lucky(string $num): bool
 {
     $result = false;
-    $ticket = [];
+    $ticket = form_ticket($num);
 
-    /** функция работает только с 6-значными числами */
-    if (strlen($num) != 6) {
-        return $result;
-    }
+    // if (count($ticket) != 6) {
+    //     $ticket = array_pad($ticket, 6, 0);
+    // }
 
-    /** разбирает число на цифры в обратном порядке
-     *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
-     */
-    for ($i = 0, $k = $num; $i < 6; $i++, $k /= 10) {
-        $ticket[$i] = $k % 10;
-    }
+    // /** функция работает только с 6-значными числами */
+    // if (count($ticket) != 6) {
+    //     return $result;
+    // }
 
+    // /** разбирает число на цифры в обратном порядке
+    //  *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
+    //  */
+    // for ($i = 0, $k = $num; $i < 6; $i++, $k /= 10) {
+    //     $ticket[$i] = $k % 10;
+    // }
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
     }
     return $result;
 }
+function form_ticket(string $num): array {
+    $ticket = str_split($num);
+    if (count($ticket) != 6) {
+        $ticket = array_pad($ticket, 6, '0');
+    }
+    return $ticket;
+}
 
+# 1 - 1200
+$res = [];
+for ($i = 1; $i < 1200; $i++) {
+    if(is_lucky($i)) {
+        $res[] = form_ticket($i);
+    }
+}
 
-// echo count_tickets();
+var_dump($res);
 
 
 /** 4. Дружественные числа - два различных числа, для которых сумма всех
