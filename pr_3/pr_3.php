@@ -225,15 +225,21 @@ function get_friendly_numbers(int $from = 1, int $to = 500): array
     }
 
     for ($x = $from; $x <= $to; $x++) {
+        
+        if ($t = array_search($x, $result)) {
+            $result[$x] = $t;
+            continue;
+        }
+        
         for ($y = $from + 1; $y <= $to; $y++) {
             if ($x == $y) {
                 continue;
             }
 
-            if ($t = array_search($x, $result)) {
-                $result[$x] = $t;
-                continue;
-            }
+            // if ($t = array_search($x, $result)) {
+            //     $result[$x] = $t;
+            //     continue;
+            // }
 
             $sum_1 = $divisors[$x];
             $sum_2 = $divisors[$y];
