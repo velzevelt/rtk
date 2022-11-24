@@ -200,7 +200,7 @@ format_problem(4);
 
 
 
-$a = get_friendly_numbers(1, 1000);
+$a = get_friendly_numbers(1, 10000);
 
 print_r($a);
 
