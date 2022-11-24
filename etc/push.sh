@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ..;
 
 if [ -n "$1" ]
 then

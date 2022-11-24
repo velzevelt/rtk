@@ -264,8 +264,8 @@ function is_friendly(int $a, int $b): bool
 {
     $result = false;
 
-    $sum_1 = sum(get_divisors($a));
-    $sum_2 = sum(get_divisors($b));
+    $sum_1 = sum( get_divisors($a) );
+    $sum_2 = sum( get_divisors($b) );
 
     $result = ($sum_1 == $b and $sum_2 == $a);
 
