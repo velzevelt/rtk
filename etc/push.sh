@@ -1,6 +1,7 @@
 #!/bin/bash
 cd ..;
 
+
 if [ -n "$1" ]
 then
     git add .;
