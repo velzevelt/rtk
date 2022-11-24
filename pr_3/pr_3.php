@@ -236,11 +236,6 @@ function get_friendly_numbers(int $from = 1, int $to = 500): array
                 continue;
             }
 
-            // if ($t = array_search($x, $result)) {
-            //     $result[$x] = $t;
-            //     continue;
-            // }
-
             $sum_1 = $divisors[$x];
             $sum_2 = $divisors[$y];
 
