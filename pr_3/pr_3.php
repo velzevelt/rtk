@@ -175,11 +175,11 @@ function is_lucky(string $ticket): mixed
 
 
 # 1 - 1200
-for ($i = 1; $i < 1200; $i++) {
-    if( $t = is_lucky($i) ) {
-        echo "билет $t - счастливый" . "<br>";
-    }
-}
+// for ($i = 1; $i < 1200; $i++) {
+//     if( $t = is_lucky($i) ) {
+//         echo "билет $t - счастливый" . "<br>";
+//     }
+// }
 
 
 
@@ -199,6 +199,10 @@ for ($i = 1; $i < 1200; $i++) {
 format_problem(4);
 
 
+
+$a = get_friendly_numbers(1, 1000);
+
+print_r($a);
 
 // var_dump(sum(get_divisors(284)));
 
@@ -223,6 +227,11 @@ function get_friendly_numbers(int $from = 1, int $to = 500): array
     for ($x = $from; $x <= $to; $x++) {
         for ($y = $from + 1; $y <= $to; $y++) {
             if ($x == $y) {
+                continue;
+            }
+
+            if ($t = array_search($x, $result)) {
+                $result[$x] = $t;
                 continue;
             }
 
