@@ -1,11 +1,11 @@
 [pr_6] 
 .2*
+use sleep and usleep; no output
 
 [pr_9] 
 PSR2
 private _ ?
-use sleep and usleep; no output
 
 [pr_10] 
 imagine import problem
-use standart imagick for save
+use standart imagick for saving

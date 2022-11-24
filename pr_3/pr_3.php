@@ -153,28 +153,16 @@ function count_tickets(): int
     return $count;
 }
 
-/** проверяет, является ли заданный билет счастливым, билет не может начинаться с 0 */
-function is_lucky(string $num): bool
+/** проверяет, является ли заданный билет счастливым */
+function is_lucky(string $ticket): bool
 {
     $result = false;
-    $ticket = str_split($num);
-    if (count($ticket) != 6) {
-        $ticket = array_pad($ticket, 6, '0');
+    while (strlen($ticket) < 6) {
+        $ticket .= '0';
     }
-    // /** функция работает только с 6-значными числами */
-    // if (count($ticket) != 6) {
-    //     return $result;
-    // }
-
-    // /** разбирает число на цифры в обратном порядке
-    //  *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
-    //  */
-    // for ($i = 0, $k = $num; $i < 6; $i++, $k /= 10) {
-    //     $ticket[$i] = $k % 10;
-    // }
-
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
+        echo $ticket . '<br>';
     }
     return $result;
 }
@@ -182,11 +170,8 @@ function is_lucky(string $num): bool
 
 # 1 - 1200 pad - нельзя одна функция - счастливый - вывод
 for ($i = 1; $i < 1200; $i++) {
-    if(is_lucky($i)) {
-        
-    }
+    is_lucky($i);
 }
-
 
 
 /** 4. Дружественные числа - два различных числа, для которых сумма всех
