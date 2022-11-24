@@ -157,11 +157,12 @@ function count_tickets(): int
 function is_lucky(string $ticket): bool
 {
     $result = false;
+
     if(strlen($ticket) > 6) { # Билет больше шести -> обрезаем до шести
         $ticket = substr($ticket, 0, 6);
     }
 
-    while (strlen($ticket) < 6) { # Замена array_pad
+    while (strlen($ticket) < 6) { # Билет меньше шести -> добавляем нули в конец
         $ticket .= '0';
     }
 
@@ -176,7 +177,9 @@ function is_lucky(string $ticket): bool
 # 1 - 1200
 for ($i = 1; $i < 1200; $i++) {
     if( is_lucky($i) ) {
-        echo "билет $i - счастливый" . "<br>";
+        echo "билет $i счастливый" . "<br>";
+    } else {
+        // echo "билет $i обычный" . "<br>";
     }
 }
 
