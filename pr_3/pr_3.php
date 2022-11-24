@@ -154,7 +154,7 @@ function count_tickets(): int
 }
 
 /** проверяет, является ли заданный билет счастливым */
-function is_lucky(string $ticket): bool
+function is_lucky(string $ticket): mixed
 {
     $result = false;
 
@@ -167,7 +167,7 @@ function is_lucky(string $ticket): bool
     }
 
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
-        $result = true;
+        $result = $ticket;
     }
     
     return $result;
@@ -176,10 +176,8 @@ function is_lucky(string $ticket): bool
 
 # 1 - 1200
 for ($i = 1; $i < 1200; $i++) {
-    if( is_lucky($i) ) {
-        echo "билет $i счастливый" . "<br>";
-    } else {
-        // echo "билет $i обычный" . "<br>";
+    if( $t = is_lucky($i) ) {
+        echo "билет $t - счастливый" . "<br>";
     }
 }
 
