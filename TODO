@@ -1,6 +1,7 @@
 [pr_6] 
 .2*
-use sleep and usleep; no output
+use sleep/usleep
+анимация без вывода в файл
 
 [pr_9] 
 PSR2

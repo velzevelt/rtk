@@ -157,21 +157,30 @@ function count_tickets(): int
 function is_lucky(string $ticket): bool
 {
     $result = false;
-    while (strlen($ticket) < 6) {
+    if(strlen($ticket) > 6) { # Билет больше шести -> обрезаем до шести
+        $ticket = substr($ticket, 0, 6);
+    }
+
+    while (strlen($ticket) < 6) { # Замена array_pad
         $ticket .= '0';
     }
+
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = true;
-        echo $ticket . '<br>';
     }
+    
     return $result;
 }
 
 
-# 1 - 1200 pad - нельзя одна функция - счастливый - вывод
+# 1 - 1200
 for ($i = 1; $i < 1200; $i++) {
-    is_lucky($i);
+    if( is_lucky($i) ) {
+        echo "билет $i - счастливый" . "<br>";
+    }
 }
+
+
 
 
 /** 4. Дружественные числа - два различных числа, для которых сумма всех
@@ -189,13 +198,12 @@ for ($i = 1; $i < 1200; $i++) {
 format_problem(4);
 
 
-$a = get_friendly_numbers(1, 3000);
 
 // var_dump(sum(get_divisors(284)));
 
 // var_dump(is_friendly(284, 220));
 
-print_r($a);
+
 
 
 
