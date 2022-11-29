@@ -2,22 +2,26 @@
 
 # Задача 1. Используя рекурсию, реализовать функцию вычисления факториала числа. 
 
-function factrorial(int $n): int
+# 1 return false if not undefined
+
+function factrorial(int $n)
 {
     if ($n == 0) {
-        return 1;
+        $res = 1;
     }
-
-    if($n < 0) {
-        return -1; # Undefined
+    elseif($n < 0) {
+        $res = false;
     }
-
-    if ($n == 1) {
-        return 1;
+    elseif ($n == 1) {
+        $res = 1;
     } else {
-        return $n * factrorial($n - 1);
+        $res = $n * factrorial($n - 1);
     }
+
+    return $res;
 }
+
+var_dump( factrorial(7) );
 
 # Задача 2. Дан массив вида, который может иметь неограниченную вложенность. Требуется реализовать рекурсивную функцию, которая, на основе данного массива
 #   формировала список. Для формирования списка используются теги «<ul></ul><li></li>».
@@ -70,8 +74,6 @@ $example = [
 
 ];
 
-# ul - unordered list
-# li - list item
 
 function make_list(array $from): string
 {
@@ -85,4 +87,4 @@ function make_list(array $from): string
 }
 
 
-echo make_list($example);
+// echo make_list($example);
