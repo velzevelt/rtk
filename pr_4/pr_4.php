@@ -77,11 +77,14 @@ function make_list(array $from): string
 
         if ($first_call) {
             $first_call = false;
-            $res .= '<ul>' . '<li>' . $from['name'] . '<ul>';
+            
+            $res .= '<ul>';
+            $res .= '<li>' . $from['name'] . '<ul>';
             foreach ($from['items'] as $item) {
                 $res .= make_list($item);
             }
-            $res .= '</ul>' . '</li>' . '</ul>';
+            $res .= '</ul>' . '</li>';
+            $res .= '</ul>';
 
         } else {
             $res .= '<li>' . $from['name'] . '<ul>';
