@@ -75,9 +75,9 @@ function make_list(array $from): string
 
     if ($items != []) { # Есть вложенность
 
-        if ($first_call) {
+        if ($first_call) { # Добавить <ul> и </ul> к итоговому результату.
             $first_call = false;
-            
+
             $res .= '<ul>'; # Начало списка
             $res .= make_list($from);
             $res .= '</ul>'; # Завершение списка
