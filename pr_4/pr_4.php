@@ -78,13 +78,9 @@ function make_list(array $from): string
         if ($first_call) {
             $first_call = false;
             
-            $res .= '<ul>';
-            $res .= '<li>' . $from['name'] . '<ul>';
-            foreach ($from['items'] as $item) {
-                $res .= make_list($item);
-            }
-            $res .= '</ul>' . '</li>';
-            $res .= '</ul>';
+            $res .= '<ul>'; # Начало списка
+            $res .= make_list($from);
+            $res .= '</ul>'; # Завершение списка
 
         } else {
             $res .= '<li>' . $from['name'] . '<ul>';
