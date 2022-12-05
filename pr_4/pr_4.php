@@ -14,13 +14,13 @@ function factrorial($n)
         } else {
             $res = $n * factrorial($n - 1);
         }
-        
+
     }
 
     return $res;
 }
 
-var_dump(factrorial(4));
+// var_dump(factrorial(4));
 
 # Задача 2. Дан массив вида, который может иметь неограниченную вложенность. Требуется реализовать рекурсивную функцию, которая, на основе данного массива
 #   формировала список. Для формирования списка используются теги «<ul></ul><li></li>».
@@ -66,17 +66,36 @@ $example = [
 
 # list[items] <- list[items] <- list[items] # ul внутри li
 
-function make_list(array $from): string
-{   
-    $res = '<li>' . $from['name'];
 
-    foreach ($from['items'] as $item) {
-        $res = $res . '</li>' . make_list($item) . '<ul>';
-        $res .= '</ul>';
+function make_list(array $from): string
+{
+    $res = '';
+    $items = $from['items'];
+    static $first_call = true;
+
+    if ($items != []) { # Есть вложенность
+
+        if ($first_call) {
+            $first_call = false;
+            $res .= '<ul>' . '<li>' . $from['name'] . '<ul>';
+            foreach ($from['items'] as $item) {
+                $res .= make_list($item);
+            }
+            $res .= '</ul>' . '</li>' . '</ul>';
+
+        } else {
+            $res .= '<li>' . $from['name'] . '<ul>';
+            foreach ($from['items'] as $item) {
+                $res .= make_list($item);
+            }
+            $res .= '</ul>' . '</li>';
+        }
+    } else {
+        $res .= '<li>' . $from['name'] . '</li>';
     }
 
     return $res;
 }
 
-
+// echo '<ul>' . make_list($example) . '</ul>';
 echo make_list($example);
