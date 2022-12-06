@@ -127,7 +127,7 @@ $t = [
     [1, 2, 3, [1, 2, 3, [1, 2, 3]]],
     [1, 2, 3, [1, 2, 3, [1, 2, 3, [1, 2, 3]]]],
 
-]; # 3 * 11 = 33
+];
 
 function my_count(array $array, int $mode = COUNT_NORMAL): int
 {
