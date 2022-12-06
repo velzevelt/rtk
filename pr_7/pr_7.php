@@ -122,7 +122,6 @@ class Army
     }
     function can_move(): bool # Игрок может ходить, если у противника есть хотя бы один живой юнит
     {
-        $res = false;
         $res = $this->kills != MAX_UNITS_IN_ARMY;
         return $res;
     }

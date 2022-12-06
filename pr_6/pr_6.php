@@ -40,10 +40,10 @@ class Snake
 // $snake = new Snake("snake.txt");
 // $snake->main();
 
-$snake2D = new Snake2D('snake2D.txt');
-$snake2D->main();
+// $snake2D = new Snake2D('snake2D.txt');
+// $snake2D->main();
 
-class Snake2D extends Snake
+class Snake2D
 {
     
 }
