@@ -133,25 +133,17 @@ function my_count(array $array, int $mode = COUNT_NORMAL): int
 {
     $res = 0;
 
-    switch ($mode) {
-        case COUNT_RECURSIVE:
-            foreach ($array as $v) {
-                if (is_array($v)) {
-                    $res += my_count($v, COUNT_RECURSIVE);
-                } else {
-                    $res++;
-                }
+    foreach($array as $v) {
+        if (is_array($v)) {
+            if ($mode == COUNT_RECURSIVE) {
+                $res += my_count($v, COUNT_RECURSIVE);
             }
-            break;
-
-        default:
-            foreach ($array as $_v) {
-                $res++;
-            }
+        } else {
+            $res++;
+        }
     }
-
-
     return $res;
 }
 
 echo my_count($t, COUNT_RECURSIVE);
+echo count($t, COUNT_RECURSIVE);
