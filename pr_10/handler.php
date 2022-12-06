@@ -26,7 +26,7 @@ if ( isset($_POST['send']) )
 
 
 $image_wm = new ImageWatermark('assets/image.jpg', 'assets/watermark.png');
-// $image_wm->show_image();
+$image_wm->show_image();
 
 
 class ImageWatermark
