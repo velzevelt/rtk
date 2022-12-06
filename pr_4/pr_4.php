@@ -46,18 +46,30 @@ $example = [
                 [
                     'id' => 5,
                     'name' => 'item_5',
-                    'items' => [],
+                    'items' => [
+                        [
+                            'id' => 6,
+                            'name' => 'item_6',
+                            'items' => []
+                        ],
+
+                        [
+                            'id' => 7,
+                            'name' => 'item_7',
+                            'items' => []
+                        ]
+                    ],
                 ],
                 [
-                    'id' => 6,
-                    'name' => 'item_6',
+                    'id' => 8,
+                    'name' => 'item_8',
                     'items' => [],
                 ],
             ]
         ],
         [
-            'id' => 7,
-            'name' => 'item_7',
+            'id' => 9,
+            'name' => 'item_9',
             'items' => [],
         ],
     ],
