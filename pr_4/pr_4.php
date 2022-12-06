@@ -123,8 +123,8 @@ $t = [
     1,
     2,
     3,
-    [1, 2, 3, [1, 2, 3], [1, 2, 3 ] ],
-    [1, 2, 3, [1, 2, 3, [1, 2, 3] ] ],
+    [1, 2, 3, [1, 2, 3], [1, 2, 3]],
+    [1, 2, 3, [1, 2, 3, [1, 2, 3]]],
     [1, 2, 3, [1, 2, 3, [1, 2, 3, [1, 2, 3]]]],
 
 ]; # 3 * 11 = 33
@@ -133,17 +133,17 @@ function my_count(array $array, int $mode = COUNT_NORMAL): int
 {
     $res = 0;
 
-    foreach($array as $v) {
-        if (is_array($v)) {
-            if ($mode == COUNT_RECURSIVE) {
-                $res += my_count($v, COUNT_RECURSIVE);
-            }
-        } else {
-            $res++;
+    foreach ($array as $v) {
+        $res++;
+        if (is_array($v) and $mode == COUNT_RECURSIVE) {
+            $res += my_count($v, COUNT_RECURSIVE);
         }
     }
     return $res;
 }
 
-echo my_count($t, COUNT_RECURSIVE);
-echo count($t, COUNT_RECURSIVE);
+echo my_count($t, COUNT_RECURSIVE) . '<br>';
+echo count($t, COUNT_RECURSIVE) . '<br>';
+
+echo my_count($t) . '<br>';
+echo count($t);
