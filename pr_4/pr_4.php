@@ -87,18 +87,17 @@ function make_list(array $from): string
         }
 
         if (is_array($val)) {
-            
-            if($val != []) {
+
+            if ($val != []) {
                 $res .= '<li>' . "'$key' => [" . '<ul>';
                 foreach ($val as $item) {
                     $res .= make_list($item);
                 }
                 $res .= '</ul>]</li>';
-            }
-            else {
+            } else {
                 $res .= '<li>' . "'$key' => []," . '</li>';
             }
-            
+
         } else {
             $res .= '<li>' . "'$key' => $val," . '</li>';
         }
@@ -120,31 +119,35 @@ function make_unordered_list(array $from): string
 // echo '<ul>' . make_list($example) . '</ul>';
 // echo make_unordered_list($example);
 
-$t = [1, 2, 3, 
-[1, 2, 3, [1, 2, 3], [1, 2, 3] ],
-[1, 2, 3, [1, 2, 3, [1, 2, 3]]],
+$t = [
+    1,
+    2,
+    3,
+    [1, 2, 3, [1, 2, 3], [1, 2, 3 ] ],
+    [1, 2, 3, [1, 2, 3, [1, 2, 3] ] ],
+    [1, 2, 3, [1, 2, 3, [1, 2, 3, [1, 2, 3]]]],
 
-]; # 3 * 7 = 21
+]; # 3 * 11 = 33
 
 function my_count(array $array, int $mode = COUNT_NORMAL): int
 {
     $res = 0;
-    
+
     switch ($mode) {
         case COUNT_RECURSIVE:
-        foreach($array as $v) {
-            if(is_array($v)) {
-                $res += my_count($v, COUNT_RECURSIVE);
-            } else {
-                $res++;
+            foreach ($array as $v) {
+                if (is_array($v)) {
+                    $res += my_count($v, COUNT_RECURSIVE);
+                } else {
+                    $res++;
+                }
             }
-        }
-        break;
+            break;
 
         default:
-        foreach($array as $_v) {
-            $res++;
-        }
+            foreach ($array as $_v) {
+                $res++;
+            }
     }
 
 
