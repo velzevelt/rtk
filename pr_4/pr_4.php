@@ -118,4 +118,37 @@ function make_unordered_list(array $from): string
 }
 
 // echo '<ul>' . make_list($example) . '</ul>';
-echo make_unordered_list($example);
+// echo make_unordered_list($example);
+
+$t = [1, 2, 3, 
+[1, 2, 3, [1, 2, 3], [1, 2, 3] ],
+[1, 2, 3, [1, 2, 3, [1, 2, 3]]],
+
+]; # 
+
+function my_count(array $array, int $mode = COUNT_NORMAL): int
+{
+    $res = 0;
+    
+    switch ($mode) {
+        case COUNT_RECURSIVE:
+        foreach($array as $v) {
+            if(is_array($v)) {
+                $res += my_count($v, COUNT_RECURSIVE);
+            } else {
+                $res++;
+            }
+        }
+        break;
+
+        default:
+        foreach($array as $_v) {
+            $res++;
+        }
+    }
+
+
+    return $res;
+}
+
+echo my_count($t, COUNT_RECURSIVE);
