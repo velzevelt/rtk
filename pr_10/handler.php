@@ -31,17 +31,16 @@ if ( isset($_POST['send']) )
 
 class ImageWatermark
 {
-    public $imagine;
     public $image = null;
     public $watermark = null;
     public $new_image_size = [];
     
     function __construct( $image, $watermark, $new_image_size = [400, 250] )
     {   
-        $this->imagine = new Imagine();
+        $imagine = new Imagine();
 
-        $this->image = $this->imagine->open($image);
-        $this->watermark = $this->imagine->open($watermark);
+        $this->image = $imagine->open($image);
+        $this->watermark = $imagine->open($watermark);
             
         $this->new_image_size['width'] = $new_image_size[0];
         $this->new_image_size['height'] = $new_image_size[1];
