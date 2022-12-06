@@ -71,24 +71,15 @@ function make_list(array $from): string
 {
     $res = '';
     $items = $from['items'];
-    static $first_call = true;
 
     if ($items != []) { # Есть вложенность
 
-        if ($first_call) { # Добавить <ul> и </ul> к итоговому результату.
-            $first_call = false;
-
-            $res .= '<ul>'; # Начало списка
-            $res .= make_list($from);
-            $res .= '</ul>'; # Завершение списка
-
-        } else {
-            $res .= '<li>' . $from['name'] . '<ul>';
-            foreach ($from['items'] as $item) {
-                $res .= make_list($item);
-            }
-            $res .= '</ul>' . '</li>';
+        $res .= '<li>' . $from['name'] . '<ul>';
+        foreach ($from['items'] as $item) {
+            $res .= make_list($item);
         }
+        $res .= '</ul>' . '</li>';
+
     } else {
         $res .= '<li>' . $from['name'] . '</li>';
     }
@@ -96,5 +87,11 @@ function make_list(array $from): string
     return $res;
 }
 
+function make_unordered_list(array $from): string
+{
+    $res = '<ul>' . make_list($from) . '</ul>';
+    return $res;
+}
+
 // echo '<ul>' . make_list($example) . '</ul>';
-echo make_list($example);
+echo make_unordered_list($example);
