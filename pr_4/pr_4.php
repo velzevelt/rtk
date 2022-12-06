@@ -83,17 +83,18 @@ function make_list(array $from): string
 {
     $res = '';
     $items = $from['items'];
+    $item_name = $from['name'];
 
     if ($items != []) { # Есть вложенность
 
-        $res .= '<li>' . $from['name'] . '<ul>';
-        foreach ($from['items'] as $item) {
+        $res .= '<li>' . $item_name . '<ul>';
+        foreach ($items as $item) {
             $res .= make_list($item);
         }
         $res .= '</ul>' . '</li>';
 
     } else {
-        $res .= '<li>' . $from['name'] . '</li>';
+        $res .= '<li>' . $item_name . '</li>';
     }
 
     return $res;
