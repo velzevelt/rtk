@@ -4,7 +4,7 @@ use Imagine\Imagick\Imagine as Imagine;
 use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
-const SAVE_DIR = "/pr_10/out/";
+const SAVE_DIR = "/pr_10/out/output_image.png";
 
 
 if ( isset($_POST['send']) )
@@ -13,20 +13,17 @@ if ( isset($_POST['send']) )
         $image = $_FILES['user_image'];
         $watermark = $_FILES['user_watermark'];
 
-        var_dump($image);
+        
+        $image_wm = new ImageWatermark($image, $watermark);
+        $image_wm->show_image();
     }
-
 }
 
+### DEBUG
+$imagine = new Imagine();
+$image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
+$image->show_image();
 
-
-// $imagine = new Imagine();
-// $imagine -> open('assets/image.jpg') -> show('jpg');
-
-
-
-$image_wm = new ImageWatermark('assets/image.jpg', 'assets/watermark.png');
-$image_wm->show_image();
 
 
 class ImageWatermark
@@ -60,12 +57,12 @@ class ImageWatermark
 
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
-        $this->image->save($_SERVER['DOCUMENT_ROOT'] . $this->out_path . 'image.jpg');
+        $this->image->save($_SERVER['DOCUMENT_ROOT'] . $this->out_path);
     }
 
     public function show_image(): void
     {
-        $this->image->show("jpg");
+        $this->image->show("png");
     }
 }
 
