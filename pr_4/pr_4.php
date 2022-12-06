@@ -96,13 +96,11 @@ function make_list(array $from): string
                 $res .= '</ul>]</li>';
             }
             else {
-                $res .= '<li>' . "'$key' => []" . '</li>';
+                $res .= '<li>' . "'$key' => []," . '</li>';
             }
             
         } else {
-            $res .= '<li>';
-            $res .= "'$key' => $val,";
-            $res .= '</li>';
+            $res .= '<li>' . "'$key' => $val," . '</li>';
         }
 
         if (array_key_last($from) == $key) {
