@@ -17,12 +17,15 @@ if ( isset($_POST['send']) )
         $image_wm = new ImageWatermark($image, $watermark);
         $image_wm->show_image();
     }
+} else {
+    
+    ### DEBUG ###
+    $imagine = new Imagine();
+    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
+    $image->show_image();
+
 }
 
-### DEBUG
-$imagine = new Imagine();
-$image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
-$image->show_image();
 
 
 
