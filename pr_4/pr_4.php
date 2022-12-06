@@ -52,7 +52,6 @@ $example = [
                             'name' => 'item_6',
                             'items' => []
                         ],
-
                         [
                             'id' => 7,
                             'name' => 'item_7',
@@ -82,20 +81,38 @@ $example = [
 function make_list(array $from): string
 {
     $res = '';
-    $items = $from['items'];
-    $item_name = $from['name'];
-
-    if ($items != []) { # Есть вложенность
-
-        $res .= '<li>' . $item_name . '<ul>';
-        foreach ($items as $item) {
-            $res .= make_list($item);
+    foreach ($from as $key => $val) {
+        if (array_key_first($from) == $key) {
+            $res .= '<li>[<ul>';
         }
-        $res .= '</ul>' . '</li>';
 
-    } else {
-        $res .= '<li>' . $item_name . '</li>';
+        if (is_array($val)) {
+            $res .= '<li>' . "'$key' => [" . '<ul>';
+            foreach ($val as $item) {
+                $res .= make_list($item);
+            }
+            $res .= '</ul>' . ']</li>';
+        } else {
+            $res .= '<li>';
+            $res .= "'$key' => $val" . '<br>';
+            $res .= '</li>';
+        }
+
+        if (array_key_last($from) == $key) {
+            $res .= '</ul>]</li>';
+        }
     }
+
+    // if ($items != []) { # Есть вложенность
+    //     $res .= '<li>' . $info . '<ul>';
+    //     foreach ($items as $item) {
+    //         $res .= make_list($item);
+    //     }
+    //     $res .= '</ul>' . '</li>';
+
+    // } else {
+    //     $res .= '<li>' . $info . '</li>';
+    // }
 
     return $res;
 }
