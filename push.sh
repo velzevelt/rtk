@@ -8,8 +8,7 @@ if ! [ -x "$(command -v git)" ]; then
 fi
 
 
-if [ -n "$1" ]
-then
+if [ -n "$1" ]; then
     git add .
     git commit -m $1
     git push
