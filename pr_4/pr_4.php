@@ -124,7 +124,7 @@ $t = [1, 2, 3,
 [1, 2, 3, [1, 2, 3], [1, 2, 3] ],
 [1, 2, 3, [1, 2, 3, [1, 2, 3]]],
 
-]; # 
+]; # 3 * 7 = 21
 
 function my_count(array $array, int $mode = COUNT_NORMAL): int
 {
