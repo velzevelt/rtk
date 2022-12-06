@@ -87,14 +87,21 @@ function make_list(array $from): string
         }
 
         if (is_array($val)) {
-            $res .= '<li>' . "'$key' => [" . '<ul>';
-            foreach ($val as $item) {
-                $res .= make_list($item);
+            
+            if($val != []) {
+                $res .= '<li>' . "'$key' => [" . '<ul>';
+                foreach ($val as $item) {
+                    $res .= make_list($item);
+                }
+                $res .= '</ul>]</li>';
             }
-            $res .= '</ul>' . ']</li>';
+            else {
+                $res .= '<li>' . "'$key' => []" . '</li>';
+            }
+            
         } else {
             $res .= '<li>';
-            $res .= "'$key' => $val" . '<br>';
+            $res .= "'$key' => $val,";
             $res .= '</li>';
         }
 
@@ -102,17 +109,6 @@ function make_list(array $from): string
             $res .= '</ul>]</li>';
         }
     }
-
-    // if ($items != []) { # Есть вложенность
-    //     $res .= '<li>' . $info . '<ul>';
-    //     foreach ($items as $item) {
-    //         $res .= make_list($item);
-    //     }
-    //     $res .= '</ul>' . '</li>';
-
-    // } else {
-    //     $res .= '<li>' . $info . '</li>';
-    // }
 
     return $res;
 }
