@@ -107,20 +107,31 @@ class Snake2D # Растет каждый ход. Направление слу�
     public function main(): void
     {
         // while ($this->can_move()) {
+        //     $this->draw_table();
         //     usleep($this->tick);
         //     $this->move();
-        //     $this->draw_table();
         // }
+        
         var_dump($this->space);
+        // echo nl2br( $this->draw_table() );
     }
 
-    private function draw_table(): void 
+    private function draw_table(): string 
     {
-        $space = $this->space;
+        $res = '';
+        $prev = 0;
 
-        foreach ($space as $cell) {
+        foreach ($this->space as $cell) {
+            if($this->space[$prev]['char'] == $this->char_map['border']) {
+                $res .= "\n";
 
+            } else {
+                $res .= $cell['char'];
+            }
+            $prev++;
         }
+
+        return $res;
     }
 
 
@@ -130,5 +141,7 @@ class Snake2D # Растет каждый ход. Направление слу�
     }
 
     private function move(): void {}
+
+    private function get_direction(): array {return [];}
 
 }
