@@ -47,8 +47,10 @@ class Snake2D # Растет каждый ход. Направление слу�
 
 {
     public $char_map = [
-        'head' => '*',
-        'body' => 'o',
+        'head_right' => '>',
+        'head_left' => '<',
+        'body' => '*',
+
         'border' => '|',
         'free' => '-',
         'food' => '!',
@@ -86,6 +88,7 @@ class Snake2D # Растет каждый ход. Направление слу�
             if ($char == "\n") {
                 $x++;
                 $y = 0;
+                continue;
             } elseif ($char == $char_map['border']) {
                 $cell['char'] = $char_map['border'];
             } elseif ($char == $char_map['free']) {
@@ -105,27 +108,30 @@ class Snake2D # Растет каждый ход. Направление слу�
     public function main(): void
     {
         // while ($this->can_move()) {
-        //     $this->draw_table();
+        //     echo $this->draw_table();
         //     usleep($this->tick);
         //     $this->move();
         // }
 
         // var_dump($this->space);
-        echo nl2br($this->draw_table());
+        echo nl2br($this->draw_table($this->get_plain_space()));
     }
 
-    private function draw_table(): string
+    private function draw_table(array $space = []): string
     {
         $res = '';
+        if (empty($space)) {
+            $space = $this->space;
+        }
 
-        foreach ($this->space as $cell) {
+        foreach ($space as $cell) {
             $res .= $cell['char'];
         }
 
         return $res;
     }
 
-
+    # 
     private function can_move(): bool
     {
         return false;
