@@ -47,19 +47,16 @@ class Snake2D # Растет каждый ход. Направление слу�
 {
     public $char_map = [
         'head' => '*',
+        'body' => 'o',
         'border' => '|',
         'free' => '-',
         'food' => '!',
-        'br' => "<br>",
     ];
 
     public $snake_length = 0;
     public $tick;
 
-    const BLOCKED = 0; # Нельзя ходить, клетка занята (граница или змея)
-    const FREE = 1; # Поле свободно, змея может здесь быть
-    // const FOOD = 2; # В поле есть еда
-    public $cell = ['line_id' => 0, 'position', 'state', 'char']; # [x, y, (BLOCKED || FREE || FOOD) ]. Клетка поля
+    public $cell = ['line_id' => 0, 'position', 'char']; # [x, y, (BLOCKED || FREE || FOOD) ]. Клетка поля
     public $space = []; # array of cells
 
     /**
@@ -95,13 +92,10 @@ class Snake2D # Растет каждый ход. Направление слу�
 
             $cell['position'] = $y;
 
-
             if ($char == $char_map['border']) {
-                $cell['state'] = Snake2D::BLOCKED;
-                $cell['char'] = $char_map['border']
+                $cell['char'] = $char_map['border'];
             } else {
-                $cell['state'] = Snake2D::FREE;
-                $cell['char'] = $char_map['free']
+                $cell['char'] = $char_map['free'];
             }
             
             $y++;
@@ -112,13 +106,29 @@ class Snake2D # Растет каждый ход. Направление слу�
 
     public function main(): void
     {
-        foreach($this->space as $field) {
-            $state = $field['state'];
-            
-            
+        // while ($this->can_move()) {
+        //     usleep($this->tick);
+        //     $this->move();
+        //     $this->draw_table();
+        // }
+        var_dump($this->space);
+    }
+
+    private function draw_table(): void 
+    {
+        $space = $this->space;
+
+        foreach ($space as $cell) {
 
         }
-        var_dump($this->space);
-
     }
+
+
+    private function can_move(): bool
+    {
+        return false;
+    }
+
+    private function move(): void {}
+
 }
