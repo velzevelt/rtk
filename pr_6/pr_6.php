@@ -44,6 +44,7 @@ $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
 class Snake2D # Растет каждый ход. Направление случайная точка из макс горизонт вертикаль
+
 {
     public $char_map = [
         'head' => '*',
@@ -66,11 +67,12 @@ class Snake2D # Растет каждый ход. Направление слу�
      */
     function __construct($_filename, $_tick = 250000)
     {
-        
+
         $content = str_split(file_get_contents($_filename));
-        
+
+
         #!!! [Set char map]
-        
+
         $this->tick = $_tick;
 
         $char_map = $this->char_map;
@@ -84,20 +86,16 @@ class Snake2D # Растет каждый ход. Направление слу�
             if ($char == "\n") {
                 $x++;
                 $y = 0;
-                $cell['line_id'] = $x;
-
-            } elseif ($char == "\r") {
-                continue;
-            }
-
-            $cell['position'] = $y;
-
-            if ($char == $char_map['border']) {
+            } elseif ($char == $char_map['border']) {
                 $cell['char'] = $char_map['border'];
-            } else {
+            } elseif ($char == $char_map['free']) {
                 $cell['char'] = $char_map['free'];
+            } elseif ($char == "\r") {
+                $cell['char'] = "\n";
             }
             
+            $cell['line_id'] = $x;
+            $cell['position'] = $y;
             $y++;
             $space[] = $cell;
         }
@@ -111,24 +109,17 @@ class Snake2D # Растет каждый ход. Направление слу�
         //     usleep($this->tick);
         //     $this->move();
         // }
-        
-        var_dump($this->space);
-        // echo nl2br( $this->draw_table() );
+
+        // var_dump($this->space);
+        echo nl2br($this->draw_table());
     }
 
-    private function draw_table(): string 
+    private function draw_table(): string
     {
         $res = '';
-        $prev = 0;
 
         foreach ($this->space as $cell) {
-            if($this->space[$prev]['char'] == $this->char_map['border']) {
-                $res .= "\n";
-
-            } else {
-                $res .= $cell['char'];
-            }
-            $prev++;
+            $res .= $cell['char'];
         }
 
         return $res;
@@ -140,8 +131,26 @@ class Snake2D # Растет каждый ход. Направление слу�
         return false;
     }
 
-    private function move(): void {}
+    private function move(): void
+    {
+    }
 
-    private function get_direction(): array {return [];}
+    private function get_plain_space(): array 
+    {
+        $res = [];
+        foreach($this->space as $cell) {
+            if($cell['char'] == "\n") {
+                continue;
+            } else {
+                $res[] = $cell;
+            }
+        }
+        return $res;
+    }
+
+    private function get_direction(): array
+    {
+        return [];
+    }
 
 }
