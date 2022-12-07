@@ -39,7 +39,7 @@ class ImageWatermark
      * Наносит водяной знак на изображение
      * @param mixed $image
      * @param mixed $watermark
-     * @param array $new_image_size (width, height)
+     * @param array $new_image_size [width, height]
      */
     function __construct( $image, $watermark, array $new_image_size)
     {   
