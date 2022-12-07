@@ -52,9 +52,10 @@ class ImageWatermark
     {
         $image_size = $this->image->getSize();
         $this->watermark->resize(new Box($image_size->getWidth() / 2, $image_size->getHeight() / 2));
+        $watermark_size = $this->watermark->getSize();
         
-        # Добавить смещение для правильной позиции
-        $center = new Point($image_size->getWidth() / 2, $image_size->getHeight() / 2);
+        # Делим на 4 для правильной позиции, так как центр картинки это левый верхний угол, а не настоящий центр
+        $center = new Point($image_size->getWidth() / 4, $image_size->getHeight() / 4);
 
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
