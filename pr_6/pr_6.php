@@ -59,7 +59,8 @@ class Snake2D
      * @param mixed $_border_char Символ конца игрового поля
      * @param mixed $_tick Время одного хода (в микросекундах)
      */
-    function __construct($_filename, $_border_char = '|', $_tick = 250000) {
+    function __construct($_filename, $_border_char = '|', $_tick = 250000)
+    {
 
         $content = str_split(file_get_contents($_filename));
 
@@ -70,25 +71,27 @@ class Snake2D
         $cell = $this->cell;
         $x = 0;
         # Формируем игровое поле
-        foreach($content as $key => $char) {
-            if($char == "\n") { # Начало новой строки
+        foreach ($content as $key => $char) {
+            if ($char == "\n") { # Начало новой строки
                 $x++;
                 $cell['line_id'] = $x;
-            } else {
-                $cell['position'] = $key;
-                
-                if ($char == $_border_char) {
-                    $cell['state'] = Snake2D::BLOCKED;
-                } else {
-                    $cell['state'] = Snake2D::FREE;
-                }
             }
+            
+            $cell['position'] = $key;
+
+            if ($char == $_border_char) {
+                $cell['state'] = Snake2D::BLOCKED;
+            } else {
+                $cell['state'] = Snake2D::FREE;
+            }
+
             $space[$key] = $cell;
         }
         $this->space = $space;
     }
 
-    public function main(): void {
+    public function main(): void
+    {
         var_dump($this->space);
     }
 }
