@@ -43,55 +43,82 @@ class Snake
 $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
-class Snake2D
+class Snake2D # Растет каждый ход. Направление случайная точка из макс горизонт вертикаль
 {
-    public $border_char;
+    public $char_map = [
+        'head' => '*',
+        'border' => '|',
+        'free' => '-',
+        'food' => '!',
+        'br' => "<br>",
+    ];
+
+    public $snake_length = 0;
     public $tick;
 
     const BLOCKED = 0; # Нельзя ходить, клетка занята (граница или змея)
-    const FREE = 1; # 1 Поле свободно, змея может здесь быть
-    public $cell = ['line_id' => 0, 'position', 'state']; # [x, y, (BLOCKED || FREE) ]. Клетка поля
+    const FREE = 1; # Поле свободно, змея может здесь быть
+    // const FOOD = 2; # В поле есть еда
+    public $cell = ['line_id' => 0, 'position', 'state', 'char']; # [x, y, (BLOCKED || FREE || FOOD) ]. Клетка поля
     public $space = []; # array of cells
 
     /**
      * Summary of __construct
      * @param mixed $_filename
-     * @param mixed $_border_char Символ конца игрового поля
      * @param mixed $_tick Время одного хода (в микросекундах)
      */
-    function __construct($_filename, $_border_char = '|', $_tick = 250000)
+    function __construct($_filename, $_tick = 250000)
     {
-
+        
         $content = str_split(file_get_contents($_filename));
-
-        $this->border_char = $_border_char;
+        
+        #!!! [Set char map]
+        
         $this->tick = $_tick;
 
+        $char_map = $this->char_map;
         $space = $this->space;
         $cell = $this->cell;
+
         $x = 0;
+        $y = 0;
         # Формируем игровое поле
         foreach ($content as $key => $char) {
-            if ($char == "\n") { # Начало новой строки
+            if ($char == "\n") {
                 $x++;
+                $y = 0;
                 $cell['line_id'] = $x;
-            }
-            
-            $cell['position'] = $key;
 
-            if ($char == $_border_char) {
+            } elseif ($char == "\r") {
+                continue;
+            }
+
+            $cell['position'] = $y;
+
+
+            if ($char == $char_map['border']) {
                 $cell['state'] = Snake2D::BLOCKED;
+                $cell['char'] = $char_map['border']
             } else {
                 $cell['state'] = Snake2D::FREE;
+                $cell['char'] = $char_map['free']
             }
-
-            $space[$key] = $cell;
+            
+            $y++;
+            $space[] = $cell;
         }
         $this->space = $space;
     }
 
     public function main(): void
     {
+        foreach($this->space as $field) {
+            $state = $field['state'];
+            
+            
+
+        }
         var_dump($this->space);
+
     }
 }
