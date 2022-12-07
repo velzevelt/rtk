@@ -15,7 +15,7 @@ if ( isset($_POST['send']) )
 
         // var_dump($image);
 
-        $image_wm = new ImageWatermark($image, $watermark);
+        $image_wm = new ImageWatermark($image, $watermark, [400, 250]);
         $image_wm->show_image();
     }
 } else {
@@ -41,7 +41,7 @@ class ImageWatermark
      * @param mixed $watermark
      * @param array $new_image_size (width, height)
      */
-    function __construct( $image, $watermark, array $new_image_size = [400, 250] )
+    function __construct( $image, $watermark, array $new_image_size)
     {   
         $imagine = new Imagine();
 
