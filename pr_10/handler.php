@@ -20,8 +20,7 @@ if ( isset($_POST['send']) )
 } else {
     
     ### DEBUG ###
-    $imagine = new Imagine();
-    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
+    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png', [1280, 720]);
     $image->show_image();
 
 }
@@ -35,7 +34,13 @@ class ImageWatermark
     public $watermark = null;
     public $new_image_size = [];
     
-    function __construct( $image, $watermark, $new_image_size = [400, 250] )
+    /**
+     * Наносит водяной знак на изображение
+     * @param mixed $image
+     * @param mixed $watermark
+     * @param array $new_image_size (width, height)
+     */
+    function __construct( $image, $watermark, array $new_image_size = [400, 250] )
     {   
         $imagine = new Imagine();
 
@@ -46,19 +51,21 @@ class ImageWatermark
         $this->new_image_size['height'] = $new_image_size[1];
 
 
-        $this->apply_watermark();
+        $this->paste_watermark();
     }
-    private function apply_watermark(): void
+    private function paste_watermark(): void
     {
         $image_size = $this->image->getSize();
+
         $this->watermark->resize(new Box($image_size->getWidth() / 2, $image_size->getHeight() / 2));
-        $watermark_size = $this->watermark->getSize();
         
-        # Делим на 4 для правильной позиции, так как центр картинки это левый верхний угол, а не настоящий центр
+        # Делим на 4 для правильной позиции, так как начало картинки это левый верхний угол, а не её центр
         $center = new Point($image_size->getWidth() / 4, $image_size->getHeight() / 4);
 
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
+        
+        # $_SERVER['DOCUMENT_ROOT'] необходим, так как imagick по какой-то причине не видит относительный путь
         $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
     }
 
