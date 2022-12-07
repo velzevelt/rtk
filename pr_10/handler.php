@@ -10,10 +10,11 @@ const SAVE_PATH = "/pr_10/out/output_image.png";
 if ( isset($_POST['send']) )
 {
     if (isset( $_FILES['user_image']) and isset($_FILES['user_watermark']) ) {
-        $image = $_FILES['user_image'];
-        $watermark = $_FILES['user_watermark'];
+        $image = $_FILES['user_image']['tmp_name'];
+        $watermark = $_FILES['user_watermark']['tmp_name'];
 
-        
+        // var_dump($image);
+
         $image_wm = new ImageWatermark($image, $watermark);
         $image_wm->show_image();
     }
