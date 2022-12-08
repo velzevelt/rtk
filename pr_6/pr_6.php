@@ -225,7 +225,15 @@ class Snake2D
      */
     private function find_cell(array $needle, array $haystack): Cell 
     {
-        return new Cell;
+        $res = new Cell();
+        foreach ($haystack as $cell) {
+            if ($cell->position == $needle[0] and $cell->column == $needle[1]) {
+                $res = $cell;
+                break;
+            }
+        }
+
+        return $res;
     }
 }
 
