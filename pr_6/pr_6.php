@@ -43,28 +43,34 @@ class Snake
 $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
-class Snake2D # Растет каждый ход. Направление случайная точка из макс горизонт вертикаль
+class Snake2D # Растет каждый ход. Направление случайная точка из таблицы
 
 {
+    const DEFAULT_CELL = ['column' => 0, 'position' => 0, 'char' => '→'];
     public $char_map = [
-        'head_right' => '>',
-        'head_left' => '<',
-        'body' => '*',
+        'head_right' => '→',
+        'head_left' => '←',
+        'head_up' => '↑',
+        'head_down' => '↓',
 
+        'body' => '*',
+        
+        
         'border' => '|',
         'free' => '-',
         'food' => '!',
     ];
 
-    public $snake_length = 0;
     public $tick;
-
-    public $cell = ['line_id' => 0, 'position', 'char']; # [x, y, (BLOCKED || FREE || FOOD) ]. Клетка поля
+    public $cell = ['column' => 0, 'position' => 0, 'char']; # [x, y, from char_map ]. Клетка поля
+    public $food_cell = [];
+    public $head_cell = [];
     public $space = []; # array of cells
 
+
     /**
-     * Summary of __construct
-     * @param mixed $_filename
+     * Змеюка
+     * @param mixed $_filename Имя файла с исходным игровым полем
      * @param mixed $_tick Время одного хода (в микросекундах)
      */
     function __construct($_filename, $_tick = 250000)
@@ -72,10 +78,10 @@ class Snake2D # Растет каждый ход. Направление слу�
 
         $content = str_split(file_get_contents($_filename));
 
-
-        #!!! [Set char map]
+        # (optional) [Set char map]
 
         $this->tick = $_tick;
+        $this->head_cell = Snake2D::DEFAULT_CELL;
 
         $char_map = $this->char_map;
         $space = $this->space;
@@ -96,7 +102,7 @@ class Snake2D # Растет каждый ход. Направление слу�
             } elseif ($char == "\r") {
                 $cell['char'] = "\n";
             }
-            
+
             $cell['line_id'] = $x;
             $cell['position'] = $y;
             $y++;
@@ -107,17 +113,22 @@ class Snake2D # Растет каждый ход. Направление слу�
 
     public function main(): void
     {
-        // while ($this->can_move()) {
-        //     echo $this->draw_table();
-        //     usleep($this->tick);
-        //     $this->move();
-        // }
+        while ($this->can_move()) {
+            $this->draw_table();
+            usleep($this->tick);
+            $this->move();
+
+        }
 
         // var_dump($this->space);
-        echo nl2br($this->draw_table($this->get_plain_space()));
+        // echo nl2br($this->draw_table($this->get_plain_space()));
     }
-
-    private function draw_table(array $space = []): string
+    /**
+     * Рисует игровое поле
+     * @param array $space
+     * @return string
+     */
+    private function draw_table(array $space = []): void
     {
         $res = '';
         if (empty($space)) {
@@ -128,7 +139,7 @@ class Snake2D # Растет каждый ход. Направление слу�
             $res .= $cell['char'];
         }
 
-        return $res;
+        echo $res;
     }
 
     # 
@@ -136,16 +147,20 @@ class Snake2D # Растет каждый ход. Направление слу�
     {
         return false;
     }
-
+    # Растет каждый ход. Оставляет след на пред поз головы
     private function move(): void
     {
     }
 
-    private function get_plain_space(): array 
+    /**
+     * Получает игровое поле без скрытых ячеек.
+     * @return array
+     */
+    private function get_plain_space(): array
     {
         $res = [];
-        foreach($this->space as $cell) {
-            if($cell['char'] == "\n") {
+        foreach ($this->space as $cell) {
+            if ($cell['char'] == "\n") {
                 continue;
             } else {
                 $res[] = $cell;
@@ -154,8 +169,9 @@ class Snake2D # Растет каждый ход. Направление слу�
         return $res;
     }
 
-    private function get_direction(): array
+    private function get_direction_to(array $cell): array
     {
+        $from = $this->head_cell;
         return [];
     }
 
