@@ -43,7 +43,7 @@ class Snake
 $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
-class Snake2D # Растет каждый ход. Направление случайная точка из таблицы
+class Snake2D
 
 {
     const DEFAULT_CELL = ['column' => 0, 'position' => 0, 'char' => '→'];
@@ -55,14 +55,14 @@ class Snake2D # Растет каждый ход. Направление слу�
 
         'body' => '*',
         
-        
+
         'border' => '|',
         'free' => '-',
         'food' => '!',
     ];
 
     public $tick;
-    public $cell = ['column' => 0, 'position' => 0, 'char']; # [x, y, from char_map ]. Клетка поля
+    public $cell = ['column' => 0, 'position' => 0, 'char']; # [x, y, from char_map[any] ]. Клетка поля
     public $food_cell = [];
     public $head_cell = [];
     public $space = []; # array of cells
@@ -147,6 +147,7 @@ class Snake2D # Растет каждый ход. Направление слу�
     {
         return false;
     }
+    
     # Растет каждый ход. Оставляет след на пред поз головы
     private function move(): void
     {
@@ -175,4 +176,6 @@ class Snake2D # Растет каждый ход. Направление слу�
         return [];
     }
 
+    # Появляется в случайная точки таблицы
+    private function create_food(): void {}
 }
