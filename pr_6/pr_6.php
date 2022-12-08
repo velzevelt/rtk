@@ -166,8 +166,8 @@ class Snake2D
     {
         $current_position = ['column' => $this->head_cell->column, 'position' => $this->head_cell->position];
         $target_position = ['column' => $target->column, 'position' => $target->position];
-        $base_direction = $this->head_cell->char;
-        $direction = DIRECTION::RIGHT;
+        $current_direction = $this->head_cell->char;
+        $target_direction = DIRECTION::RIGHT;
 
         enum DIRECTION {
             case UP = $this->char_map['head_up'];
@@ -177,21 +177,21 @@ class Snake2D
         }
 
         if ($target_position['column'] > $current_position['column']) {
-            $direction = DIRECTION::UP;
+            $target_direction = DIRECTION::UP;
         } elseif ($target_position['column'] == $current_position['column']) {
 
             if ($target_position['position'] > $current_position['position']) {
-                $direction = DIRECTION::RIGHT;
+                $target_direction = DIRECTION::RIGHT;
             } else {
-                $direction = DIRECTION::LEFT;
+                $target_direction = DIRECTION::LEFT;
             }
 
         } else {
-            $direction = DIRECTION::DOWN;
+            $target_direction = DIRECTION::DOWN;
         }
 
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
-        if ($base_direction == $direction) {
+        if ($current_direction == $direction) {
 
         } else {
             $this->head_cell->char = $direction; # Поворот башки
