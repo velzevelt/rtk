@@ -44,67 +44,65 @@ $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
 class Snake2D
-
 {
-    const DEFAULT_CELL = ['column' => 0, 'position' => 0, 'char' => '→'];
-    public $char_map = [
+    private $char_map = [
+        // [HEAD] //
         'head_right' => '→',
         'head_left' => '←',
         'head_up' => '↑',
         'head_down' => '↓',
+        ////////////
 
         'body' => '*',
         
-
+        // [CELLS] //
         'border' => '|',
         'free' => '-',
         'food' => '!',
+        /////////////
     ];
 
-    public $tick;
-    public $cell = ['column' => 0, 'position' => 0, 'char']; # [x, y, from char_map[any] ]. Клетка поля
-    public $food_cell = [];
-    public $head_cell = [];
-    public $space = []; # array of cells
+    private int $tick;
+    private int $snake_length = 0;
+    private Cell $food_cell = new Cell();
+    private Cell $head_cell = new Cell();
+    private array $space = []; # array of cells
 
 
     /**
      * Змеюка
-     * @param mixed $_filename Имя файла с исходным игровым полем
-     * @param mixed $_tick Время одного хода (в микросекундах)
+     * @param string $filename Имя файла с исходным игровым полем
+     * @param int $tick Время одного хода (в микросекундах)
      */
-    function __construct($_filename, $_tick = 250000)
+    function __construct(string $filename, int $tick = 250000)
     {
 
-        $content = str_split(file_get_contents($_filename));
+        $content = str_split(file_get_contents($filename));
 
-        # (optional) [Set char map]
-
-        $this->tick = $_tick;
-        $this->head_cell = Snake2D::DEFAULT_CELL;
+        $this->tick = $tick;
 
         $char_map = $this->char_map;
         $space = $this->space;
-        $cell = $this->cell;
 
         $x = 0;
         $y = 0;
         # Формируем игровое поле
         foreach ($content as $key => $char) {
+            $cell = new Cell();
             if ($char == "\n") {
                 $x++;
                 $y = 0;
                 continue;
             } elseif ($char == $char_map['border']) {
-                $cell['char'] = $char_map['border'];
+                $cell->char = $char_map['border'];
             } elseif ($char == $char_map['free']) {
-                $cell['char'] = $char_map['free'];
+                $cell->char = $char_map['free'];
             } elseif ($char == "\r") {
-                $cell['char'] = "\n";
+                $cell->char = "\n";
             }
 
-            $cell['line_id'] = $x;
-            $cell['position'] = $y;
+            $cell->column = $x;
+            $cell->position = $y;
             $y++;
             $space[] = $cell;
         }
@@ -116,7 +114,7 @@ class Snake2D
         while ($this->can_move()) {
             $this->draw_table();
             usleep($this->tick);
-            $this->move();
+            $this->move_to($this->food_cell);
 
         }
 
@@ -131,9 +129,12 @@ class Snake2D
     private function draw_table(array $space = []): void
     {
         $res = '';
+
+        ### DEBUG ###
         if (empty($space)) {
             $space = $this->space;
         }
+        #############
 
         foreach ($space as $cell) {
             $res .= $cell['char'];
@@ -149,7 +150,7 @@ class Snake2D
     }
     
     # Растет каждый ход. Оставляет след на пред поз головы
-    private function move(): void {}
+    private function move_to(Cell $target): void {}
 
     /**
      * Получает игровое поле без скрытых ячеек.
@@ -170,15 +171,22 @@ class Snake2D
     
     /**
      * Получает направление от головы до клетки
-     * @param array $cell
-     * @return array $cell
+     * @param Cell $target
+     * @return Cell $cell
      */
-    private function get_direction_to(array $cell): array
+    private function get_direction_to(Cell $target): void
     {
         $from = $this->head_cell;
-        return [];
     }
 
-    # Появляется в случайной точки таблицы
+    # Создает еду в случайной точки таблицы. Точка должна быть доступна
     private function create_food(): void {}
+}
+
+
+class Cell  
+{
+    public int $column = 0;
+    public int $position = 0;
+    public string $char = '';
 }
