@@ -1,3 +1,4 @@
+<pre>
 <?php
 
 # Задача 1. Написать программу, змейку, которая съедает линию
@@ -62,13 +63,13 @@ class Snake2D
         /////////////
     ];
 
-    private int $tick;
-    private int $snake_length = 0;
-    private Cell $food_cell = new Cell();
-    private Cell $head_cell = new Cell();
-    private array $space = []; # array of cells
-    private int $occupied_cells = 0;
-    private int $max_cells;
+    private $tick;
+    private $snake_length = 0;
+    private $food_cell;
+    private $head_cell;
+    private $space = []; # array of cells
+    private $occupied_cells = 0;
+    private $max_cells;
 
 
     /**
@@ -122,11 +123,14 @@ class Snake2D
 
         # Основной цикл
         // while ($this->can_move()) {
-        //     $this->draw_table();
+        // echo nl2br($this->draw_table());
         //     usleep($this->tick);
         //     $this->move_to($this->food_cell);
 
         // }
+
+        // echo nl2br($this->draw_table($this->space));
+
     }
 
 
@@ -135,7 +139,7 @@ class Snake2D
      * @param array $space
      * @return string
      */
-    private function draw_table(array $space = []): void
+    private function draw_table(array $space = []): string
     {
         $res = '';
 
@@ -146,10 +150,10 @@ class Snake2D
         #############
 
         foreach ($space as $cell) {
-            $res .= $cell['char'];
+            $res .= $cell->char;
         }
 
-        echo $res;
+        return $res;
     }
 
     # 
@@ -173,7 +177,7 @@ class Snake2D
     {
         $res = [];
         foreach ($this->space as $cell) {
-            if ($cell['char'] == "\n") {
+            if ($cell->char == "\n") {
                 continue;
             } else {
                 $res[] = $cell;
@@ -216,8 +220,8 @@ class Snake2D
 
 class Cell  
 {
-    public int $column = 0;
-    public int $position = 0;
-    public string $char = '';
-    
+    public $column = 0;
+    public $position = 0;
+    public $char = '';
+
 }
