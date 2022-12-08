@@ -67,7 +67,8 @@ class Snake2D
     private Cell $food_cell = new Cell();
     private Cell $head_cell = new Cell();
     private array $space = []; # array of cells
-    private int $free_cells;
+    private int $occupied_cells = 0;
+    private int $max_cells;
 
 
     /**
@@ -107,21 +108,28 @@ class Snake2D
             $y++;
             $space[] = $cell;
         }
+        $this->max_cells = count($space);
         $this->space = $space;
     }
 
     public function main(): void
     {
-        while ($this->can_move()) {
-            $this->draw_table();
-            usleep($this->tick);
-            $this->move_to($this->food_cell);
+        # Создание головы
+        $this->space[1]->char = $this->char_map['head_right'];
+        $this->occupied_cells++;
 
-        }
+        $this->food_cell = $this->create_food();
 
-        // var_dump($this->space);
-        // echo nl2br($this->draw_table($this->get_plain_space()));
+        # Основной цикл
+        // while ($this->can_move()) {
+        //     $this->draw_table();
+        //     usleep($this->tick);
+        //     $this->move_to($this->food_cell);
+
+        // }
     }
+
+
     /**
      * Рисует игровое поле
      * @param array $space
@@ -147,10 +155,12 @@ class Snake2D
     # 
     private function can_move(): bool
     {
-        return false;
+        # Есть свободные клетки и Есть свободные клетки вокруг головы
+        $res = $this->occupied_cells != $this->max_cells;
+        return $res;
     }
     
-    # 
+
     private function move_to(Cell $target): void 
     {
     }
@@ -178,14 +188,29 @@ class Snake2D
         $space = $this->get_plain_space();
         $res = $space[array_rand($space)];
         
-        # Проверка на доступность происходит извне
         while($res->char != $this->char_map['free']) {
             $res = $space[array_rand($space)];
         }
+        $res->char = $this->char_map['food'];
 
         return $res;
     }
-    private function eat(): void {}
+
+    private function eat(): void 
+    {
+        // $this->occupied_cells++;
+    }
+
+    /**
+     * Найти клетку по позиции
+     * @param array $needle [column, position]
+     * @param array $haystack
+     * @return Cell
+     */
+    private function find_cell(array $needle, array $haystack): Cell 
+    {
+        return new Cell;
+    }
 }
 
 
@@ -194,5 +219,5 @@ class Cell
     public int $column = 0;
     public int $position = 0;
     public string $char = '';
-
+    
 }
