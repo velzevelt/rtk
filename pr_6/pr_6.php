@@ -191,10 +191,10 @@ class Snake2D
         }
 
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
-        if ($current_direction == $direction) {
+        if ($current_direction == $target_direction) {
 
         } else {
-            $this->head_cell->char = $direction; # Поворот башки
+            $this->head_cell->char = $target_direction; # Поворот башки
         }
     }
 
