@@ -117,13 +117,14 @@ class Snake2D
     {
         # Создание головы
         $this->space[1]->char = $this->char_map['head_right'];
+        $this->head_cell = $this->space[1];
         $this->occupied_cells++;
 
         $this->food_cell = $this->create_food();
 
         # Основной цикл
         // while ($this->can_move()) {
-        // echo nl2br($this->draw_table());
+        //     echo nl2br($this->draw_table());
         //     usleep($this->tick);
         //     $this->move_to($this->food_cell);
 
