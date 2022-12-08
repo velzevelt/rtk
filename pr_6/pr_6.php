@@ -67,6 +67,8 @@ class Snake2D
     private Cell $food_cell = new Cell();
     private Cell $head_cell = new Cell();
     private array $space = []; # array of cells
+    private int $column_max = 0;
+    private int $position_max = 0;
 
 
     /**
@@ -106,6 +108,11 @@ class Snake2D
             $y++;
             $space[] = $cell;
         }
+
+        $last = $space[array_key_last($space)];
+        $this->column_max = $last->column;
+        $this->position_max = $last->position;
+
         $this->space = $space;
     }
 
@@ -149,11 +156,13 @@ class Snake2D
         return false;
     }
     
-    # Растет каждый ход. Оставляет след на пред поз головы
-    private function move_to(Cell $target): void {}
+    # 
+    private function move_to(Cell $target): void 
+    {
+    }
 
     /**
-     * Получает игровое поле без скрытых ячеек.
+     * Получает игровое поле без скрытых клеток.
      * @return array
      */
     private function get_plain_space(): array
@@ -169,18 +178,14 @@ class Snake2D
         return $res;
     }
     
-    /**
-     * Получает направление от головы до клетки
-     * @param Cell $target
-     * @return Cell $cell
-     */
-    private function get_direction_to(Cell $target): void
+    # Создает еду в случайной клетке таблицы. Клетка должна быть доступна
+    private function create_food(): Cell 
     {
-        $from = $this->head_cell;
-    }
+        $res = new Cell();
 
-    # Создает еду в случайной точки таблицы. Точка должна быть доступна
-    private function create_food(): void {}
+        return $res;
+    }
+    private function eat(): void {}
 }
 
 
