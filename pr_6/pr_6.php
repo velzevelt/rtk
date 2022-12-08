@@ -67,6 +67,7 @@ class Snake2D
     private Cell $food_cell = new Cell();
     private Cell $head_cell = new Cell();
     private array $space = []; # array of cells
+    private int $free_cells;
 
 
     /**
