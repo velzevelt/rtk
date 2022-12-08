@@ -67,8 +67,6 @@ class Snake2D
     private Cell $food_cell = new Cell();
     private Cell $head_cell = new Cell();
     private array $space = []; # array of cells
-    private int $column_max = 0;
-    private int $position_max = 0;
 
 
     /**
@@ -108,11 +106,6 @@ class Snake2D
             $y++;
             $space[] = $cell;
         }
-
-        $last = $space[array_key_last($space)];
-        $this->column_max = $last->column;
-        $this->position_max = $last->position;
-
         $this->space = $space;
     }
 
@@ -181,7 +174,13 @@ class Snake2D
     # Создает еду в случайной клетке таблицы. Клетка должна быть доступна
     private function create_food(): Cell 
     {
-        $res = new Cell();
+        $space = $this->get_plain_space();
+        $res = $space[array_rand($space)];
+        
+        # Проверка на доступность происходит извне
+        while($res->char != $this->char_map['free']) {
+            $res = $space[array_rand($space)];
+        }
 
         return $res;
     }
@@ -194,4 +193,5 @@ class Cell
     public int $column = 0;
     public int $position = 0;
     public string $char = '';
+
 }
