@@ -169,24 +169,6 @@ class Snake2D
         $base_direction = $this->head_cell->char;
         $direction = DIRECTION::RIGHT;
 
-        switch ($base_direction) {
-            case $this->char_map['head_up']:
-                $base_direction = DIRECTION::UP;
-                break;
-            case $this->char_map['head_down']:
-                $base_direction = DIRECTION::DOWN;
-                break;
-            case $this->char_map['head_right']:
-                $base_direction = DIRECTION::RIGHT;
-                break;
-            case $this->char_map['head_left']:
-                $base_direction = DIRECTION::LEFT;
-                break;
-            default:
-                $base_direction = $direction;
-        }
-
-
         enum DIRECTION {
             case UP = $this->char_map['head_up'];
             case DOWN = $this->char_map['head_down'];
@@ -212,7 +194,7 @@ class Snake2D
         if ($base_direction == $direction) {
 
         } else {
-            $this->head_cell->char = 
+            $this->head_cell->char = $direction; # Поворот башки
         }
     }
 
