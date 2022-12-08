@@ -68,8 +68,6 @@ class Snake2D
     private $food_cell;
     private $head_cell;
     private $space = []; # array of cells
-    private $occupied_cells = 0;
-    private $max_cells;
 
 
     /**
@@ -109,7 +107,6 @@ class Snake2D
             $y++;
             $space[] = $cell;
         }
-        $this->max_cells = count($space);
         $this->space = $space;
     }
 
@@ -118,7 +115,6 @@ class Snake2D
         # Создание головы
         $this->space[1]->char = $this->char_map['head_right'];
         $this->head_cell = $this->space[1];
-        $this->occupied_cells++;
 
         $this->food_cell = $this->create_food();
 
@@ -160,8 +156,8 @@ class Snake2D
     # 
     private function can_move(): bool
     {
-        # Есть свободные клетки и Есть свободные клетки вокруг головы
-        $res = $this->occupied_cells != $this->max_cells;
+        # Есть свободные клетки вокруг головы
+        $res = false;
         return $res;
     }
     
@@ -170,15 +166,54 @@ class Snake2D
     {
         $current_position = ['column' => $this->head_cell->column, 'position' => $this->head_cell->position];
         $target_position = ['column' => $target->column, 'position' => $target->position];
+        $base_direction = $this->head_cell->char;
+        $direction = DIRECTION::RIGHT;
 
-        # UP
-        if ($target_position['column'] > $current_position['column']) {
-            $this->head_cell->char = $this->char_map['head_up'];
-            usleep($this->tick);
-            $this->head_cell->char = $this->char_map['free'];
-            $this->head_cell = $this->find_cell([$current_position['column'] + 1, $current_position['position']], $this->get_plain_space());
+        switch ($base_direction) {
+            case $this->char_map['head_up']:
+                $base_direction = DIRECTION::UP;
+                break;
+            case $this->char_map['head_down']:
+                $base_direction = DIRECTION::DOWN;
+                break;
+            case $this->char_map['head_right']:
+                $base_direction = DIRECTION::RIGHT;
+                break;
+            case $this->char_map['head_left']:
+                $base_direction = DIRECTION::LEFT;
+                break;
+            default:
+                $base_direction = $direction;
         }
 
+
+        enum DIRECTION {
+            case UP = $this->char_map['head_up'];
+            case DOWN = $this->char_map['head_down'];
+            case RIGHT = $this->char_map['head_right'];
+            case LEFT = $this->char_map['head_left'];
+        }
+
+        if ($target_position['column'] > $current_position['column']) {
+            $direction = DIRECTION::UP;
+        } elseif ($target_position['column'] == $current_position['column']) {
+
+            if ($target_position['position'] > $current_position['position']) {
+                $direction = DIRECTION::RIGHT;
+            } else {
+                $direction = DIRECTION::LEFT;
+            }
+
+        } else {
+            $direction = DIRECTION::DOWN;
+        }
+
+        # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
+        if ($base_direction == $direction) {
+
+        } else {
+            $this->head_cell->char = 
+        }
     }
 
     /**
@@ -198,12 +233,16 @@ class Snake2D
         return $res;
     }
     
-    # Создает еду в случайной клетке таблицы. Клетка должна быть доступна
+    /**
+     * Создает еду в случайной клетке поля
+     * @return Cell
+     */
     private function create_food(): Cell 
     {
         $space = $this->get_plain_space();
         $res = $space[array_rand($space)];
         
+        # Клетка должна быть доступна
         while($res->char != $this->char_map['free']) {
             $res = $space[array_rand($space)];
         }
@@ -214,7 +253,7 @@ class Snake2D
 
     private function eat(): void 
     {
-        // $this->occupied_cells++;
+        // 
     }
 
     /**
@@ -227,7 +266,7 @@ class Snake2D
     {
         $res = new Cell();
         foreach ($haystack as $cell) {
-            if ($cell->position == $needle[0] and $cell->column == $needle[1]) {
+            if ($cell->column == $needle[0] and $cell->position == $needle[1]) {
                 $res = $cell;
                 break;
             }
@@ -240,8 +279,14 @@ class Snake2D
 
 class Cell  
 {
-    public $column = 0;
-    public $position = 0;
-    public $char = '';
+    public $column;
+    public $position;
+    public $char;
+
+    function __construct(int $column = 0, int $position = 0, string $char = '') {
+        $this->column = $column;
+        $this->position = $position;
+        $this->char = $char;
+    }
 
 }
