@@ -123,12 +123,12 @@ class Snake2D
         $this->food_cell = $this->create_food();
 
         # Основной цикл
-        // while ($this->can_move()) {
-        //     echo nl2br($this->draw_table());
-        //     usleep($this->tick);
-        //     $this->move_to($this->food_cell);
+        while ($this->can_move()) {
+            echo nl2br($this->draw_table($this->space));
+            usleep($this->tick);
+            $this->move_to($this->food_cell);
 
-        // }
+        }
 
         // echo nl2br($this->draw_table($this->space));
 
@@ -140,7 +140,7 @@ class Snake2D
      * @param array $space
      * @return string
      */
-    private function draw_table(array $space = []): string
+    private function draw_table(array $space): string
     {
         $res = '';
 
@@ -168,6 +168,17 @@ class Snake2D
 
     private function move_to(Cell $target): void 
     {
+        $current_position = ['column' => $this->head_cell->column, 'position' => $this->head_cell->position];
+        $target_position = ['column' => $target->column, 'position' => $target->position];
+
+        # UP
+        if ($target_position['column'] > $current_position['column']) {
+            $this->head_cell->char = $this->char_map['head_up'];
+            usleep($this->tick);
+            $this->head_cell->char = $this->char_map['free'];
+            $this->head_cell = $this->find_cell([$current_position['column'] + 1, $current_position['position']], $this->get_plain_space());
+        }
+
     }
 
     /**
