@@ -149,9 +149,7 @@ class Snake2D
     }
     
     # Растет каждый ход. Оставляет след на пред поз головы
-    private function move(): void
-    {
-    }
+    private function move(): void {}
 
     /**
      * Получает игровое поле без скрытых ячеек.
@@ -169,13 +167,18 @@ class Snake2D
         }
         return $res;
     }
-
+    
+    /**
+     * Получает направление от головы до клетки
+     * @param array $cell
+     * @return array $cell
+     */
     private function get_direction_to(array $cell): array
     {
         $from = $this->head_cell;
         return [];
     }
 
-    # Появляется в случайная точки таблицы
+    # Появляется в случайной точки таблицы
     private function create_food(): void {}
 }
