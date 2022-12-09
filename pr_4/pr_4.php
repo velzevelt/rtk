@@ -88,7 +88,7 @@ function make_list(array $from): string
 
         if (is_array($val)) {
 
-            if ($val != []) {
+            if ( !empty($val) ) {
                 $res .= '<li>' . "'$key' => [" . '<ul>';
                 foreach ($val as $item) {
                     $res .= make_list($item);
@@ -117,7 +117,7 @@ function make_unordered_list(array $from): string
 }
 
 // echo '<ul>' . make_list($example) . '</ul>';
-// echo make_unordered_list($example);
+echo make_unordered_list($example);
 
 $t = [
     1,

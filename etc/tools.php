@@ -5,6 +5,13 @@ function format_problem(string $problem_id)
     echo $message;
 }
 
+function console_log($data){
+    if(is_array($data) || is_object($data)){
+        echo("<script>console.log('php_array: ".json_encode($data)."');</script>");
+    } else {
+        echo("<script>console.log('php_string: ".$data."');</script>");
+    }
+}
 
 // /** разбирает число на цифры в обратном порядке
 //  *  пример: 123.456 -> [ 6, 5, 4, 3, 2, 1 ]
@@ -35,3 +42,6 @@ function format_problem(string $problem_id)
 
 # change php.ini in openserver config
 # disable_functions = count
+
+
+

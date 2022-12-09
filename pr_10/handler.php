@@ -10,16 +10,18 @@ const SAVE_PATH = "/pr_10/out/output_image.png";
 if ( isset($_POST['send']) )
 {
     if (isset( $_FILES['user_image']) and isset($_FILES['user_watermark']) ) {
-        $image = $_FILES['user_image'];
-        $watermark = $_FILES['user_watermark'];
+        $image = $_FILES['user_image']['tmp_name'];
+        $watermark = $_FILES['user_watermark']['tmp_name'];
 
-        
-        $image_wm = new ImageWatermark($image, $watermark);
+        // var_dump($image);
+
+        $image_wm = new ImageWatermark($image, $watermark, [400, 250]);
         $image_wm->show_image();
     }
 } else {
     
     ### DEBUG ###
+<<<<<<< HEAD
 
     ini_set('display_errors', '1');
     ini_set('display_startup_errors', '1');
@@ -27,6 +29,9 @@ if ( isset($_POST['send']) )
 
     $imagine = new Imagine();
     $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
+=======
+    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png', [1280, 720]);
+>>>>>>> 005f0a91bf73967c3374248f7fd2ad6a7c4f4513
     $image->show_image();
 
 }
@@ -40,7 +45,13 @@ class ImageWatermark
     public $watermark = null;
     public $new_image_size = [];
     
-    function __construct( $image, $watermark, $new_image_size = [400, 250] )
+    /**
+     * Наносит водяной знак на изображение
+     * @param mixed $image
+     * @param mixed $watermark
+     * @param array $new_image_size [width, height]
+     */
+    function __construct( $image, $watermark, array $new_image_size)
     {   
         $imagine = new Imagine();
 
@@ -51,18 +62,21 @@ class ImageWatermark
         $this->new_image_size['height'] = $new_image_size[1];
 
 
-        $this->apply_watermark();
+        $this->paste_watermark();
     }
-    private function apply_watermark(): void
+    private function paste_watermark(): void
     {
         $image_size = $this->image->getSize();
+
         $this->watermark->resize(new Box($image_size->getWidth() / 2, $image_size->getHeight() / 2));
         
-        # Добавить смещение для правильной позиции
-        $center = new Point($image_size->getWidth() / 2, $image_size->getHeight() / 2);
+        # Делим на 4 для правильной позиции, так как начало картинки это левый верхний угол, а не её центр
+        $center = new Point($image_size->getWidth() / 4, $image_size->getHeight() / 4);
 
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
+        
+        # $_SERVER['DOCUMENT_ROOT'] необходим, так как imagick по какой-то причине не видит относительный путь
         $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
     }
 
