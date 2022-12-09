@@ -21,17 +21,13 @@ if ( isset($_POST['send']) )
 } else {
     
     ### DEBUG ###
-<<<<<<< HEAD
 
     ini_set('display_errors', '1');
     ini_set('display_startup_errors', '1');
     error_reporting(E_ALL);
 
     $imagine = new Imagine();
-    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png');
-=======
     $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png', [1280, 720]);
->>>>>>> 005f0a91bf73967c3374248f7fd2ad6a7c4f4513
     $image->show_image();
 
 }
@@ -70,7 +66,6 @@ class ImageWatermark
 
         $this->watermark->resize(new Box($image_size->getWidth() / 2, $image_size->getHeight() / 2));
         
-        # Делим на 4 для правильной позиции, так как начало картинки это левый верхний угол, а не её центр
         $center = new Point($image_size->getWidth() / 4, $image_size->getHeight() / 4);
 
         $this->image->paste($this->watermark, $center);
