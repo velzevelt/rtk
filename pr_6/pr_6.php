@@ -63,7 +63,7 @@ class Snake2D
         /////////////
     ];
 
-    private $tick;
+
     private $snake_length = 0;
     private $food_cell;
     private $head_cell;
@@ -75,12 +75,11 @@ class Snake2D
      * @param string $filename Имя файла с исходным игровым полем
      * @param int $tick Время одного хода (в микросекундах)
      */
-    function __construct(string $filename, int $tick = 250000)
+    function __construct(string $filename)
     {
 
-        $content = str_split(file_get_contents($filename));
+        $content = str_split(trim(file_get_contents($filename)));
 
-        $this->tick = $tick;
 
         $char_map = $this->char_map;
         $space = $this->space;
@@ -88,24 +87,22 @@ class Snake2D
         $x = 0;
         $y = 0;
         # Формируем игровое поле
-        foreach ($content as $key => $char) {
+        foreach ($content as $char) {
             $cell = new Cell();
             if ($char == "\n") {
                 $x++;
                 $y = 0;
-                continue;
-            } elseif ($char == $char_map['border']) {
-                $cell->char = $char_map['border'];
-            } elseif ($char == $char_map['free']) {
-                $cell->char = $char_map['free'];
-            } elseif ($char == "\r") {
-                $cell->char = "\n";
+
+                $cell->char = $char;
+            } elseif ($t = array_search($char, $char_map)) {
+                $cell->char = $char_map[$t];
             }
 
             $cell->column = $x;
             $cell->position = $y;
-            $y++;
             $space[] = $cell;
+            
+            $y++;
         }
         $this->space = $space;
     }
@@ -119,15 +116,29 @@ class Snake2D
         $this->food_cell = $this->create_food();
 
         # Основной цикл
-        while ($this->can_move()) {
-            echo nl2br($this->draw_table($this->space));
-            usleep($this->tick);
-            $this->move_to($this->food_cell);
+        // while (true) {
+        //     echo nl2br($this->draw_table($this->space));
+        //     usleep($this->tick);
+        //     $this->move_to($this->food_cell);
 
+        // }
+        
+        for ($i = 0; $i < 2; $i++) {
+            echo nl2br($this->draw_table($this->space));
+
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+
+            # Use JavaScript delay instead of sleep/usleep
+            // echo '<script>setTimeout(function(){); }, 5000);</script>';
+
+            $this->move_to($this->food_cell);
         }
 
-        // echo nl2br($this->draw_table($this->space));
 
+        // echo nl2br($this->draw_table($this->space));
+        // echo nl2br($this->draw_table($this->get_plain_space()));
     }
 
 
@@ -139,12 +150,6 @@ class Snake2D
     private function draw_table(array $space): string
     {
         $res = '';
-
-        ### DEBUG ###
-        if (empty($space)) {
-            $space = $this->space;
-        }
-        #############
 
         foreach ($space as $cell) {
             $res .= $cell->char;
@@ -167,65 +172,84 @@ class Snake2D
         $current_position = ['column' => $this->head_cell->column, 'position' => $this->head_cell->position];
         $target_position = ['column' => $target->column, 'position' => $target->position];
         $current_direction = $this->head_cell->char;
-        $target_direction = DIRECTION::RIGHT;
+        $target_direction = null;
+        $new_position = ['column', 'position'];
 
-        enum DIRECTION {
-            case UP = $this->char_map['head_up'];
-            case DOWN = $this->char_map['head_down'];
-            case RIGHT = $this->char_map['head_right'];
-            case LEFT = $this->char_map['head_left'];
-        }
 
         if ($target_position['column'] > $current_position['column']) {
-            $target_direction = DIRECTION::UP;
+            $target_direction = $this->char_map['head_down'];
+            $new_position['column'] = $current_position['column'] - 1;
         } elseif ($target_position['column'] == $current_position['column']) {
 
             if ($target_position['position'] > $current_position['position']) {
-                $target_direction = DIRECTION::RIGHT;
+                $target_direction = $this->char_map['head_right'];
+                $new_position['position'] = $current_position['position'] + 1;
             } else {
-                $target_direction = DIRECTION::LEFT;
+                $target_direction = $this->char_map['head_left'];
+                $new_position['position'] = $current_position['position'] - 1;
             }
 
         } else {
-            $target_direction = DIRECTION::DOWN;
+            $target_direction = $this->char_map['head_up'];
+            $new_position['column'] = $current_position['column'] + 1;
         }
+
 
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
         if ($current_direction == $target_direction) {
+            $t = new Cell($new_position['column'], $new_position['position']);
+            if ($t = $this->get_cell($t, $this->space)) {
+                $t->char = $this->head_cell->char;
+                
+                $this->head_cell->char = $this->char_map['free']; # reset prev
 
+                $this->head_cell = $t;
+            }
         } else {
             $this->head_cell->char = $target_direction; # Поворот башки
         }
     }
 
-    /**
-     * Получает игровое поле без скрытых клеток.
-     * @return array
-     */
-    private function get_plain_space(): array
+    private function is_valid(Cell $cell): bool 
     {
-        $res = [];
-        foreach ($this->space as $cell) {
-            if ($cell->char == "\n") {
-                continue;
-            } else {
-                $res[] = $cell;
+        return ($cell->char == $this->char_map['free']);
+    }
+    private function has_free_cell(array $space): bool 
+    {
+        $r = false;
+        foreach ($space as $cell) {
+            if ($this->is_valid($cell)) {
+                $r = true;
+                break;
             }
         }
-        return $res;
+        return $r;
     }
-    
+    private function get_cell(Cell $needle, array $haystack): mixed 
+    {
+        $r = false;
+        foreach($haystack as $cell) 
+        {
+            if($needle->column == $cell->column and $needle->position == $cell->position) 
+            {
+                $r = $needle;
+                break;
+            }
+        }
+        return $r;
+    }
+
     /**
      * Создает еду в случайной клетке поля
      * @return Cell
      */
     private function create_food(): Cell 
     {
-        $space = $this->get_plain_space();
+        $space = $this->space;
         $res = $space[array_rand($space)];
         
         # Клетка должна быть доступна
-        while($res->char != $this->char_map['free']) {
+        while( !($this->is_valid($res)) ) {
             $res = $space[array_rand($space)];
         }
         $res->char = $this->char_map['food'];
@@ -238,24 +262,7 @@ class Snake2D
         // 
     }
 
-    /**
-     * Найти клетку по позиции
-     * @param array $needle [column, position]
-     * @param array $haystack
-     * @return Cell
-     */
-    private function find_cell(array $needle, array $haystack): Cell 
-    {
-        $res = new Cell();
-        foreach ($haystack as $cell) {
-            if ($cell->column == $needle[0] and $cell->position == $needle[1]) {
-                $res = $cell;
-                break;
-            }
-        }
 
-        return $res;
-    }
 }
 
 
@@ -272,3 +279,4 @@ class Cell
     }
 
 }
+
