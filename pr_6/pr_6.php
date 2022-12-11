@@ -128,7 +128,7 @@ class Snake2D
 
         // }
         
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             echo nl2br($this->draw_table($this->space));
 
             echo '<br>';
@@ -206,11 +206,21 @@ class Snake2D
             var_dump($current_position);
             var_dump($new_position);
 
-            if ($this->find_cell($t, $this->space)) {
-                $this->head_cell->char = $this->char_map['free']; # reset prev
-                
-                #TODO Proper new set !!!
-                // $this->head_cell = $t;
+            
+            if ($key = $this->find_cell($t, $this->space)) {
+                // $this->head_cell->char = $this->char_map['free']; # reset prev
+
+                #TODO Скрытый символ сбивает на одно значение правильную позицию
+                # Использовать plain space для решения
+                $key = $current_position['column'] == 0 ? $key++ : $key;
+
+
+                // var_dump($this->space[$key]);
+                unset($this->head_cell);
+
+                $this->head_cell = &$this->space[$key];
+                $this->head_cell->char = $target_direction;
+
             }
 
         } else {
@@ -271,7 +281,19 @@ class Snake2D
         // 
     }
 
+    private function get_plain_space(): array 
+    {
+        $r = [];
+        foreach($this->space as $cell) {
+            if ($cell->char == "\n") {
+                continue;
+            } else {
+                $r[] = $cell;
+            }
 
+        }
+        return $r;
+    }
 }
 
 
