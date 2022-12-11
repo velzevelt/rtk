@@ -1,6 +1,11 @@
 <pre>
 <?php
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+
 # Задача 1. Написать программу, змейку, которая съедает линию
 # Результат работы класса – файл в котором на первой строчке исходная линия, а 
 # далее в каждой строке пошаговое «съедание» линии змейкой
@@ -111,7 +116,7 @@ class Snake2D
     {
         # Создание головы
         $this->space[1]->char = $this->char_map['head_right'];
-        $this->head_cell = $this->space[1];
+        $this->head_cell = &$this->space[1];
 
         $this->food_cell = $this->create_food();
 
@@ -123,7 +128,7 @@ class Snake2D
 
         // }
         
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             echo nl2br($this->draw_table($this->space));
 
             echo '<br>';
@@ -173,12 +178,12 @@ class Snake2D
         $target_position = ['column' => $target->column, 'position' => $target->position];
         $current_direction = $this->head_cell->char;
         $target_direction = null;
-        $new_position = ['column', 'position'];
+        $new_position = ['column' => $current_position['column'], 'position' => $current_position['position']];
 
 
         if ($target_position['column'] > $current_position['column']) {
             $target_direction = $this->char_map['head_down'];
-            $new_position['column'] = $current_position['column'] - 1;
+            $new_position['column'] = $current_position['column'] + 1;
         } elseif ($target_position['column'] == $current_position['column']) {
 
             if ($target_position['position'] > $current_position['position']) {
@@ -191,20 +196,23 @@ class Snake2D
 
         } else {
             $target_direction = $this->char_map['head_up'];
-            $new_position['column'] = $current_position['column'] + 1;
+            $new_position['column'] = $current_position['column'] - 1;
         }
-
 
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
         if ($current_direction == $target_direction) {
             $t = new Cell($new_position['column'], $new_position['position']);
-            if ($t = $this->get_cell($t, $this->space)) {
-                $t->char = $this->head_cell->char;
-                
-                $this->head_cell->char = $this->char_map['free']; # reset prev
 
-                $this->head_cell = $t;
+            var_dump($current_position);
+            var_dump($new_position);
+
+            if ($this->find_cell($t, $this->space)) {
+                $this->head_cell->char = $this->char_map['free']; # reset prev
+                
+                #TODO Proper new set !!!
+                // $this->head_cell = $t;
             }
+
         } else {
             $this->head_cell->char = $target_direction; # Поворот башки
         }
@@ -225,17 +233,18 @@ class Snake2D
         }
         return $r;
     }
-    private function get_cell(Cell $needle, array $haystack): mixed 
+
+    private function find_cell(Cell $needle, array $haystack): mixed 
     {
         $r = false;
-        foreach($haystack as $cell) 
-        {
-            if($needle->column == $cell->column and $needle->position == $cell->position) 
-            {
-                $r = $needle;
+
+        foreach($haystack as $key => $cell) {
+            if($cell->column == $needle->column and $cell->position == $needle->position) {
+                $r = $key;
                 break;
             }
         }
+
         return $r;
     }
 
