@@ -69,7 +69,6 @@ class Snake2D
     ];
 
 
-    private $snake_length = 0;
     private $food_cell;
     private $head_cell;
     private $space = []; # array of cells
@@ -114,10 +113,16 @@ class Snake2D
 
     public function main(): void
     {
-        //TODO случайная позиция, направление. Остановка - граница. Новое направление если нет границы
+        //TODO случайная позиция, направление. Остановка - граница. Новое направление если граница не достигнута
         # Создание головы
-        $this->space[1]->char = $this->char_map['head_right'];
-        $this->head_cell = &$this->space[1];
+        $head_id = array_rand($this->space);
+
+        while( !($this->is_valid($this->space[$head_id])) ) {
+            $head_id = array_rand($this->space);
+        }
+
+        $this->space[$head_id]->char = $this->char_map['head_right'];
+        $this->head_cell = &$this->space[$head_id];
 
         $this->food_cell = $this->create_food();
 
@@ -128,23 +133,7 @@ class Snake2D
         //     $this->move_to($this->food_cell);
 
         // }
-        
-        for ($i = 0; $i < 50; $i++) {
-            echo nl2br($this->draw_table($this->space));
 
-            echo '<br>';
-            echo '<br>';
-            echo '<br>';
-
-            # Use JavaScript delay instead of sleep/usleep
-            // echo '<script>setTimeout(function(){); }, 5000);</script>';
-
-            $this->move_to($this->food_cell);
-        }
-
-
-        // echo nl2br($this->draw_table($this->space));
-        // echo nl2br($this->draw_table($this->get_plain_space()));
     }
 
 
@@ -165,12 +154,7 @@ class Snake2D
     }
 
     # 
-    private function can_move(): bool
-    {
-        # Есть свободные клетки вокруг головы
-        $res = false;
-        return $res;
-    }
+
     
 
     private function move_to(Cell $target): void 
@@ -221,11 +205,11 @@ class Snake2D
             
             if ($key = $this->find_cell($t, $this->space)) {
                 //TODO Удалить комментарий после отладки
-                // $this->head_cell->char = $this->char_map['free']; # reset prev
+                $this->head_cell->char = $this->char_map['body']; # reset prev
 
                 unset($this->head_cell);
 
-                # Эта язва исправляет смещение
+                # Эта язва исправляет смещение, вызванное скрытыми символами
                 if ( !($this->is_valid($this->space[$key])) ) {
                     $current_direction == $this->char_map['head_down'] ? $t->position++ : $t->position--;
                     $key = $this->find_cell($t, $this->space);
@@ -251,17 +235,7 @@ class Snake2D
         $white_list = [$this->char_map['free'], $this->char_map['food']];
         return in_array($cell->char, $white_list);
     }
-    private function has_free_cell(array $space): bool 
-    {
-        $r = false;
-        foreach ($space as $cell) {
-            if ($this->is_valid($cell)) {
-                $r = true;
-                break;
-            }
-        }
-        return $r;
-    }
+    
 
     private function find_cell(Cell $needle, array $haystack)
     {
@@ -278,12 +252,13 @@ class Snake2D
     }
 
     /**
-     * Создает еду в случайной клетке поля
+     * Создает еду в случайной клетке поля на оси головы (для упрощения поиска пути)
      * @return Cell
      */
     private function create_food(): Cell 
     {
         $space = $this->space;
+        //TODO Ось головы сделал быстро, тварь
         $res = $space[array_rand($space)];
         
         # Клетка должна быть доступна
@@ -298,8 +273,6 @@ class Snake2D
     private function eat(): void 
     {
         $this->food_cell = $this->create_food();
-        $this->snake_length++;
-        echo 1;
     }
 
 }

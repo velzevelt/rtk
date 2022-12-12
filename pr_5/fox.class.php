@@ -52,7 +52,6 @@ class Animal
     {
         return "Я охочусь";
     }
-//TODO -= cost !!!!
     public function run(int $cost = 20): string
     {
         $r = '';
@@ -60,6 +59,7 @@ class Animal
             $r .= $this->nap() . "<br>";
         }
         $r .= "Я бегу";
+        $this->energy -= $cost;
         return $r;
     }
 
