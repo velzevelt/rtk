@@ -1,5 +1,5 @@
 <?php 
-require_once "fox.class.php";
+require_once "Fox.class.php";
 
 
 /** Задача 1 Реализовать класс, описывающий животное. Класс животного, методы и
