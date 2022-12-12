@@ -114,6 +114,7 @@ class Snake2D
 
     public function main(): void
     {
+        //TODO случайная позиция, направление. Остановка - граница. Новое направление если нет границы
         # Создание головы
         $this->space[1]->char = $this->char_map['head_right'];
         $this->head_cell = &$this->space[1];
@@ -240,7 +241,8 @@ class Snake2D
             }
 
         } else {
-            $this->head_cell->char = $target_direction; # Поворот башки
+            # Поворот башки
+            $this->head_cell->char = $target_direction;
         }
     }
 
