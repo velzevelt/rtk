@@ -90,9 +90,10 @@ class Army
 
 
     function make_move()
-    {
-        foreach ($this->units as $unit_id => $unit) {
-            if (!($unit->is_alive())) # Мертвецы не могут атаковать
+    {   
+        $unit_id = array_rand($this->units);
+        $unit = $this->units[$unit_id];
+        if (!($unit->is_alive())) # Мертвецы не могут атаковать
             {
                 continue;
             }
@@ -118,7 +119,37 @@ class Army
                 file_put_contents(LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND);
                 $this->kills++;
             }
-        }
+
+
+            # Атака для каждого
+        // foreach ($this->units as $unit_id => $unit) {
+        //     if (!($unit->is_alive())) # Мертвецы не могут атаковать
+        //     {
+        //         continue;
+        //     }
+
+        //     $target_id = array_rand($this->enemy_units);
+        //     $target = $this->enemy_units[$target_id];
+
+        //     while (!($target->is_alive())) # Нельзя атаковать мертвых, ищем живую цель
+        //     {
+        //         if ($this->is_winner()) # Игрок победил, у противника не осталось юнитов
+        //         {
+        //             break 2;
+        //         }
+        //         $target_id = array_rand($this->enemy_units);
+        //         $target = $this->enemy_units[$target_id];
+        //     }
+
+        //     $unit->attack($target);
+        //     file_put_contents(LOG_FILE, "юнит $unit_id нанес урон $unit->damage вражескому юниту $target_id, у врага осталось $target->health здоровья\n", FILE_APPEND);
+
+        //     if (!($target->is_alive())) # Регистрация убитого противника
+        //     {
+        //         file_put_contents(LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND);
+        //         $this->kills++;
+        //     }
+        // }
     }
     function can_move(): bool # Игрок может ходить, если у противника есть хотя бы один живой юнит
     {

@@ -128,7 +128,7 @@ class Snake2D
 
         // }
         
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             echo nl2br($this->draw_table($this->space));
 
             echo '<br>';
@@ -180,10 +180,11 @@ class Snake2D
         $target_direction = null;
         $new_position = ['column' => $current_position['column'], 'position' => $current_position['position']];
 
-
+        # Базовое определение направления
         if ($target_position['column'] > $current_position['column']) {
             $target_direction = $this->char_map['head_down'];
             $new_position['column'] = $current_position['column'] + 1;
+
         } elseif ($target_position['column'] == $current_position['column']) {
 
             if ($target_position['position'] > $current_position['position']) {
@@ -199,24 +200,30 @@ class Snake2D
             $new_position['column'] = $current_position['column'] - 1;
         }
 
+        
+
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
         if ($current_direction == $target_direction) {
             $t = new Cell($new_position['column'], $new_position['position']);
 
-            var_dump($current_position);
-            var_dump($new_position);
+            // var_dump($current_position);
+            // var_dump($new_position);
 
             
             if ($key = $this->find_cell($t, $this->space)) {
                 // $this->head_cell->char = $this->char_map['free']; # reset prev
 
-                #TODO Скрытый символ сбивает на одно значение правильную позицию
-                # Использовать plain space для решения
-                $key = $current_position['column'] == 0 ? $key++ : $key;
-
-
-                // var_dump($this->space[$key]);
                 unset($this->head_cell);
+
+                # Эта язва исправляет смещение
+                if ( !($this->is_valid($this->space[$key])) ) {
+                    $current_direction == $this->char_map['head_down'] ? $t->position++ : $t->position--;
+                    $key = $this->find_cell($t, $this->space);
+                }
+
+                if ($this->space[$key]->char == $this->char_map['food']) {
+                    $this->eat();
+                }
 
                 $this->head_cell = &$this->space[$key];
                 $this->head_cell->char = $target_direction;
@@ -230,7 +237,8 @@ class Snake2D
 
     private function is_valid(Cell $cell): bool 
     {
-        return ($cell->char == $this->char_map['free']);
+        $white_list = [$this->char_map['free'], $this->char_map['food']];
+        return in_array($cell->char, $white_list);
     }
     private function has_free_cell(array $space): bool 
     {
@@ -244,7 +252,7 @@ class Snake2D
         return $r;
     }
 
-    private function find_cell(Cell $needle, array $haystack): mixed 
+    private function find_cell(Cell $needle, array $haystack)
     {
         $r = false;
 
@@ -278,22 +286,11 @@ class Snake2D
 
     private function eat(): void 
     {
-        // 
+        $this->food_cell = $this->create_food();
+        $this->snake_length++;
+        echo 1;
     }
 
-    private function get_plain_space(): array 
-    {
-        $r = [];
-        foreach($this->space as $cell) {
-            if ($cell->char == "\n") {
-                continue;
-            } else {
-                $r[] = $cell;
-            }
-
-        }
-        return $r;
-    }
 }
 
 
