@@ -180,9 +180,17 @@ class Snake2D
         $target_direction = null;
         $new_position = ['column' => $current_position['column'], 'position' => $current_position['position']];
 
+        //TODO
+        /**
+         *  Определять направление с учетом доступности клетки
+         */
+
+
         # Базовое определение направления
         if ($target_position['column'] > $current_position['column']) {
             $target_direction = $this->char_map['head_down'];
+
+
             $new_position['column'] = $current_position['column'] + 1;
 
         } elseif ($target_position['column'] == $current_position['column']) {
@@ -200,7 +208,7 @@ class Snake2D
             $new_position['column'] = $current_position['column'] - 1;
         }
 
-        
+
 
         # Двигаем, только если направление к цели совпадает с изначальным, иначе просто поворачиваем голову в нужное направление
         if ($current_direction == $target_direction) {
@@ -211,6 +219,7 @@ class Snake2D
 
             
             if ($key = $this->find_cell($t, $this->space)) {
+                //TODO Удалить комментарий после отладки
                 // $this->head_cell->char = $this->char_map['free']; # reset prev
 
                 unset($this->head_cell);
