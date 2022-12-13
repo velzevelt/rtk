@@ -131,7 +131,6 @@ class Snake2D
 
         # Основной цикл
         while ($this->active) {
-            // ob_start();
             echo nl2br($this->draw_table($this->space));
 
             echo "<br>";
@@ -142,7 +141,6 @@ class Snake2D
             flush();
             sleep(1);
 
-            // ob_end_clean();
             
 
             $this->move_to($this->food_cell);
@@ -151,23 +149,6 @@ class Snake2D
         echo "<br>";
         echo "Мы погибли, какое горе!";
 
-
-        // for($i = 0; $i < 200; $i++) {
-        //     if($this->active) {
-        //         echo nl2br($this->draw_table($this->space));
-
-        //         echo "<br>";
-        //         echo "<br>";
-        //         echo "<br>";
-    
-        //         $this->move_to($this->food_cell);
-        //     } else {
-        //         echo "<br>";
-        //         echo "Мы погибли, какое горе!";
-        //         break;
-        //     }
-            
-        // }
     }
 
 
@@ -235,9 +216,9 @@ class Snake2D
                 # Эта язва исправляет смещение, вызванное скрытым символом
                 if ( $t->column == 0 or $this->head_cell->column == 0 ) {
 
-                    if($current_direction == $this->char_map['head_down']) {
+                    if ($current_direction == $this->char_map['head_down']) {
                         $t->position++;
-                    } elseif($current_direction == $this->char_map['head_up']) {
+                    } elseif ($current_direction == $this->char_map['head_up']) {
                         $t->position--;
                     }
 
