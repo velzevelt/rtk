@@ -46,7 +46,7 @@ class Snake
 // $snake = new Snake("snake.txt");
 // $snake->main();
 
-set_time_limit(60*3);
+set_time_limit(60 * 3);
 $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
@@ -80,7 +80,6 @@ class Snake2D
     /**
      * Змеюка
      * @param string $filename Имя файла с исходным игровым полем
-     * @param int $tick Время одного хода (в микросекундах)
      */
     function __construct(string $filename)
     {
@@ -126,10 +125,12 @@ class Snake2D
         $this->space[$head_id]->char = $this->char_map['head_right'];
         $this->head_cell = &$this->space[$head_id];
 
+        # Создание еды
         $this->food_cell = $this->create_food();
 
-        $output = '';
+        
         # Основной цикл
+        $output = '';
         while ($this->active) {
             echo nl2br($this->draw_table($this->space));
             $output .= $this->draw_table($this->space);
