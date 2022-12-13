@@ -28,7 +28,6 @@ echo nl2br(file_get_contents(LOG_FILE));
  * атакует один случайный юнит по случайной армии, после атаки очередь хода передаётся
  */
 
-//* Никакого лога здесь
 class Game
 {
     private $armies = [];
@@ -44,15 +43,18 @@ class Game
         $current_enemy = $this->get_rand_army($current_player); # pick random army exclude current_player 
         $move_id = 1;
 
-        while ($current_player->can_move($current_enemy)) {
+        # Игра продолжается, пока есть хотя бы две живые армии
+        while ($this->has_two_alive()) {
             $current_player->make_move($current_enemy);
 
-            if ($current_player->is_winner()) {
-                break;
+            if ($current_player->is_winner($current_enemy)) {
+                # Стереть побежденную армию remove(current enemy) from armies[]
+                $key = array_search($current_enemy, $armies);
+                array_
             }
 
             $current_player = $this->get_rand_army();
-            $current_enemy = $this->get_rand_army($current_player); # pick random exclude current_player 
+            $current_enemy = $this->get_rand_army($current_player);
             $move_id++;
 
         }
@@ -74,6 +76,8 @@ class Game
 
         return $r;
     }
+
+    private function has_two_players(): bool {}
 }
 
 //TODO Часть логирования сюда
@@ -87,8 +91,8 @@ class Army
         for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
             array_push($this->units, new Unit());
         }
-        if (!(isset($name))) { 
-            $name = random_int(); 
+        if (!(isset($name))) {
+            $name = random_int(0, 1500); 
         }
 
         $this->name = $name;
@@ -102,7 +106,7 @@ class Army
         
 
     }
-    function can_move($enemy_army): bool # Игрок может ходить, если у него и врага есть живые юниты
+    function can_move($enemy_army): bool # Игрок может ходить, если у нас и у врага есть живые юниты
     {
         $res = $this->kills != MAX_UNITS_IN_ARMY;
         return $res;
