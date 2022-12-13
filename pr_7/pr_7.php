@@ -28,62 +28,46 @@ echo nl2br(file_get_contents(LOG_FILE));
  * атакует один случайный юнит по случайной армии, после атаки очередь хода передаётся
  */
 
+//TODO Никакого лога здесь
 class Game
 {
     private $armies = [];
+
     function __construct(array $armies)
     {
-        foreach($armies as $key => $_val) {
-            $armies[$key]->armi
-        }
-        
-        
         $this->armies = $armies;
     }
 
     function main(): void
     {   
-        $current_player = # pick random army 
-
+        $current_player = # pick random army
+        $current_enemy = # pick random exclude current_player 
         $move_id = 1;
 
         while ($current_player->can_move()) {
-            file_put_contents(LOG_FILE, "Ход $move_id: $current_player->name атакует\n", FILE_APPEND);
             $current_player->make_move();
 
             if ($current_player->is_winner()) {
                 break;
             }
 
-            $current_player = $current_player == $first_player ? $second_player : $first_player;
+            $current_player = # pick random army
+            $current_enemy = # pick random exclude current_player 
             $move_id++;
 
-            file_put_contents(LOG_FILE, "\n", FILE_APPEND);
         }
 
-        $winner = $first_player->is_winner() ? $first_player : $second_player;
-
-        $game_result = "Победитель: $winner->name, осталось юнитов " . $winner->count_alive();
-        $game_result .= " их общее здоровье составляет " . $winner->get_units_health();
-
-        if ($winner->count_alive() != MAX_UNITS_IN_ARMY) # Если кто-то погиб, сообщаем об этом
-        {
-            $game_result .= " убиты юниты с ключами " . $winner->get_dead();
-        }
-
-        $game_result .= "\n\n";
-
-        file_put_contents(LOG_FILE, $game_result, FILE_APPEND);
+       
     }
+
+    function get_rand_army(array $exclude): Army {}
 }
 
+//TODO Часть логирования сюда
 class Army
 {
     public $name = "";
     public $units = [];
-    public $enemy_armies;
-    public $enemy_units; # получать из случайной вражеской армии
-    // public $kills = 0;
 
     function __construct($name = '')
     {
@@ -98,69 +82,14 @@ class Army
     }
 
 
-    function make_move()
+    function make_move($enemy_army)
     {   
         $unit_id = array_rand($this->units);
         $unit = $this->units[$unit_id];
-        // if (!($unit->is_alive())) # Мертвецы не могут атаковать
-        //     {
-        //         continue;
-        //     }
+        
 
-        //     $target_id = array_rand($this->enemy_units);
-        //     $target = $this->enemy_units[$target_id];
-
-        //     while (!($target->is_alive())) # Нельзя атаковать мертвых, ищем живую цель
-        //     {
-        //         if ($this->is_winner()) # Игрок победил, у противника не осталось юнитов
-        //         {
-        //             break 2;
-        //         }
-        //         $target_id = array_rand($this->enemy_units);
-        //         $target = $this->enemy_units[$target_id];
-        //     }
-
-        //     $unit->attack($target);
-        //     file_put_contents(LOG_FILE, "юнит $unit_id нанес урон $unit->damage вражескому юниту $target_id, у врага осталось $target->health здоровья\n", FILE_APPEND);
-
-        //     if (!($target->is_alive())) # Регистрация убитого противника
-        //     {
-        //         file_put_contents(LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND);
-        //         $this->kills++;
-        //     }
-
-
-            # Атака для каждого
-        // foreach ($this->units as $unit_id => $unit) {
-        //     if (!($unit->is_alive())) # Мертвецы не могут атаковать
-        //     {
-        //         continue;
-        //     }
-
-        //     $target_id = array_rand($this->enemy_units);
-        //     $target = $this->enemy_units[$target_id];
-
-        //     while (!($target->is_alive())) # Нельзя атаковать мертвых, ищем живую цель
-        //     {
-        //         if ($this->is_winner()) # Игрок победил, у противника не осталось юнитов
-        //         {
-        //             break 2;
-        //         }
-        //         $target_id = array_rand($this->enemy_units);
-        //         $target = $this->enemy_units[$target_id];
-        //     }
-
-        //     $unit->attack($target);
-        //     file_put_contents(LOG_FILE, "юнит $unit_id нанес урон $unit->damage вражескому юниту $target_id, у врага осталось $target->health здоровья\n", FILE_APPEND);
-
-        //     if (!($target->is_alive())) # Регистрация убитого противника
-        //     {
-        //         file_put_contents(LOG_FILE, "юнит $unit_id убил вражеского юнита $target_id\n", FILE_APPEND);
-        //         $this->kills++;
-        //     }
-        // }
     }
-    function can_move(): bool # Игрок может ходить, если у противника есть хотя бы один живой юнит
+    function can_move(): bool # Игрок может ходить, если у него и врага есть живые юниты
     {
         $res = $this->kills != MAX_UNITS_IN_ARMY;
         return $res;
@@ -210,6 +139,8 @@ class Army
     }
 }
 
+
+//TODO Перенести логирование сюда
 class Unit
 {
     public $health;
