@@ -28,7 +28,7 @@ echo nl2br(file_get_contents(LOG_FILE));
  * атакует один случайный юнит по случайной армии, после атаки очередь хода передаётся
  */
 
-//TODO Никакого лога здесь
+//* Никакого лога здесь
 class Game
 {
     private $armies = [];
@@ -102,15 +102,15 @@ class Army
         
 
     }
-    function can_move(): bool # Игрок может ходить, если у него и врага есть живые юниты
+    function can_move($enemy_army): bool # Игрок может ходить, если у него и врага есть живые юниты
     {
         $res = $this->kills != MAX_UNITS_IN_ARMY;
         return $res;
     }
 
-    function is_winner(): bool
+    function is_winner($enemy_army): bool
     {
-        return !($this->can_move());
+        return !($this->can_move($enemy_army));
     }
 
     function get_units_health(): int
