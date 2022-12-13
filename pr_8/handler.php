@@ -1,5 +1,7 @@
 <?php
 
+//TODO
+// <!-- Обернуть input в label -->
 
 class Form
 {

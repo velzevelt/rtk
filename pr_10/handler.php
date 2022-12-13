@@ -4,6 +4,7 @@ use Imagine\Imagick\Imagine as Imagine;
 use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
+# Часть абсолютного пути см. Ниже
 const SAVE_PATH = "/pr_10/out/output_image.png";
 
 

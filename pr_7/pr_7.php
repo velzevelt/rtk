@@ -20,10 +20,16 @@ for ($i = 1; $i <= ROUNDS; $i++) {
 
 echo nl2br(file_get_contents(LOG_FILE));
 
+//TODO
+/**
+ * Game принимает любое количество армий
+ * враг выбирается случайно
+ * армия ходит случайно
+ * атакует один случайный юнит по случайной армии, после атаки очередь хода передаётся
+ */
+
 class Game
 {
-    public $white_army;
-    public $black_army;
     function __construct(array $armies)
     {
         $this->white_army = $white_army;
@@ -77,15 +83,17 @@ class Army
 {
     public $name = "";
     public $units = [];
-    public $enemy_army;
+    public $enemy_armies;
+    public $enemy_units;
     public $kills = 0;
 
-    function __construct($name = '', Army $enemy_army)
+    function __construct($name = '', array $enemy_armies)
     {
         for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
             array_push($this->units, new Unit());
         }
         $this->name = $name;
+        $this->enemy_armies = $enemy_armies;
     }
 
 
