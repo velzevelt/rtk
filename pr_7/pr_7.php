@@ -14,7 +14,7 @@ file_put_contents(LOG_FILE, "");
 
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game(new Army('white'), new Army('black'));
+    $game = new Game( [new Army('white'), new Army('black')] );
     $game->main();
 }
 
@@ -94,6 +94,10 @@ class Army
         for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
             array_push($this->units, new Unit());
         }
+        if (!(isset($name))) { 
+            $name = random_int(); 
+        }
+
         $this->name = $name;
     }
 
