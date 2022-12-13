@@ -33,26 +33,26 @@ class Game
 {
     private $armies = [];
 
-    function __construct(array $armies)
+    public function __construct(array $armies)
     {
         $this->armies = $armies;
     }
 
-    function main(): void
+    public function main(): void
     {   
-        $current_player = # pick random army
-        $current_enemy = # pick random exclude current_player 
+        $current_player = $this->get_rand_army(); # pick random army
+        $current_enemy = $this->get_rand_army($current_player); # pick random army exclude current_player 
         $move_id = 1;
 
-        while ($current_player->can_move()) {
-            $current_player->make_move();
+        while ($current_player->can_move($current_enemy)) {
+            $current_player->make_move($current_enemy);
 
             if ($current_player->is_winner()) {
                 break;
             }
 
-            $current_player = # pick random army
-            $current_enemy = # pick random exclude current_player 
+            $current_player = $this->get_rand_army();
+            $current_enemy = $this->get_rand_army($current_player); # pick random exclude current_player 
             $move_id++;
 
         }
@@ -60,7 +60,20 @@ class Game
        
     }
 
-    function get_rand_army(array $exclude): Army {}
+    private function get_rand_army(array $exclude = []) 
+    {
+        $armies = $this->armies;
+        $r = false;
+
+        if (!empty($exclude)) {
+            $armies = array_diff($exclude, $armies);
+        }
+
+        $rand_id = array_rand($armies);
+        $r = $armies[$rand_id];
+
+        return $r;
+    }
 }
 
 //TODO Часть логирования сюда
