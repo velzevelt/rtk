@@ -77,7 +77,6 @@ class Snake2D
     private $head_cell;
     private $space = []; # array of cells
 
-
     /**
      * Змеюка
      * @param string $filename Имя файла с исходным игровым полем
@@ -129,13 +128,18 @@ class Snake2D
 
         $this->food_cell = $this->create_food();
 
+        $output = '';
         # Основной цикл
         while ($this->active) {
             echo nl2br($this->draw_table($this->space));
+            $output .= $this->draw_table($this->space);
 
             echo "<br>";
             echo "<br>";
             echo "<br>";
+            $output .= "\n";
+            $output .= "\n";
+            $output .= "\n";
             
             ob_flush();
             flush();
@@ -148,7 +152,11 @@ class Snake2D
         }
         echo "<br>";
         echo "Мы погибли, какое горе!";
+        $output .= "\n";
+        $output .= "Мы погибли, какое горе!";
+        $output = strip_tags($output);
 
+        file_put_contents('snake2D.txt.o', $output);
     }
 
 
