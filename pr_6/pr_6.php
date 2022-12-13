@@ -51,7 +51,6 @@ $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
 
-//TODO Потестить змею на начальной колонке
 
 class Snake2D
 {
@@ -233,7 +232,7 @@ class Snake2D
                 $this->head_cell->char = $this->char_map['body']; # reset prev
 
                 
-                # Эта язва исправляет смещение, вызванное скрытыми символами
+                # Эта язва исправляет смещение, вызванное скрытым символом
                 if ( $t->column == 0 or $this->head_cell->column == 0 ) {
 
                     if($current_direction == $this->char_map['head_down']) {
