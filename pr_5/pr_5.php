@@ -10,7 +10,7 @@ require_once "Fox.class.php";
 
 
 
-$fox = new Animal();
+$fox = new Fox();
 
 
 echo $fox->run() . "<br>";

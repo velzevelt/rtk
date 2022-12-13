@@ -46,6 +46,7 @@ class Snake
 // $snake = new Snake("snake.txt");
 // $snake->main();
 
+set_time_limit(60*3);
 $snake2D = new Snake2D('snake2D.txt');
 $snake2D->main();
 
@@ -67,7 +68,7 @@ class Snake2D
         // [CELLS] //
         'border' => '|',
         'free' => '-',
-        'food' => "<empty style='color: #EEEE9B'>!</empty>",
+        'food' => "<empty style='color: #FF0000'>!</empty>",
         /////////////
     ];
 
@@ -131,11 +132,19 @@ class Snake2D
 
         # Основной цикл
         while ($this->active) {
+            // ob_start();
             echo nl2br($this->draw_table($this->space));
 
             echo "<br>";
             echo "<br>";
             echo "<br>";
+            
+            ob_flush();
+            flush();
+            sleep(1);
+
+            // ob_end_clean();
+            
 
             $this->move_to($this->food_cell);
 
@@ -225,8 +234,14 @@ class Snake2D
 
                 
                 # Эта язва исправляет смещение, вызванное скрытыми символами
-                if ( !($this->is_valid($this->space[$key], [ $this->char_map['free'], $this->char_map['food'], $this->char_map['body'] ])) ) {
-                    $current_direction == $this->char_map['head_down'] ? $t->position++ : $t->position--;
+                if ( $t->column == 0 or $this->head_cell->column == 0 ) {
+
+                    if($current_direction == $this->char_map['head_down']) {
+                        $t->position++;
+                    } elseif($current_direction == $this->char_map['head_up']) {
+                        $t->position--;
+                    }
+
                     $key = $this->find_cell($t, $this->space);
                 }
 

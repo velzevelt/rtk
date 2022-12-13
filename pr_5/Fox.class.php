@@ -1,6 +1,6 @@
 <?php
 
-class Animal
+class Fox
 {
     public $gender;
     public $nickname;
@@ -73,4 +73,5 @@ class Animal
 
         return "Я сплю";
     }
+
 }
