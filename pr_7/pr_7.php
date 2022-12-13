@@ -24,7 +24,7 @@ class Game
 {
     public $white_army;
     public $black_army;
-    function __construct($white_army, $black_army)
+    function __construct(array $armies)
     {
         $this->white_army = $white_army;
         $this->black_army = $black_army;
@@ -77,10 +77,10 @@ class Army
 {
     public $name = "";
     public $units = [];
-    public $enemy_units = [];
+    public $enemy_army;
     public $kills = 0;
 
-    function __construct($name = '')
+    function __construct($name = '', Army $enemy_army)
     {
         for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
             array_push($this->units, new Unit());

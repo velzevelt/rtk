@@ -19,32 +19,69 @@ class Snake
 {
     public $base_line = "";
     public $filename = "";
+    public $white_list = [
+        '-'
+    ];
+    public $flag = false;
 
-    function __construct($_filename, $_out_path = ".o")
+    public function __construct($_filename)
     {
         $this->base_line = file_get_contents($_filename);
-        $this->filename = $_filename . $_out_path;
     }
 
-    function main(): void
+    public function main($output): void
     {
-        if ($file = fopen($this->filename, "w+")) {
+        if ($file = fopen($output, "w+")) {
             $line = $this->base_line;
+            $line = str_split($line);
+            $temp;
+            $temp_key;
+            foreach ($line as $key => $char) {
+                if ( !($this->can_move($char)) and $this->flag == false ) {
+                    continue;
+                } else {
+                    $this->flag = true;
+                }
 
-            for ($head_pos = 0, $j = strlen($line); $head_pos < $j; $head_pos++) {
-                $line[$head_pos] = '>';
-                $line = substr_replace($line, str_repeat('*', $head_pos), 0, $head_pos);
-                fwrite($file, $line . "\n");
+                if ($this->flag) {
+                    if ($this->can_move($char)) {
+                        
+                        if (isset($temp_key)) {
+                            $line[$temp_key] = '*'; # change back
+                        } 
+
+                        $temp = $char; # save
+                        $temp_key = $key;
+                        
+                        $char = '>'; # change
+                        $line[$key] = $char; 
+                        
+                        fwrite($file, join($line) . "\n");
+                    } else { 
+                        // echo 1; 
+                        break;
+                    }
+                    
+                }
             }
 
+            // $line = join($line);
+            // fwrite($file, $line . "\n");
             fclose($file);
         }
+    }
+
+    private function can_move($char): bool {
+        return in_array($char, $this->white_list);
     }
 }
 
 
 // $snake = new Snake("snake.txt");
-// $snake->main();
+// $snake->main('snake.txt.o');
+
+
+
 
 set_time_limit(60 * 3);
 $snake2D = new Snake2D('snake2D.txt');
@@ -135,9 +172,8 @@ class Snake2D
             echo nl2br($this->draw_table($this->space));
             $output .= $this->draw_table($this->space);
 
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
+            echo "<p>";
+            
             $output .= "\n";
             $output .= "\n";
             $output .= "\n";

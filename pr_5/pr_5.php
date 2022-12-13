@@ -1,5 +1,5 @@
 <?php 
-require_once "Fox.class.php";
+require_once "autoload.php";
 
 
 /** Задача 1 Реализовать класс, описывающий животное. Класс животного, методы и
@@ -13,21 +13,14 @@ require_once "Fox.class.php";
 $fox = new Fox();
 
 
-echo $fox->run() . "<br>";
-echo $fox->run();
+// echo $fox->run() . "<br>";
+// echo $fox->run();
 
-// $fox->nap();
-
-// $fox -> say();
-
-// $fox -> hunt();
-
-// $fox -> eat();
-
-// $fox -> run();
-
-// $fox -> breathe();
-
-// echo $fox -> addArms();
-
-// echo $fox -> getAmountOfLimbs();
+echo $fox -> nap() . "<br>";
+echo $fox -> say() . "<br>";
+echo $fox -> hunt() . "<br>";
+echo $fox -> eat() . "<br>";
+echo $fox -> run() . "<br>";
+echo $fox -> breathe() . "<br>";
+echo $fox -> addArms() . "<br>";
+echo $fox -> getAmountOfLimbs() . "<br>";
