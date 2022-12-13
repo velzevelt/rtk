@@ -42,12 +42,8 @@ class Game
     }
 
     function main(): void
-    {
-        $fate = mt_rand(0, 1);
-        $first_player = $fate == 1 ? $this->white_army : $this->black_army;
-        $second_player = $fate == 1 ? $this->black_army : $this->white_army;
-
-        $current_player = $first_player;
+    {   
+        $current_player = # pick random army 
 
         $move_id = 1;
 
