@@ -1,4 +1,4 @@
-<pre>
+<empty style='font-family: monospace; font-size: 20px;'>
 <?php
 
 ini_set('display_errors', '1');
