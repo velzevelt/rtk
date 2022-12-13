@@ -56,13 +56,13 @@ class Snake2D
 {
     private $char_map = [
         // [HEAD] //
-        'head_right' => '→',
-        'head_left' => '←',
-        'head_up' => '↑',
-        'head_down' => '↓',
+        'head_right' => "<empty style='color: #00D678'>→</empty>",
+        'head_left' => "<empty style='color: #00D678'>←</empty>",
+        'head_up' => "<empty style='color: #00D678'>↑</empty>",
+        'head_down' => "<empty style='color: #00D678'>↓</empty>",
         ////////////
 
-        'body' => '*',
+        'body' => "<empty style='color: #FF8000'>*</empty>",
         
         // [CELLS] //
         'border' => '|',
