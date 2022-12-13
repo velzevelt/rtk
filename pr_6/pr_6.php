@@ -128,7 +128,7 @@ class Snake2D
         # Создание еды
         $this->food_cell = $this->create_food();
 
-        
+
         # Основной цикл
         $output = '';
         while ($this->active) {
