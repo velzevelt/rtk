@@ -34,8 +34,8 @@ class Snake
         if ($file = fopen($output, "w+")) {
             $line = $this->base_line;
             $line = str_split($line);
-            $temp;
-            $temp_key;
+            // $temp;
+            // $temp_key;
             foreach ($line as $key => $char) {
                 if ( !($this->can_move($char)) and $this->flag == false ) {
                     continue;
