@@ -69,31 +69,9 @@ class Game
             $move_id++;
 
         }
-        $winner = $this->armies[0];
-
-        $active_armies = [];
-        foreach($this->armies as $army) {
-            if($army->can_move()) {
-                $active_armies[] = $army;
-            }
-        }
+        $winner = $current_player->can_move() ? $current_player : $current_enemy;
         
-        if (count($active_armies) != 1) {
 
-            $temp = 0;
-            foreach($active_armies as $army) {
-                $val = $army->get_units_health();
-                if ($val > $temp) {
-                    $temp = $val;
-                    $winner = $army;
-                }
-            }
-
-        } else {
-            $winner = $active_armies[0];
-        }
-
-        // var_dump($this->armies);
 
         $game_result = "Победила армия '$winner->name'\n";
         $dead = $winner->get_dead();
@@ -125,8 +103,16 @@ class Game
             $armies = $t;
         }
 
+        foreach($armies as $key => $army) {
+            if(!$army->can_move()) {
+                unset($armies[$key]);
+            }
+        }
+        $armies = array_values($armies);
+
         $rand_id = array_rand($armies);
         $r = $armies[$rand_id];
+
 
         return $r;
     }
