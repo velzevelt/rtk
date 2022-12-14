@@ -97,7 +97,6 @@ class Game
     private function get_rand_army(array $exclude = []) 
     {
         $armies = $this->armies;
-        $r = false;
 
         if (!empty($exclude)) {
             $t = [];
