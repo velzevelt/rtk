@@ -2,15 +2,22 @@
 <?php
 const ROUNDS = 3;
 
+
 const MAX_UNITS_IN_ARMY = 5;
+
 const MAX_UNIT_HEALTH = 100;
 const MIN_UNIT_HEALTH = 1;
+
 const MAX_UNIT_DAMAGE = 45;
 const MIN_UNIT_DAMAGE = 5;
 
+
 const LOG_FILE = 'log.txt';
 
+# Очистка/Создание Лога
 file_put_contents(LOG_FILE, "");
+
+
 
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
@@ -20,13 +27,6 @@ for ($i = 1; $i <= ROUNDS; $i++) {
 
 echo nl2br(file_get_contents(LOG_FILE));
 
-//TODO
-/**
- * Game принимает любое количество армий
- * враг выбирается случайно
- * армия ходит случайно
- * атакует один случайный юнит по случайной армии, после атаки очередь хода передаётся
- */
 
 class Game
 {
@@ -40,7 +40,7 @@ class Game
     public function main(): void
     {   
         $current_player = $this->get_rand_army(); # pick random army
-        $current_enemy = $this->get_rand_army($current_player); # pick random army exclude current_player 
+        $current_enemy = $this->get_rand_army([$current_player]); # pick random army exclude current_player 
         $move_id = 1;
 
         # Игра продолжается, пока есть хотя бы две живые армии
@@ -50,15 +50,21 @@ class Game
                 $current_player->make_move($current_enemy);
                 
             } else {
-                # Армия выбыла, удаляем её
-                $key = array_search($current_player, $this->armies);
+                # Какая-то из армий выбыла, удаляем её
+                # Определяем проигравшего
+                $loser = $current_player->can_move() ? $current_enemy : $current_player;
+                
+                $key = array_search($loser, $this->armies);
                 unset($this->armies[$key]);
                 $this->armies = array_values($this->armies);
             }
+            
+            //* Доп проверка нужна, так как на предыдущем шаге произошло удаление и теперь живых игроков может не хватать
+            if ($this->has_two_players()) {
+                $current_player = $this->get_rand_army();
+                $current_enemy = $this->get_rand_army([$current_player]);
+            }
 
-
-            $current_player = $this->get_rand_army();
-            $current_enemy = $this->get_rand_army($current_player);
             $move_id++;
 
         }
@@ -111,19 +117,35 @@ class Army
     }
 
 
-    function make_move($enemy_army)
+    function make_move(Army $enemy_army)
     {
         $attacker = $this->get_active_unit();
         $target = $enemy_army->get_active_unit();
         $attacker->attack($target);
     }
-    
-    function can_move($enemy_army): bool # Игрок может ходить, если есть живые юниты
+
+    /**
+     * Игрок может ходить, если есть хотя бы 1 живчик
+     * @param mixed $enemy_army
+     * @return bool
+     */
+    function can_move(): bool
     {
         $res = false;
+
+        foreach($this->units as $unit) {
+            if ($unit->active) {
+                $res = true;
+                break;
+            }
+        }
+
         return $res;
     }
-
+    /**
+     * Получить случайного живого юнита
+     * @return Unit
+     */
     function get_active_unit(): Unit
     {
         $rand_id = array_rand($this->units);
