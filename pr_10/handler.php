@@ -5,7 +5,7 @@ use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
 # Часть абсолютного пути см. Ниже
-const SAVE_PATH = "/pr_10/out/output_image.png";
+const SAVE_PATH = "/rtk/pr_10/out/output_image.png";
 
 
 if ( isset($_POST['send']) )
@@ -28,7 +28,7 @@ if ( isset($_POST['send']) )
     error_reporting(E_ALL);
 
     $imagine = new Imagine();
-    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark.png', [1280, 720]);
+    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_2.png', [1280, 720]);
     $image->show_image();
 
 }
