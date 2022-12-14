@@ -71,10 +71,10 @@ class Game
         }
         $winner = $this->armies[0];
 
-        foreach($this->armies as $army) {
-            var_dump($army->name);
-            var_dump($army->units);
-        }
+        // foreach($this->armies as $army) {
+        //     var_dump($army->name);
+        //     var_dump($army->units);
+        // }
 
         $game_result = "Победила армия '$winner->name'\n";
 
@@ -215,7 +215,8 @@ class Army
                 $res .= " ";
             }
         }
-
+        $res = trim($res);
+        
         return $res;
     }
 
@@ -229,6 +230,7 @@ class Army
                 $res .= " ";
             }
         }
+        $res = trim($res);
 
         return $res;
     }
