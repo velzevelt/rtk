@@ -21,7 +21,7 @@ file_put_contents(LOG_FILE, "");
 
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('Кабан'), new Army('Валирия'), new Army('Орда'), new Army('Дорн')] );
+    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')] );
     $game->main();
 }
 
@@ -76,11 +76,15 @@ class Game
             var_dump($army->units);
         }
 
-
-
         $game_result = "Победила армия '$winner->name'\n";
+
         $dead = $winner->get_dead();
-        $game_result .= "Выбили юниты $dead";
+        $dead_count = $winner->count_dead();
+        $game_result .= "Выбыло: $dead_count ($dead)\n";
+
+        $alive = $winner->get_alive();
+        $alive_count = $winner->count_alive();
+        $game_result .= "Остались: $alive_count ($alive)";
         $game_result .= "\n";
 
         file_put_contents(LOG_FILE, $game_result, FILE_APPEND);
@@ -108,16 +112,8 @@ class Game
             $armies = $t;
         }
 
-        // foreach($armies as $key => $army) {
-        //     if(!$army->can_move()) {
-        //         unset($armies[$key]);
-        //     }
-        // }
-        // $armies = array_values($armies);
-
         $rand_id = array_rand($armies);
         $r = $armies[$rand_id];
-
 
         return $r;
     }
@@ -223,10 +219,32 @@ class Army
         return $res;
     }
 
-    function count_alive(): int
+    function get_alive(): string
     {
+        $res = "";
+
+        foreach ($this->units as $key => $unit) {
+            if ($unit->active) {
+                $res .= $key;
+                $res .= " ";
+            }
+        }
+
+        return $res;
+    }
+    function count_dead(): int {
         $res = 0;
-        foreach ($this->units as $unit) {
+        foreach ($this->units as $key => $unit) {
+            if ($unit->destroyed) {
+                $res++;
+            }
+        }
+        return $res;
+    }
+
+    function count_alive(): int {
+        $res = 0;
+        foreach ($this->units as $key => $unit) {
             if ($unit->active) {
                 $res++;
             }
