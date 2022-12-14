@@ -21,7 +21,7 @@ file_put_contents(LOG_FILE, "");
 
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('white'), new Army('black')] );
+    $game = new Game( [new Army('white'), new Army('black'), new Army('orange')] );
     $game->main();
 }
 
@@ -47,6 +47,7 @@ class Game
         while ($this->has_two_players()) {
             
             if($current_player->can_move() and $current_enemy->can_move()) {
+                file_put_contents(LOG_FILE, "Ход $move_id: ", FILE_APPEND);
                 $current_player->make_move($current_enemy);
                 
             } else {
@@ -68,7 +69,38 @@ class Game
             $move_id++;
 
         }
+        $winner = $this->armies[0];
 
+        $active_armies = [];
+        foreach($this->armies as $army) {
+            if($army->can_move()) {
+                $active_armies[] = $army;
+            }
+        }
+        
+        if (count($active_armies) != 1) {
+
+            $temp = 0;
+            foreach($active_armies as $army) {
+                $val = $army->get_units_health();
+                if ($val > $temp) {
+                    $temp = $val;
+                    $winner = $army;
+                }
+            }
+
+        } else {
+            $winner = $active_armies[0];
+        }
+
+        // var_dump($this->armies);
+
+        $game_result = "Победила армия '$winner->name'\n";
+        $dead = $winner->get_dead();
+        $game_result .= "Выбили юниты $dead";
+        $game_result .= "\n";
+
+        file_put_contents(LOG_FILE, $game_result, FILE_APPEND);
        
     }
 
@@ -90,7 +122,7 @@ class Game
                 }
                 $t[] = $army;
             }
-            $this->armies = $t;
+            $armies = $t;
         }
 
         $rand_id = array_rand($armies);
@@ -128,6 +160,14 @@ class Army
         $attacker = $this->get_active_unit();
         $target = $enemy_army->get_active_unit();
         $attacker->attack($target);
+
+        //* Логирование
+        $attacker_key = array_search($attacker, $this->units);
+        $target_key = array_search($target, $enemy_army->units);
+        $message = "Армия '$this->name': Юнит '$attacker_key' атакует(урон: $attacker->damage) юнита '$target_key' из Армии '$enemy_army->name'\n";
+        $message .= "У вражеского юнита '$target_key' осталось $target->health здоровья\n";
+        file_put_contents(LOG_FILE, $message, FILE_APPEND);
+
     }
 
     /**
