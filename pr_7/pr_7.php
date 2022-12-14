@@ -83,7 +83,14 @@ class Game
         $r = false;
 
         if (!empty($exclude)) {
-            $armies = array_diff($exclude, $armies);
+            $t = [];
+            foreach($this->armies as $army) {
+                if (in_array($army, $exclude)) {
+                    continue;
+                }
+                $t[] = $army;
+            }
+            $this->armies = $t;
         }
 
         $rand_id = array_rand($armies);
@@ -98,7 +105,6 @@ class Game
     }
 }
 
-//TODO Часть логирования сюда
 class Army
 {
     public $name = "";
@@ -199,7 +205,6 @@ class Army
 }
 
 
-//TODO Перенести логирование сюда
 class Unit
 {
     public $health;
