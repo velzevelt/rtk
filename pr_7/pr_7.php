@@ -51,8 +51,7 @@ class Game
                 $current_player->make_move($current_enemy);
                 
             } else {
-                # Какая-то из армий выбыла, удаляем её
-                # Определяем проигравшего
+                # Какая-то из армий выбыла, находим и удаляем её
                 $loser = $current_player->can_move() ? $current_enemy : $current_player;
                 
                 $key = array_search($loser, $this->armies);
@@ -60,7 +59,7 @@ class Game
                 $this->armies = array_values($this->armies);
             }
             
-            //* Доп проверка нужна, так как на предыдущем шаге произошло удаление и теперь живых игроков может не хватать
+            //* Доп проверка необходима, так как на предыдущем шаге произошло удаление и теперь живых игроков может не хватать для продолжения игры
             if ($this->has_two_players()) {
                 $current_player = $this->get_rand_army();
                 $current_enemy = $this->get_rand_army([$current_player]);
@@ -69,13 +68,12 @@ class Game
             $move_id++;
 
         }
+        # Мы всегда знаем, что "0" это победитель, так как на предыдущих шагах
+        # все проигравшие армии были удалены из $this->armies и "0" - единственный виживший, т.е. победитель
         $winner = $this->armies[0];
 
-        // foreach($this->armies as $army) {
-        //     var_dump($army->name);
-        //     var_dump($army->units);
-        // }
-
+        
+        //* Логирование
         $game_result = "Победила армия '$winner->name'\n";
 
         $dead = $winner->get_dead();
@@ -129,7 +127,7 @@ class Army
     public $name = "";
     public $units = [];
 
-    function __construct($name = '')
+    public function __construct($name = '')
     {
         for ($i = 0; $i < MAX_UNITS_IN_ARMY; $i++) {
             array_push($this->units, new Unit());
@@ -142,7 +140,7 @@ class Army
     }
 
 
-    function make_move(Army $enemy_army)
+    public function make_move(Army $enemy_army)
     {
         $attacker = $this->get_active_unit();
         $target = $enemy_army->get_active_unit();
@@ -162,7 +160,7 @@ class Army
      * @param mixed $enemy_army
      * @return bool
      */
-    function can_move(): bool
+    public function can_move(): bool
     {
         $res = false;
 
@@ -179,7 +177,7 @@ class Army
      * Получить случайного живого юнита
      * @return Unit
      */
-    function get_active_unit(): Unit
+    public function get_active_unit(): Unit
     {
         $rand_id = array_rand($this->units);
         $rand_unit = $this->units[$rand_id];
@@ -192,7 +190,7 @@ class Army
         return $rand_unit;
     }
 
-    function get_units_health(): int
+    public function get_units_health(): int
     {
         $res = 0;
         foreach ($this->units as $unit) {
@@ -205,7 +203,7 @@ class Army
         return $res;
     }
 
-    function get_dead(): string
+    public function get_dead(): string
     {
         $res = "";
 
@@ -220,7 +218,7 @@ class Army
         return $res;
     }
 
-    function get_alive(): string
+    public function get_alive(): string
     {
         $res = "";
 
@@ -234,7 +232,7 @@ class Army
 
         return $res;
     }
-    function count_dead(): int {
+    public function count_dead(): int {
         $res = 0;
         foreach ($this->units as $key => $unit) {
             if ($unit->destroyed) {
@@ -244,7 +242,7 @@ class Army
         return $res;
     }
 
-    function count_alive(): int {
+    public function count_alive(): int {
         $res = 0;
         foreach ($this->units as $key => $unit) {
             if ($unit->active) {
@@ -263,7 +261,7 @@ class Unit
     public $active = true;
     public $destroyed = false;
 
-    function __construct()
+    public function __construct()
     {
         $this->health = MAX_UNIT_HEALTH;
         $this->damage = random_int(MIN_UNIT_DAMAGE, MAX_UNIT_DAMAGE);
@@ -279,15 +277,11 @@ class Unit
         }
     }
 
-    function attack(Unit $target)
+    public function attack(Unit $target)
     {
         $target->take_damage($this->damage);
     }
 
-    function is_alive(): bool
-    {
-        return ($this->active and !($this->destroyed));
-    }
 }
 
 ?>

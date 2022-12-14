@@ -72,7 +72,7 @@ class ImageWatermark
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
         
-        # $_SERVER['DOCUMENT_ROOT'] необходим, так как imagick по какой-то причине не видит относительный путь
+        //* Здесь нужно указывать абсолютный путь, так как imagick не работает с отностительным
         $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
     }
 
