@@ -19,9 +19,9 @@ file_put_contents(LOG_FILE, "");
 
 
 
-for ($i = 1; $i <= 1; $i++) {
+for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('white'), new Army('black'), new Army('orange')] );
+    $game = new Game( [new Army('Кабан'), new Army('Валирия'), new Army('Орда'), new Army('Дорн')] );
     $game->main();
 }
 
