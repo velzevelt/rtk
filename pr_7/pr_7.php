@@ -19,7 +19,7 @@ file_put_contents(LOG_FILE, "");
 
 
 
-for ($i = 1; $i <= ROUNDS; $i++) {
+for ($i = 1; $i <= 1; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
     $game = new Game( [new Army('white'), new Army('black'), new Army('orange')] );
     $game->main();
@@ -69,8 +69,13 @@ class Game
             $move_id++;
 
         }
-        $winner = $current_player->can_move() ? $current_player : $current_enemy;
-        
+        $winner = $this->armies[0];
+
+        foreach($this->armies as $army) {
+            var_dump($army->name);
+            var_dump($army->units);
+        }
+
 
 
         $game_result = "Победила армия '$winner->name'\n";
@@ -103,12 +108,12 @@ class Game
             $armies = $t;
         }
 
-        foreach($armies as $key => $army) {
-            if(!$army->can_move()) {
-                unset($armies[$key]);
-            }
-        }
-        $armies = array_values($armies);
+        // foreach($armies as $key => $army) {
+        //     if(!$army->can_move()) {
+        //         unset($armies[$key]);
+        //     }
+        // }
+        // $armies = array_values($armies);
 
         $rand_id = array_rand($armies);
         $r = $armies[$rand_id];
