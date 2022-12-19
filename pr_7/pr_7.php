@@ -18,7 +18,7 @@ const LOG_FILE = 'log.txt';
 file_put_contents(LOG_FILE, "");
 
 
-
+# Основной цикл
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
     $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')] );
@@ -92,9 +92,9 @@ class Game
     /**
      * Получить случайную армию из $this->armies
      * @param array $exclude Исключить армии из выборки
-     * @return mixed
+     * @return Army
      */
-    private function get_rand_army(array $exclude = []) 
+    private function get_rand_army(array $exclude = []): Army
     {
         $armies = $this->armies;
 
@@ -172,6 +172,7 @@ class Army
 
         return $res;
     }
+    
     /**
      * Получить случайного живого юнита
      * @return Unit
@@ -231,6 +232,7 @@ class Army
 
         return $res;
     }
+    
     public function count_dead(): int {
         $res = 0;
         foreach ($this->units as $key => $unit) {
