@@ -164,8 +164,6 @@ class Army
 
     private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army) 
     {
-        // $attacker_key = array_search($attacker, $this->units);
-        // $target_key = array_search($target, $enemy_army->units);
         $message = "Армия \"$this->name\": Юнит \"$attacker->name\" атакует(урон: $attacker->damage) юнита \"$target->name\" из Армии \"$enemy_army->name\"\n";
         $message .= "У вражеского юнита \"$target->name\" осталось $target->health здоровья\n";
         file_put_contents(LOG_FILE, $message, FILE_APPEND);
@@ -173,7 +171,6 @@ class Army
 
     /**
      * Игрок может ходить, если есть хотя бы 1 живчик
-     * @param mixed $enemy_army
      * @return bool
      */
     public function can_move(): bool
