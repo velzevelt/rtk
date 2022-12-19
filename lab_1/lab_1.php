@@ -89,17 +89,21 @@ function find_bin(array $haystack, int $needle): string
 
 # Возвращает ключ
 //TODO Две индексные таблицы
-function find_isq(array $haystack, int $needle): string 
+function find_isq(array $haystack, int $needle, $nest_level = 1): string 
 {
     $result = false;
     $index_table = form_index_table($haystack);
+
+    for($i = 1; $i < $nest_level; $i++) {
+        $index_table = form_index_table($index_table);
+    }
 
     foreach($index_table as $key => $value)
     {
         if($value >= $needle)
         {
-            $pre_pos = ( $key - 1 > 0 ) ? $key - 1 * INDEX_TABLE_RANGE : 0;
-            $end_pos = $key * INDEX_TABLE_RANGE;
+            $pre_pos = ( $key - 1 > 0 ) ? ($key - 1) * $nest_level * INDEX_TABLE_RANGE : 0;
+            $end_pos = $key * $nest_level * INDEX_TABLE_RANGE;
             for($i = $pre_pos; $i <= $end_pos; $i++)
             {
                 if($haystack[$i] == $needle)
@@ -115,6 +119,14 @@ function find_isq(array $haystack, int $needle): string
     return $result;
 }
 
+
+$ar = rand_sq(0, 10);
+var_dump($ar);
+
+echo find_ln($ar, 15) . '<br>';
+echo find_isq($ar, 15) . '<br>';
+
+
 function form_index_table(array $from): array
 {
     $index_table = [];
@@ -122,17 +134,19 @@ function form_index_table(array $from): array
     
     for($i = 0, $j = 0; $i < $length; $i += INDEX_TABLE_RANGE, $j++)
     {
-        $index_table[$j] = $i;
+         $index_table[$j] = $i;
     }
-
+    
     $last = end($from);
     if($last != end($index_table))
     {
         array_push($index_table, $last);
     }
-
+    
     return $index_table;
 }
+
+
 
 
 /** Задача 2 Найти элементы в упорядоченном массиве А, которые больше 30, с
@@ -262,24 +276,5 @@ function find_multiple_ln(array $haystack, int $needle = 3): array
     return $result;
 }
 
-# Возвращает значения
-function find_multiple_bin(array $haystack, int $needle = 3): array
-{
-    $result = [];
-
-
-
-    return $result;
-}
-
-# Возвращает значения
-function find_multiple_isq(array $haystack, int $needle = 3): array
-{
-    $result = [];
-
-
-
-    return $result;
-}
 
 ?>
