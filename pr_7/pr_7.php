@@ -48,7 +48,7 @@ class Game
             
             if($current_player->can_move() and $current_enemy->can_move()) {
                 file_put_contents(LOG_FILE, "Ход $move_id: ", FILE_APPEND);
-                $current_player->make_move($current_enemy);
+                $current_player->make_move($current_enemy, $move_id);
                 
             } else {
                 # Какая-то из армий выбыла, находим и удаляем её
@@ -121,10 +121,12 @@ class Game
     }
 }
 
+
 class Army
 {
     public $name = "";
     public $units = [];
+    public $revenger;
 
     public function __construct($name = '')
     {
@@ -148,10 +150,26 @@ class Army
         //* Логирование
         $attacker_key = array_search($attacker, $this->units);
         $target_key = array_search($target, $enemy_army->units);
+        $this->attack_log($attacker, $target, $attacker_key, $target_key, $enemy_army);
+
+        # Месть. Смена ролей
+        if ($target->active) {
+            // file_put_contents(LOG_FILE, "Ход $move_id: ", FILE_APPEND);
+            file_put_contents(LOG_FILE, "Ход $move_id: Ответная Атака! ", FILE_APPEND);
+            $target->attack($attacker);
+
+            $enemy_army->attack_log($target, $attacker, $target_key, $attacker_key, $this);
+        }
+        
+    }
+
+    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army) 
+    {
+        // $attacker_key = array_search($attacker, $this->units);
+        // $target_key = array_search($target, $enemy_army->units);
         $message = "Армия '$this->name': Юнит '$attacker_key' атакует(урон: $attacker->damage) юнита '$target_key' из Армии '$enemy_army->name'\n";
         $message .= "У вражеского юнита '$target_key' осталось $target->health здоровья\n";
         file_put_contents(LOG_FILE, $message, FILE_APPEND);
-
     }
 
     /**
