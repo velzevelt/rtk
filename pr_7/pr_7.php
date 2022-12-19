@@ -3,7 +3,7 @@
 const ROUNDS = 3;
 
 
-const MAX_UNITS_IN_ARMY = 5;
+const MAX_UNITS_IN_ARMY = 3;
 
 const MAX_UNIT_HEALTH = 100;
 const MIN_UNIT_HEALTH = 1;
@@ -21,7 +21,7 @@ file_put_contents(LOG_FILE, "");
 # Основной цикл
 for ($i = 1; $i <= ROUNDS; $i++) {
     file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')] );
+    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')], LOG_FILE );
     $game->main();
 }
 
@@ -31,10 +31,12 @@ echo nl2br(file_get_contents(LOG_FILE));
 class Game
 {
     private $armies = [];
+    private $log_file = '';
 
-    public function __construct(array $armies)
+    public function __construct(array $armies, string $log_file)
     {
         $this->armies = $armies;
+        $this->log_file = $log_file;
     }
 
     public function main(): void
@@ -47,23 +49,23 @@ class Game
         while ($this->has_two_players()) {
             
             if($current_player->can_move() and $current_enemy->can_move()) {
-                file_put_contents(LOG_FILE, "Ход $move_id: ", FILE_APPEND);
+                file_put_contents($this->log_file, "Ход $move_id: ", FILE_APPEND);
                 
                 $attacker = $current_player->get_active_unit();
                 $target = $current_enemy->get_active_unit();
-                $current_player->make_move($current_enemy, $attacker, $target);
+                $current_player->make_move($current_enemy, $attacker, $target, $this->log_file);
 
                 # Месть. Смена ролей
                 if ($target->active) {
                     $move_id++;                    
-                    file_put_contents(LOG_FILE, "Ход $move_id: Ответная Атака! ", FILE_APPEND);
-                    $current_enemy->make_move($current_player, $target, $attacker);         
+                    file_put_contents($this->log_file, "Ход $move_id: Ответная Атака! ", FILE_APPEND);
+                    $current_enemy->make_move($current_player, $target, $attacker, $this->log_file);         
                 
             }
-                
             } else {
                 # Какая-то из армий выбыла, находим и удаляем её
                 $loser = $current_player->can_move() ? $current_enemy : $current_player;
+
                 
                 $key = array_search($loser, $this->armies);
                 unset($this->armies[$key]);
@@ -95,7 +97,7 @@ class Game
         $alive_count = $winner->count_alive();
         $game_result .= "Остались: $alive_count ($alive)\n";
 
-        file_put_contents(LOG_FILE, $game_result, FILE_APPEND);
+        file_put_contents($this->log_file, $game_result, FILE_APPEND);
        
     }
 
@@ -151,22 +153,22 @@ class Army
     }
 
 
-    public function make_move(Army $enemy_army, Unit $attacker, Unit $target)
+    public function make_move(Army $enemy_army, Unit $attacker, Unit $target, string $log_file)
     {
         $attacker->attack($target);
 
         //* Логирование
         $attacker_key = array_search($attacker, $this->units);
         $target_key = array_search($target, $enemy_army->units);
-        $this->attack_log($attacker, $target, $attacker_key, $target_key, $enemy_army);
+        $this->attack_log($attacker, $target, $attacker_key, $target_key, $enemy_army, $log_file);
     }
 
 
-    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army) 
+    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army, string $log_file) 
     {
         $message = "Армия \"$this->name\": Юнит \"$attacker->name\" атакует(урон: $attacker->damage) юнита \"$target->name\" из Армии \"$enemy_army->name\"\n";
         $message .= "У вражеского юнита \"$target->name\" осталось $target->health здоровья\n";
-        file_put_contents(LOG_FILE, $message, FILE_APPEND);
+        file_put_contents($log_file, $message, FILE_APPEND);
     }
 
     /**
