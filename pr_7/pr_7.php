@@ -1,21 +1,21 @@
 <?php
 
 
-# Очистка/Создание Лога
-const LOG_FILE = 'log.txt';
-file_put_contents(LOG_FILE, "");
-
+file_put_contents('log.txt', "");
 
 # Основной цикл
-for ($i = 1; $i <= 3; $i++) {
-    file_put_contents(LOG_FILE, "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')], LOG_FILE );
+for ($i = 1, $rounds = 3; $i <= $rounds; $i++) {
+    file_put_contents('log.txt', "Раунд $i\n", FILE_APPEND);
+    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')], 'log.txt' );
     $game->main();
 
-    file_put_contents(LOG_FILE, "\n\n\n", FILE_APPEND);
+    if ($i != $rounds) {
+        file_put_contents('log.txt', "\n\n\n", FILE_APPEND);
+    }
 }
 
-echo nl2br(file_get_contents(LOG_FILE));
+
+echo nl2br(file_get_contents('log.txt'));
 
 
 class Game
@@ -128,7 +128,6 @@ class Army
 {
     public $name = "";
     public $units = [];
-    public $revenger;
 
     const MAX_UNITS_IN_ARMY = 3;
 
