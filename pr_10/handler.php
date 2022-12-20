@@ -4,8 +4,7 @@ use Imagine\Imagick\Imagine as Imagine;
 use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
-//* Указывать без расширения
-const SAVE_PATH = "/out/output_image";
+const SAVE_DIR = "out";
 
 
 if ( isset($_POST['send']) )
@@ -73,7 +72,11 @@ class ImageWatermark
         
         //* Здесь нужно указывать абсолютный путь, так как imagick не работает с относительным
         // $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
-        $this->image->save(__DIR__ . SAVE_PATH . "_" . time() . '.png');
+        
+        $save_path = __DIR__ . "/" . SAVE_DIR . "/"
+        . "output_image_" . time() . '.png';
+
+        $this->image->save($save_path);
         // $this->image->save(__DIR__ . SAVE_PATH . "_" . date("s") . '.png');
     }
 
