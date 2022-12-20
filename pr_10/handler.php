@@ -4,8 +4,8 @@ use Imagine\Imagick\Imagine as Imagine;
 use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
-# Часть абсолютного пути см. Ниже
-const SAVE_PATH = "/rtk/pr_10/out/output_image.png";
+//* Указывать без расширения
+const SAVE_PATH = "/out/output_image";
 
 
 if ( isset($_POST['send']) )
@@ -27,7 +27,7 @@ if ( isset($_POST['send']) )
     error_reporting(E_ALL);
 
     $imagine = new Imagine();
-    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_2.png', [1280, 720]);
+    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_1.png', [1280, 720]);
     $image->show_image();
 
 }
@@ -71,8 +71,10 @@ class ImageWatermark
         $this->image->paste($this->watermark, $center);
         $this->image->resize( new Box($this->new_image_size['width'], $this->new_image_size['height']) );
         
-        //* Здесь нужно указывать абсолютный путь, так как imagick не работает с отностительным
-        $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
+        //* Здесь нужно указывать абсолютный путь, так как imagick не работает с относительным
+        // $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
+        $this->image->save(__DIR__ . SAVE_PATH . "_" . time() . '.png');
+        // $this->image->save(__DIR__ . SAVE_PATH . "_" . date("s") . '.png');
     }
 
     public function show_image(): void
