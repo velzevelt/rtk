@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Практическая 8</title>
 </head>
-<!-- TODO -->
-<!-- Обернуть input в label -->
 <body>
     <h3>Опрос</h3>
     <form action="handler.php" enctype="multipart/form-data" method="post">
