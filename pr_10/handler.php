@@ -4,8 +4,6 @@ use Imagine\Imagick\Imagine as Imagine;
 use Imagine\Image\Point as Point;
 use Imagine\Image\Box as Box;
 
-const SAVE_DIR = "out";
-
 
 if ( isset($_POST['send']) )
 {
@@ -29,6 +27,7 @@ if ( isset($_POST['send']) )
     $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_1.png', [1280, 720]);
     $image->show_image();
 
+
 }
 
 
@@ -39,6 +38,8 @@ class ImageWatermark
     public $image = null;
     public $watermark = null;
     public $new_image_size = [];
+    
+    const SAVE_DIR = "out";
     
     /**
      * Наносит водяной знак на изображение
@@ -74,7 +75,7 @@ class ImageWatermark
         // $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
         // $this->image->save(__DIR__ . SAVE_PATH . "_" . date("s") . '.png');
         
-        $save_path = __DIR__ . "/" . SAVE_DIR . "/"
+        $save_path = __DIR__ . "/" . self::SAVE_DIR . "/"
         . "output_image_" . time() . '.png';
 
         $this->image->save($save_path);
