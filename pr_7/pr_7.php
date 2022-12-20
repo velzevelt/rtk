@@ -290,7 +290,7 @@ class Unit
     {
         $this->health = MAX_UNIT_HEALTH;
         $this->damage = random_int(MIN_UNIT_DAMAGE, MAX_UNIT_DAMAGE);
-        $this->name = Unit::NAMES[array_rand(Unit::NAMES)];
+        $this->name = self::NAMES[array_rand(self::NAMES)];
     }
 
     private function take_damage($damage)
