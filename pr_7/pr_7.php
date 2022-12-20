@@ -270,6 +270,7 @@ class Army
         }
         return $res;
     }
+
 }
 
 
