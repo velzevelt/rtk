@@ -72,12 +72,12 @@ class ImageWatermark
         
         //* Здесь нужно указывать абсолютный путь, так как imagick не работает с относительным
         // $this->image->save($_SERVER['DOCUMENT_ROOT'] . SAVE_PATH);
+        // $this->image->save(__DIR__ . SAVE_PATH . "_" . date("s") . '.png');
         
         $save_path = __DIR__ . "/" . SAVE_DIR . "/"
         . "output_image_" . time() . '.png';
 
         $this->image->save($save_path);
-        // $this->image->save(__DIR__ . SAVE_PATH . "_" . date("s") . '.png');
     }
 
     public function show_image(): void
