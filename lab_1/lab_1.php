@@ -89,7 +89,7 @@ function find_bin(array $haystack, int $needle): string
 
 # Возвращает ключ
 //TODO Две индексные таблицы
-function find_isq(array $haystack, int $needle) 
+function find_isq(array $haystack, int $needle, int $nest_level = 1) 
 {
     $result = false;
     $index_table = form_index_table($haystack);
@@ -107,21 +107,15 @@ function find_isq(array $haystack, int $needle)
             $start_pos = ( $key - 1 > 0 ) ? ($key - 1) : 0; # доп проверка, чтобы не выйти за границы массива
             $end_pos = $key;
             
-            # Теперь нужно распаковать индексную таблицу на 1 уровень и повторять операцию, пока мы не поднимемся
-            # на уровень исходной таблицы и не проведем поиск там
-            // if ($nest_level > 1) {
-                
-            //     break;
-            // }
+            # Получаем ключи относительно основной таблицы
+            $start_pos *= INDEX_TABLE_RANGE; 
+            $end_pos *= INDEX_TABLE_RANGE;
 
-            var_dump($start_pos);
-
-            // $start_pos *= INDEX_TABLE_RANGE;
-            // $end_pos *= INDEX_TABLE_RANGE;
-
-            var_dump($start_pos);
-
-
+            // var_dump($start_pos);
+            // var_dump($end_pos);
+            
+            // var_dump($index_table);
+            
 
             for($i = $start_pos; $i <= $end_pos; $i++)
             {
@@ -147,24 +141,27 @@ $ar = json_decode(file_get_contents('array.txt'));
 // print_r($ar);
 
 
-echo find_ln($ar, 79) . '<br>';
-echo find_isq($ar, 79) . '<br>';
+echo find_ln($ar, 0) . '<br>';
+echo find_isq($ar, 0) . '<br>';
 
 
-function form_index_table(array $from): array
+function form_index_table(array $from, bool $include_end = true): array
 {
     $index_table = [];
     $length = count($from);
     
-    for($i = 0, $j = 0; $i < $length; $i += INDEX_TABLE_RANGE, $j++)
+    for($i = 0; $i < $length; $i += INDEX_TABLE_RANGE)
     {
-         $index_table[$j] = $i;
+         $index_table[] = $from[$i];
     }
     
-    $last = end($from);
-    if($last != end($index_table))
-    {
-        array_push($index_table, $last);
+    if ( $include_end) {
+        
+        $last = end($from);
+        if($last != end($index_table))
+        {
+            array_push($index_table, $last);
+        }
     }
     
     return $index_table;
