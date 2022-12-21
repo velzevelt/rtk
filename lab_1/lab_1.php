@@ -102,16 +102,26 @@ function find_isq(array $haystack, int $needle, $nest_level = 1): string
     {
         if($value >= $needle)
         {
-            $pre_pos = ( $key - 1 > 0 ) ? ($key - 1) * $nest_level * INDEX_TABLE_RANGE : 0;
-            $end_pos = $key * $nest_level * INDEX_TABLE_RANGE;
-            for($i = $pre_pos; $i <= $end_pos; $i++)
-            {
-                if($haystack[$i] == $needle)
-                {
-                    $result = $i;
-                    break 2;
-                }
+            # Значение больше искомого ? -> получаем диапозон для поиска из предыдущего ключа и текущего
+            $start_pos = ( $key - 1 > 0 ) ? ($key - 1) : 0; # доп проверка, чтобы не выйти за границы массива
+            $end_pos = $key;
+            
+            # Теперь нужно распаковать индексную таблицу на 1 уровень и повторять операцию, пока мы не поднимемся
+            # на уровень исходной таблицы и не проведем поиск там
+            if ($nest_level > 1) {
+                $result = find_isq($index_table, $needle, $nest_level - 1);
+                break;
             }
+
+            
+            // for($i = $pre_pos; $i <= $end_pos; $i++)
+            // {
+            //     if($haystack[$i] == $needle)
+            //     {
+            //         $result = $i;
+            //         break 2;
+            //     }
+            // }
         }
 
     }
@@ -120,11 +130,10 @@ function find_isq(array $haystack, int $needle, $nest_level = 1): string
 }
 
 
-$ar = rand_sq(0, 10);
-var_dump($ar);
+$ar = range(0, 100);
 
 echo find_ln($ar, 15) . '<br>';
-echo find_isq($ar, 15) . '<br>';
+echo find_isq($ar, 15, 2) . '<br>';
 
 
 function form_index_table(array $from): array
