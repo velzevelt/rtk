@@ -3,20 +3,22 @@
 
 file_put_contents('log.txt', "");
 
-# Основной цикл
-for ($i = 1, $rounds = 3; $i <= $rounds; $i++) {
-    file_put_contents('log.txt', "Раунд $i\n", FILE_APPEND);
-    $game = new Game( [new Army('Мордор'), new Army('Валлирия'), new Army('Орда'), new Army('Дорн')], 'log.txt' );
-    $game->main();
+$armies = [
+    new Army('Мордор', 3),
+    new Army('Валлирия', 3),
+    new Army('Орда', 3),
+    new Army('Дорн', 3),
+    new Army('Русь', 3),
+    new Army('Франция', 3),
+    new Army('Англия', 3),
+    new Army('Португалия', 3),
+    new Army('Китай', 3),
+    new Army('Нильфгаард', 3),
+    new Army('Лапландия', 3),
+];
 
-    if ($i != $rounds) {
-        file_put_contents('log.txt', "\n\n\n", FILE_APPEND);
-    } else {
-        file_put_contents('log.txt', "\nВсе раунды были проведены!", FILE_APPEND);
-    }
-}
 
-
+$game = new Game( $armies, 'log.txt' );
 echo nl2br(file_get_contents('log.txt'));
 
 
@@ -24,14 +26,40 @@ class Game
 {
     private $armies = [];
     private $log_file = '';
+    private $rounds = 3;
 
     public function __construct(array $armies, string $log_file)
     {
         $this->armies = $armies;
         $this->log_file = $log_file;
+
+        var_dump($armies[0]->units);
+
+        for($i = 1; $i <= $this->rounds; $i++) {
+            file_put_contents('log.txt', "Раунд $i\n", FILE_APPEND);
+            
+            
+            $this->play();
+            $this->armies = $armies;
+            $this->reset_units();
+            
+            if ($i != $this->rounds) {
+                file_put_contents('log.txt', "\n\n\n", FILE_APPEND);
+            } else {
+                file_put_contents('log.txt', "\nВсе раунды были проведены!", FILE_APPEND);
+            }
+
+        }
+
+    }
+    private function reset_units(): void 
+    {   
+        foreach ($this->armies as $key => $army) {
+            $this->armies[$key]->reset_units($army->max_units);
+        }
     }
 
-    public function main(): void
+    private function play(): void
     {   
         $current_player = $this->get_rand_army(); # pick random army
         $current_enemy = $this->get_rand_army([$current_player]); # pick random army exclude current_player 
@@ -57,7 +85,7 @@ class Game
             } else {
                 # Какая-то из армий выбыла, находим и удаляем её
                 $loser = $current_player->can_move() ? $current_enemy : $current_player;
-
+                
                 
                 $key = array_search($loser, $this->armies);
                 unset($this->armies[$key]);
@@ -130,21 +158,29 @@ class Army
 {
     public $name = "";
     public $units = [];
+    public $max_units;
 
-    const MAX_UNITS_IN_ARMY = 3;
 
-    public function __construct($name = '')
+    public function __construct($name, int $max_units)
     {
-        for ($i = 0; $i < self::MAX_UNITS_IN_ARMY; $i++) {
-            array_push($this->units, new Unit());
-        }
-        if (!(isset($name))) {
-            $name = random_int(0, 1500); 
-        }
-
+        $this->max_units = $max_units;
+        $this->make_units($max_units);
         $this->name = $name;
     }
 
+    private function make_units($max_units) {
+        for ($i = 0; $i < $max_units; $i++) {
+            array_push($this->units, new Unit());
+        }
+        // if (!(isset($name))) {
+        //     $name = random_int(0, 1500); 
+        // }
+    }
+
+    public function reset_units() {
+        $this->units = [];
+        $this->make_units($this->max_units);
+    }
 
     public function make_move(Army $enemy_army, Unit $attacker, Unit $target, string $log_file)
     {
@@ -307,5 +343,3 @@ class Unit
     }
 
 }
-
-?>

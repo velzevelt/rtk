@@ -114,12 +114,14 @@ function find_isq(array $haystack, int $needle)
             //     break;
             // }
 
+            var_dump($start_pos);
 
-            $start_pos *= INDEX_TABLE_RANGE;
-            $end_pos *= INDEX_TABLE_RANGE;
+            // $start_pos *= INDEX_TABLE_RANGE;
+            // $end_pos *= INDEX_TABLE_RANGE;
 
             var_dump($start_pos);
-            var_dump($end_pos);
+
+
 
             for($i = $start_pos; $i <= $end_pos; $i++)
             {
@@ -145,8 +147,8 @@ $ar = json_decode(file_get_contents('array.txt'));
 // print_r($ar);
 
 
-echo find_ln($ar, 17) . '<br>';
-echo find_isq($ar, 17) . '<br>';
+echo find_ln($ar, 79) . '<br>';
+echo find_isq($ar, 79) . '<br>';
 
 
 function form_index_table(array $from): array
