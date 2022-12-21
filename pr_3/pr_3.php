@@ -75,7 +75,7 @@ function translit(string $text): string
         if (array_key_exists($val, $dictionary)) {
             $text[$key] = $dictionary[$val];
 
-            if( !array_key_exists($text[$previous], $dictionary) ) { # Предыдущий - Большая? -> Уменьшает следующие
+            if (!array_key_exists($text[$previous], $dictionary)) { # Предыдущий - Большая? -> Уменьшает следующие
                 $first = $text[$previous][0];
                 $next = mb_substr($text[$previous], 1);
                 $next = mb_strtolower($next);
@@ -158,7 +158,7 @@ function is_lucky(string $ticket): mixed
 {
     $result = false;
 
-    if(strlen($ticket) > 6) { # Билет больше шести -> обрезаем до шести
+    if (strlen($ticket) > 6) { # Билет больше шести -> обрезаем до шести
         $ticket = substr($ticket, 0, 6);
     }
 
@@ -169,7 +169,7 @@ function is_lucky(string $ticket): mixed
     if ($ticket[0] + $ticket[1] + $ticket[2] == $ticket[3] + $ticket[4] + $ticket[5]) {
         $result = $ticket;
     }
-    
+
     return $result;
 }
 
@@ -225,12 +225,12 @@ function get_friendly_numbers(int $from = 1, int $to = 500): array
     }
 
     for ($x = $from; $x <= $to; $x++) {
-        
+
         if ($t = array_search($x, $result)) {
             $result[$x] = $t;
             continue;
         }
-        
+
         for ($y = $from + 1; $y <= $to; $y++) {
             if ($x == $y) {
                 continue;
@@ -274,8 +274,8 @@ function is_friendly(int $a, int $b): bool
 {
     $result = false;
 
-    $sum_1 = sum( get_divisors($a) );
-    $sum_2 = sum( get_divisors($b) );
+    $sum_1 = sum(get_divisors($a));
+    $sum_2 = sum(get_divisors($b));
 
     $result = ($sum_1 == $b and $sum_2 == $a);
 

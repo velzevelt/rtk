@@ -17,11 +17,11 @@
 // ];
 $armies = [];
 
-for($i = 0; $i < 100; $i++){
-    $armies[] = new Army($i+1, 3);
+for ($i = 0; $i < 100; $i++) {
+    $armies[] = new Army($i + 1, 3);
 }
 
-$game = new Game( $armies, 'log.txt' );
+$game = new Game($armies, 'log.txt');
 echo nl2br(file_get_contents('log.txt'));
 
 
@@ -39,62 +39,59 @@ class Game
         $this->log('', FILE_NO_DEFAULT_CONTEXT);
 
 
-        for($i = 1; $i <= $this->rounds; $i++) {
+        for ($i = 1; $i <= $this->rounds; $i++) {
             $this->log("Раунд $i\n");
-            
+
             $this->play();
             $this->armies = $armies;
             $this->reset_units();
-            
+
             if ($i != $this->rounds) {
                 $this->log("\n\n\n");
             } else {
                 $this->log("\nВсе раунды были проведены!");
             }
-
         }
-
     }
-    private function reset_units(): void 
-    {   
+    private function reset_units(): void
+    {
         foreach ($this->armies as $key => $army) {
             $this->armies[$key]->reset_units($army->max_units);
         }
     }
 
     private function play(): void
-    {   
+    {
         $current_player = $this->get_rand_army(); # pick random army
         $current_enemy = $this->get_rand_army([$current_player]); # pick random army exclude current_player 
         $move_id = 1;
 
         # Игра продолжается, пока есть хотя бы две живые армии
         while ($this->has_two_players()) {
-            
-            if($current_player->can_move() and $current_enemy->can_move()) {
+
+            if ($current_player->can_move() and $current_enemy->can_move()) {
                 file_put_contents($this->log_file, "Ход $move_id: ", FILE_APPEND);
-                
+
                 $attacker = $current_player->get_active_unit();
                 $target = $current_enemy->get_active_unit();
                 $current_player->make_move($current_enemy, $attacker, $target, $this->log_file);
 
                 # Месть. Смена ролей
                 if ($target->active) {
-                    $move_id++;                    
+                    $move_id++;
                     file_put_contents($this->log_file, "Ход $move_id: Ответная Атака! ", FILE_APPEND);
-                    $current_enemy->make_move($current_player, $target, $attacker, $this->log_file);         
-                
-            }
+                    $current_enemy->make_move($current_player, $target, $attacker, $this->log_file);
+                }
             } else {
                 # Какая-то из армий выбыла, находим и удаляем её
                 $loser = $current_player->can_move() ? $current_enemy : $current_player;
-                
-                
+
+
                 $key = array_search($loser, $this->armies);
                 unset($this->armies[$key]);
                 $this->armies = array_values($this->armies);
             }
-            
+
             //* Доп проверка необходима, так как на предыдущем шаге произошло удаление и теперь живых игроков может не хватать для продолжения игры
             if ($this->has_two_players()) {
                 $current_player = $this->get_rand_army();
@@ -102,13 +99,12 @@ class Game
             }
 
             $move_id++;
-
         }
         # Мы всегда знаем, что "0" это победитель, так как на предыдущих шагах
         # все проигравшие армии были удалены из $this->armies и "0" - единственный виживший, т.е. победитель
         $winner = $this->armies[0];
 
-        
+
         //* Логирование
         $game_result = "Победила армия \"$winner->name\"\n";
 
@@ -121,7 +117,6 @@ class Game
         $game_result .= "Остались: $alive_count ($alive)\n";
 
         Game::log($game_result);
-       
     }
 
     /**
@@ -135,7 +130,7 @@ class Game
 
         if (!empty($exclude)) {
             $t = [];
-            foreach($this->armies as $army) {
+            foreach ($this->armies as $army) {
                 if (in_array($army, $exclude)) {
                     continue;
                 }
@@ -150,13 +145,13 @@ class Game
         return $r;
     }
 
-    private function has_two_players(): bool 
+    private function has_two_players(): bool
     {
         return (count($this->armies) >= 2);
     }
 
 
-    public static function log($message, $mode = FILE_APPEND): void 
+    public static function log($message, $mode = FILE_APPEND): void
     {
         file_put_contents(self::$log_file, $message, $mode);
     }
@@ -177,7 +172,8 @@ class Army
         $this->name = $name;
     }
 
-    private function make_units($max_units) {
+    private function make_units($max_units)
+    {
         for ($i = 0; $i < $max_units; $i++) {
             array_push($this->units, new Unit());
         }
@@ -186,7 +182,8 @@ class Army
         // }
     }
 
-    public function reset_units() {
+    public function reset_units()
+    {
         $this->units = [];
         $this->make_units($this->max_units);
     }
@@ -202,7 +199,7 @@ class Army
     }
 
 
-    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army) 
+    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army)
     {
         $message = "Армия \"$this->name\": Юнит \"$attacker->name\" атакует(урон: $attacker->damage) юнита \"$target->name\" из Армии \"$enemy_army->name\"\n";
         $message .= "У вражеского юнита \"$target->name\" осталось $target->health здоровья\n";
@@ -217,7 +214,7 @@ class Army
     {
         $res = false;
 
-        foreach($this->units as $unit) {
+        foreach ($this->units as $unit) {
             if ($unit->active) {
                 $res = true;
                 break;
@@ -226,7 +223,7 @@ class Army
 
         return $res;
     }
-    
+
     /**
      * Получить случайного живого юнита
      * @return Unit
@@ -236,7 +233,7 @@ class Army
         $rand_id = array_rand($this->units);
         $rand_unit = $this->units[$rand_id];
 
-        while($rand_unit->destroyed) {
+        while ($rand_unit->destroyed) {
             $rand_id = array_rand($this->units);
             $rand_unit = $this->units[$rand_id];
         }
@@ -269,7 +266,7 @@ class Army
             }
         }
         $res = trim($res);
-        
+
         return $res;
     }
 
@@ -288,8 +285,9 @@ class Army
 
         return $res;
     }
-    
-    public function count_dead(): int {
+
+    public function count_dead(): int
+    {
         $res = 0;
         foreach ($this->units as $key => $unit) {
             if ($unit->destroyed) {
@@ -299,7 +297,8 @@ class Army
         return $res;
     }
 
-    public function count_alive(): int {
+    public function count_alive(): int
+    {
         $res = 0;
         foreach ($this->units as $key => $unit) {
             if ($unit->active) {
@@ -308,7 +307,6 @@ class Army
         }
         return $res;
     }
-
 }
 
 
@@ -350,5 +348,4 @@ class Unit
     {
         $target->take_damage($this->damage);
     }
-
 }

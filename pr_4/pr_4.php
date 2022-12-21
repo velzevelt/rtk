@@ -14,7 +14,6 @@ function factrorial($n)
         } else {
             $res = $n * factrorial($n - 1);
         }
-
     }
 
     return $res;
@@ -88,7 +87,7 @@ function make_list(array $from): string
 
         if (is_array($val)) {
 
-            if ( !empty($val) ) {
+            if (!empty($val)) {
                 $res .= '<li>' . "'$key' => [" . '<ul>';
                 foreach ($val as $item) {
                     $res .= make_list($item);
@@ -97,7 +96,6 @@ function make_list(array $from): string
             } else {
                 $res .= '<li>' . "'$key' => []," . '</li>';
             }
-
         } else {
             $res .= '<li>' . "'$key' => $val," . '</li>';
         }

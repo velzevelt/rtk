@@ -1,5 +1,4 @@
 <?php
-
 class Fox
 {
     public $gender;
@@ -10,7 +9,7 @@ class Fox
     public $amountOfFingers;
     public $energy = 30;
 
-    
+
     function __construct($_gender = "Female", $_nickname = "Kitsune", $_amountOfLegs = 4, $_amountOfArms = 0, $_amountOfHeads = 1, $_amountOfFingers = 10)
     {
         $this->gender = $_gender;
@@ -28,14 +27,14 @@ class Fox
 
     public function addArms(): int
     {
-        $_amountOfArms = &$this -> amountOfArms;
+        $_amountOfArms = &$this->amountOfArms;
         $_amountOfArms++;
         return $_amountOfArms;
     }
 
     public function getAmountOfLimbs(): int
     {
-        return $this -> amountOfLegs + $this -> amountOfArms;
+        return $this->amountOfLegs + $this->amountOfArms;
     }
 
     public function breathe(): string
@@ -55,7 +54,7 @@ class Fox
     public function run(int $cost = 20): string
     {
         $r = '';
-        while($this->energy < $cost) {
+        while ($this->energy < $cost) {
             $r .= $this->nap() . "<br>";
         }
         $r .= "Я бегу";
@@ -63,7 +62,7 @@ class Fox
         return $r;
     }
 
-    public function nap(int $rest_percent = 30): string 
+    public function nap(int $rest_percent = 30): string
     {
         # Clamp min=0 max=100
         $rest_percent = $rest_percent < 0 ? 0 : $rest_percent;
@@ -73,5 +72,4 @@ class Fox
 
         return "Я сплю";
     }
-
 }

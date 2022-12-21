@@ -73,21 +73,22 @@ class Form
         return $res;
     }
 
-    public function get_file_name(): string 
+    public function get_file_name(): string
     {
         $res = basename($this->file['name']);
 
-        if(empty($res)) {
+        if (empty($res)) {
             $res = 'Не удалось определить имя загруженного файла';
         }
 
         return $res;
     }
 
-    public function check_form() {
+    public function check_form()
+    {
         $res = '';
-        foreach(get_object_vars($this) as $key => $option) {
-            if( empty($option) or is_null($option) ) {
+        foreach (get_object_vars($this) as $key => $option) {
+            if (empty($option) or is_null($option)) {
                 $res .= "Поле \"$key\" формы не было задано" . "<br>";
             }
         }
