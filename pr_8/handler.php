@@ -88,7 +88,7 @@ class Form
         $res = '';
         foreach(get_object_vars($this) as $key => $option) {
             if( empty($option) or is_null($option) ) {
-                $res .= "Поле формы \"$key\" не было задано<br>";
+                $res .= "Поле формы \"$key\" не было задано" . "<br>";
             }
         }
         return $res;
@@ -99,7 +99,7 @@ $form = new Form();
 
 var_dump($form);
 
+echo $form->check_form() . "<br>";
 echo $form->save_file() . "<br>";
 echo $form->delete_file() . "<br>";;
 echo $form->get_file_name() . "<br>";;
-echo $form->check_form();

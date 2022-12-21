@@ -138,7 +138,7 @@ function find_isq(array $haystack, int $needle, int $nest_level = 1)
 // file_put_contents('array.txt', $ar);
 
 $ar = json_decode(file_get_contents('array.txt'));
-// print_r($ar);
+var_dump($ar);
 
 
 echo find_ln($ar, 0) . '<br>';
