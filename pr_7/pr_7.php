@@ -120,7 +120,7 @@ class Game
         $alive_count = $winner->count_alive();
         $game_result .= "Остались: $alive_count ($alive)\n";
 
-        file_put_contents($this->log_file, $game_result, FILE_APPEND);
+        Game::log($game_result);
        
     }
 
