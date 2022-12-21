@@ -77,7 +77,7 @@ class Form
     {
         $res = basename($this->file['name']);
 
-        if(strlen($res) == 0) {
+        if(empty($res)) {
             $res = 'Не удалось определить имя загруженного файла';
         }
 
@@ -88,7 +88,7 @@ class Form
         $res = '';
         foreach(get_object_vars($this) as $key => $option) {
             if( empty($option) or is_null($option) ) {
-                $res .= "Поле формы \"$key\" не было задано" . "<br>";
+                $res .= "Поле \"$key\" формы не было задано" . "<br>";
             }
         }
         return $res;
@@ -100,6 +100,7 @@ $form = new Form();
 var_dump($form);
 
 echo $form->check_form() . "<br>";
+
 echo $form->save_file() . "<br>";
 echo $form->delete_file() . "<br>";;
 echo $form->get_file_name() . "<br>";;

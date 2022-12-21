@@ -18,16 +18,16 @@ if ( isset($_POST['send']) )
     }
 } else {
     
-    //! DEBUG ONLY
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
+    // //! DEBUG ONLY
+    // ini_set('display_errors', '1');
+    // ini_set('display_startup_errors', '1');
+    // error_reporting(E_ALL);
 
-    $imagine = new Imagine();
-    $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_1.png', [1280, 720]);
-    $image->show_image();
+    // $imagine = new Imagine();
+    // $image = new ImageWatermark('assets/cat.jpg', 'assets/watermark_1.png', [1280, 720]);
+    // $image->show_image();
 
-
+    echo "Картинки не загружены";
 }
 
 
