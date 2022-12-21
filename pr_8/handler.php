@@ -62,7 +62,7 @@ class Form
 
         if (file_exists($file)) {
             if (unlink($file)) {
-                $res = "Файл был успешно удален";
+                $res = "Файл успешно удален";
             } else {
                 $res = "Ошибка при удалении файла";
             }
@@ -86,7 +86,6 @@ class Form
 
     public function check_form() {
         $res = '';
-        // var_dump(get_object_vars($this));
         foreach(get_object_vars($this) as $key => $option) {
             if( empty($option) or is_null($option) ) {
                 $res .= "Поле формы \"$key\" не было задано<br>";
