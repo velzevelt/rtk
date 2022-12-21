@@ -89,7 +89,7 @@ function find_bin(array $haystack, int $needle): string
 
 # Возвращает ключ
 //TODO Две индексные таблицы
-function find_isq(array $haystack, int $needle, int $nest_level = 1) 
+function find_isq(array $haystack, int $needle) 
 {
     $result = false;
     $index_table = form_index_table($haystack);
