@@ -1,7 +1,7 @@
 <?php
 
 
-// file_put_contents('log.txt', "");
+file_put_contents('log.txt', "");
 
 # Основной цикл
 for ($i = 1, $rounds = 3; $i <= $rounds; $i++) {
@@ -29,7 +29,6 @@ class Game
     {
         $this->armies = $armies;
         $this->log_file = $log_file;
-        file_put_contents($log_file, "");
     }
 
     public function main(): void

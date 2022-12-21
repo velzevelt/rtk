@@ -89,14 +89,15 @@ function find_bin(array $haystack, int $needle): string
 
 # Возвращает ключ
 //TODO Две индексные таблицы
-function find_isq(array $haystack, int $needle, $nest_level = 1): string 
+function find_isq(array $haystack, int $needle) 
 {
     $result = false;
     $index_table = form_index_table($haystack);
 
-    for($i = 1; $i < $nest_level; $i++) {
-        $index_table = form_index_table($index_table);
-    }
+    // for($i = 1; $i < $nest_level; $i++) {
+    //     $index_table = form_index_table($index_table);
+    // }
+
 
     foreach($index_table as $key => $value)
     {
@@ -108,20 +109,26 @@ function find_isq(array $haystack, int $needle, $nest_level = 1): string
             
             # Теперь нужно распаковать индексную таблицу на 1 уровень и повторять операцию, пока мы не поднимемся
             # на уровень исходной таблицы и не проведем поиск там
-            if ($nest_level > 1) {
-                $result = find_isq($index_table, $needle, $nest_level - 1);
-                break;
-            }
-
-            
-            // for($i = $pre_pos; $i <= $end_pos; $i++)
-            // {
-            //     if($haystack[$i] == $needle)
-            //     {
-            //         $result = $i;
-            //         break 2;
-            //     }
+            // if ($nest_level > 1) {
+                
+            //     break;
             // }
+
+
+            $start_pos *= INDEX_TABLE_RANGE;
+            $end_pos *= INDEX_TABLE_RANGE;
+
+            var_dump($start_pos);
+            var_dump($end_pos);
+
+            for($i = $start_pos; $i <= $end_pos; $i++)
+            {
+                if($haystack[$i] == $needle)
+                {
+                    $result = $i;
+                    break 2;
+                }
+            }
         }
 
     }
@@ -130,10 +137,16 @@ function find_isq(array $haystack, int $needle, $nest_level = 1): string
 }
 
 
-$ar = range(0, 100);
+// $ar = rand_sq(0, 100);
+// $ar = json_encode($ar);
+// file_put_contents('array.txt', $ar);
 
-echo find_ln($ar, 15) . '<br>';
-echo find_isq($ar, 15, 2) . '<br>';
+$ar = json_decode(file_get_contents('array.txt'));
+// print_r($ar);
+
+
+echo find_ln($ar, 17) . '<br>';
+echo find_isq($ar, 17) . '<br>';
 
 
 function form_index_table(array $from): array
@@ -154,7 +167,6 @@ function form_index_table(array $from): array
     
     return $index_table;
 }
-
 
 
 
