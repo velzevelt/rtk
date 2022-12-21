@@ -1,22 +1,25 @@
 <?php
 
 
-file_put_contents('log.txt', "");
 
-$armies = [
-    new Army('Мордор', 3),
-    new Army('Валлирия', 3),
-    new Army('Орда', 3),
-    new Army('Дорн', 3),
-    new Army('Русь', 3),
-    new Army('Франция', 3),
-    new Army('Англия', 3),
-    new Army('Португалия', 3),
-    new Army('Китай', 3),
-    new Army('Нильфгаард', 3),
-    new Army('Лапландия', 3),
-];
+// $armies = [
+//     new Army('Мордор', 3),
+//     new Army('Валлирия', 3),
+//     new Army('Орда', 3),
+//     new Army('Дорн', 3),
+//     new Army('Русь', 3),
+//     new Army('Франция', 3),
+//     new Army('Англия', 3),
+//     new Army('Португалия', 3),
+//     new Army('Китай', 3),
+//     new Army('Нильфгаард', 3),
+//     new Army('Лапландия', 3),
+// ];
+$armies = [];
 
+for($i = 0; $i < 100; $i++){
+    $armies[] = new Army($i+1, 3);
+}
 
 $game = new Game( $armies, 'log.txt' );
 echo nl2br(file_get_contents('log.txt'));
@@ -25,28 +28,28 @@ echo nl2br(file_get_contents('log.txt'));
 class Game
 {
     private $armies = [];
-    private $log_file = '';
+    private static $log_file = 'log.txt';
     private $rounds = 3;
 
     public function __construct(array $armies, string $log_file)
     {
+
         $this->armies = $armies;
         $this->log_file = $log_file;
+        $this->log('', FILE_NO_DEFAULT_CONTEXT);
 
-        var_dump($armies[0]->units);
 
         for($i = 1; $i <= $this->rounds; $i++) {
-            file_put_contents('log.txt', "Раунд $i\n", FILE_APPEND);
-            
+            $this->log("Раунд $i\n");
             
             $this->play();
             $this->armies = $armies;
             $this->reset_units();
             
             if ($i != $this->rounds) {
-                file_put_contents('log.txt', "\n\n\n", FILE_APPEND);
+                $this->log("\n\n\n");
             } else {
-                file_put_contents('log.txt', "\nВсе раунды были проведены!", FILE_APPEND);
+                $this->log("\nВсе раунды были проведены!");
             }
 
         }
@@ -151,6 +154,12 @@ class Game
     {
         return (count($this->armies) >= 2);
     }
+
+
+    public static function log($message, $mode = FILE_APPEND): void 
+    {
+        file_put_contents(self::$log_file, $message, $mode);
+    }
 }
 
 
@@ -182,22 +191,22 @@ class Army
         $this->make_units($this->max_units);
     }
 
-    public function make_move(Army $enemy_army, Unit $attacker, Unit $target, string $log_file)
+    public function make_move(Army $enemy_army, Unit $attacker, Unit $target)
     {
         $attacker->attack($target);
 
         //* Логирование
         $attacker_key = array_search($attacker, $this->units);
         $target_key = array_search($target, $enemy_army->units);
-        $this->attack_log($attacker, $target, $attacker_key, $target_key, $enemy_army, $log_file);
+        $this->attack_log($attacker, $target, $attacker_key, $target_key, $enemy_army);
     }
 
 
-    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army, string $log_file) 
+    private function attack_log(Unit $attacker, Unit $target, string $attacker_key, string $target_key, Army $enemy_army) 
     {
         $message = "Армия \"$this->name\": Юнит \"$attacker->name\" атакует(урон: $attacker->damage) юнита \"$target->name\" из Армии \"$enemy_army->name\"\n";
         $message .= "У вражеского юнита \"$target->name\" осталось $target->health здоровья\n";
-        file_put_contents($log_file, $message, FILE_APPEND);
+        Game::log($message);
     }
 
     /**
