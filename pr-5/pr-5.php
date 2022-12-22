@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "autoload.php";
 
 
@@ -16,11 +16,11 @@ $fox = new Fox();
 // echo $fox->run() . "<br>";
 // echo $fox->run();
 
-echo $fox -> nap() . "<br>";
-echo $fox -> say() . "<br>";
-echo $fox -> hunt() . "<br>";
-echo $fox -> eat() . "<br>";
-echo $fox -> run() . "<br>";
-echo $fox -> breathe() . "<br>";
-echo $fox -> addArms() . "<br>";
-echo $fox -> getAmountOfLimbs() . "<br>";
+echo $fox->nap() . "<br>";
+echo $fox->say() . "<br>";
+echo $fox->hunt() . "<br>";
+echo $fox->eat() . "<br>";
+echo $fox->run() . "<br>";
+echo $fox->breathe() . "<br>";
+echo $fox->addArms() . "<br>";
+echo $fox->getAmountOfLimbs() . "<br>";

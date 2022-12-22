@@ -103,5 +103,5 @@ var_dump($form);
 echo $form->checkForm() . "<br>";
 
 echo $form->saveFile() . "<br>";
-echo $form->deleteFile() . "<br>";;
-echo $form->getFileName() . "<br>";;
+echo $form->deleteFile() . "<br>";
+echo $form->getFileName() . "<br>";

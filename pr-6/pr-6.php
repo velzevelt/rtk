@@ -14,7 +14,7 @@
     # 2)*>------------------
     # 3)**********>---------
     # 4)****************>---
-
+    
     class Snake
     {
         public $baseLine = "";
@@ -78,7 +78,7 @@
 
     // $snake = new Snake("snake.txt");
     // $snake->main('snake.txt.o');
-
+    
 
 
 
@@ -97,7 +97,7 @@
             'head_up' => "<empty style='color: #00D678'>↑</empty>",
             'head_down' => "<empty style='color: #00D678'>↓</empty>",
             ////////////
-
+    
             'body' => "<empty style='color: #FF8000'>*</empty>",
 
             // [CELLS] //
@@ -112,7 +112,7 @@
         private $foodCell;
         private $headCell;
         private $space = []; # array of cells
-
+    
         /**
          * Змеюка
          * @param string $filename Имя файла с исходным игровым полем
@@ -159,7 +159,7 @@
             }
 
             $this->space[$head_id]->char = $this->charMap['head_right'];
-            $this->headCell = &$this->space[$head_id];
+            $this->headCell = & $this->space[$head_id];
 
             # Создание еды
             $this->foodCell = $this->createFood();
@@ -248,11 +248,11 @@
 
                 // var_dump($currentPosition);
                 // var_dump($newPosition);
-
+    
 
                 if ($key = $this->findCell($t, $this->space)) {
                     $this->headCell->char = $this->charMap['body']; # reset prev
-
+    
 
                     # Эта язва исправляет смещение, вызванное скрытым символом
                     if ($t->column == 0 or $this->headCell->column == 0) {
@@ -272,7 +272,7 @@
                         # СМЕРТЬ
                         $this->active = false;
                     }
-                    $this->headCell = &$this->space[$key];
+                    $this->headCell = & $this->space[$key];
                     $this->headCell->char = $targetDirection;
                 }
             } else {

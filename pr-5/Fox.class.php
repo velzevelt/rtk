@@ -27,7 +27,7 @@ class Fox
 
     public function addArms(): int
     {
-        $_amountOfArms = &$this->amountOfArms;
+        $_amountOfArms = & $this->amountOfArms;
         $_amountOfArms++;
         return $_amountOfArms;
     }
