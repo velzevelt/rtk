@@ -22,7 +22,7 @@ require_once "../etc/tools.php";
 /** 1. Сделайте функцию, которая принимает строку на русском языке, а
 возвращает ее транслит */
 
-format_problem(1);
+formatProblem(1);
 
 $var = "шиншилла МИР !! ЩУКА Щщука";
 
@@ -70,7 +70,7 @@ function translit(string $text): string
     $previous = 0;
 
     foreach ($text as $key => $val) {
-        $low_val = mb_strtolower($val);
+        $lowVal = mb_strtolower($val);
 
         if (array_key_exists($val, $dictionary)) {
             $text[$key] = $dictionary[$val];
@@ -81,8 +81,8 @@ function translit(string $text): string
                 $next = mb_strtolower($next);
                 $text[$previous] = $first . $next;
             }
-        } elseif (array_key_exists($low_val, $dictionary)) {
-            $text[$key] = mb_strtoupper($dictionary[$low_val]);
+        } elseif (array_key_exists($lowVal, $dictionary)) {
+            $text[$key] = mb_strtoupper($dictionary[$lowVal]);
         }
         $previous = $key;
     }
@@ -100,13 +100,13 @@ function translit(string $text): string
 два, три, четыре и для чисел, больших четырех, например, func(3,
 'яблоко', 'яблока', 'яблок') */
 
-format_problem(2);
+formatProblem(2);
 
-echo str_plural(16, 'яблоко', 'яблока', 'яблок');
+echo strPlural(16, 'яблоко', 'яблока', 'яблок');
 
 
 
-function str_plural(int $amount, string $singular, string $two_four, string $plural): string
+function strPlural(int $amount, string $singular, string $twoFour, string $plural): string
 {
     $result = "";
 
@@ -118,7 +118,7 @@ function str_plural(int $amount, string $singular, string $two_four, string $plu
             $result = $amount . " " . $singular;
             break;
         case $amount >= 2 and $amount <= 4:
-            $result = $amount . " " . $two_four;
+            $result = $amount . " " . $twoFour;
             break;
         default:
             $result = $amount . " " . $plural;
@@ -133,12 +133,12 @@ function str_plural(int $amount, string $singular, string $two_four, string $plu
 цифр его номера */
 
 
-format_problem(3);
+formatProblem(3);
 
 
 
 /** возвращает количество всех возможных счастливых билетов */
-function count_tickets(): int
+function countTickets(): int
 {
     $count = 0;
     $ticket = [];
@@ -154,7 +154,7 @@ function count_tickets(): int
 }
 
 /** проверяет, является ли заданный билет счастливым */
-function is_lucky(string $ticket): mixed
+function isLucky(string $ticket): mixed
 {
     $result = false;
 
@@ -176,7 +176,7 @@ function is_lucky(string $ticket): mixed
 
 # 1 - 1200
 // for ($i = 1; $i < 1200; $i++) {
-//     if( $t = is_lucky($i) ) {
+//     if( $t = isLucky($i) ) {
 //         echo "билет $t - счастливый" . "<br>";
 //     }
 // }
@@ -196,17 +196,17 @@ function is_lucky(string $ticket): mixed
 функцию, которая параметром принимает массив, а возвращает его
 сумму. */
 
-format_problem(4);
+formatProblem(4);
 
 
 
-$a = get_friendly_numbers(1, 10000);
+$a = getFriendlyNumbers(1, 10000);
 
 print_r($a);
 
-// var_dump(sum(get_divisors(284)));
+// var_dump(sum(getDivisors(284)));
 
-// var_dump(is_friendly(284, 220));
+// var_dump(isFriendly(284, 220));
 
 
 
@@ -214,14 +214,14 @@ print_r($a);
 
 
 /** ищет дружественные числа в диапазоне */
-function get_friendly_numbers(int $from = 1, int $to = 500): array
+function getFriendlyNumbers(int $from = 1, int $to = 500): array
 {
     $result = [];
     $divisors = [];
 
     /** считаем делители заранее, так как это дорогая операция */
     for ($x = $from; $x <= $to; $x++) {
-        $divisors[$x] = sum(get_divisors($x));
+        $divisors[$x] = sum(getDivisors($x));
     }
 
     for ($x = $from; $x <= $to; $x++) {
@@ -250,7 +250,7 @@ function get_friendly_numbers(int $from = 1, int $to = 500): array
 }
 
 /** возвращает делители числа, исключая само число */
-function get_divisors(int $num): array
+function getDivisors(int $num): array
 {
     $result = [];
 
@@ -270,12 +270,12 @@ function sum(array $ar): int
 
 
 /** проверяет, являются ли указанные числа дружественными */
-function is_friendly(int $a, int $b): bool
+function isFriendly(int $a, int $b): bool
 {
     $result = false;
 
-    $sum_1 = sum(get_divisors($a));
-    $sum_2 = sum(get_divisors($b));
+    $sum_1 = sum(getDivisors($a));
+    $sum_2 = sum(getDivisors($b));
 
     $result = ($sum_1 == $b and $sum_2 == $a);
 

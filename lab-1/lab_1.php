@@ -87,40 +87,94 @@ function find_bin(array $haystack, int $needle)
 function find_isq(array $haystack, int $needle)
 {
     $result = false;
+
     $first_table = form_index_table($haystack);
     $second_table = form_index_table($first_table);
 
-    var_dump($first_table);
-    echo "<br><br>";
-    var_dump($second_table);
-    echo "<br><br>";
+
+    # Получаем первый диапозон поиска
+    if ($search_sq = get_search_sq($second_table, $needle)) {
+
+        if(is_int($temp = find_in_sq($second_table, $needle, $search_sq[0], $search_sq[1])) ) {
+            $result = $temp * INDEX_TABLE_RANGE * INDEX_TABLE_RANGE;
+
+            # Out of bounds
+            if ($result > $t = count($haystack)) {
+                $result = --$t;
+            }
+
+        } else {
+            # Получаем второй диапозон поиска
+            $search_sq[0] *= INDEX_TABLE_RANGE;
+            $search_sq[1] *= INDEX_TABLE_RANGE;
+
+            if (is_int($temp = find_in_sq($first_table, $needle, $search_sq[0], $search_sq[1]))) {
+                $result = $temp * INDEX_TABLE_RANGE;
+            } else {
+                # Получаем третий диапозон поиска
+                $search_sq[0] *= INDEX_TABLE_RANGE;
+                $search_sq[1] *= INDEX_TABLE_RANGE;
+
+                if (is_int($temp = find_in_sq($haystack, $needle, $search_sq[0], $search_sq[1]))) {
+                    $result = $temp;
+                }
+
+            }
 
 
-    $temp_res = foo($second_table, $needle);
-    $temp_res *= INDEX_TABLE_RANGE;
-    $temp_res--;
-    var_dump($temp_res);
-    echo "<br><br>";
-    $temp_res = foo($first_table, $needle);
-    var_dump($temp_res);
+        }
+
+
+    }
     
+
+    // var_dump($first_table);
+
+    // $search_sq = get_search_sq($second_table, $needle);
+    // var_dump($search_sq);
+    // // $temp = bar($second_table, $needle, $search_sq[0], $search_sq[1]);
+    // // var_dump($temp);
+
+    // # Повышаем уровень диапозона
+    // $search_sq[0] *= INDEX_TABLE_RANGE;
+    // $search_sq[1] *= INDEX_TABLE_RANGE;
+    // $temp = find_in_sq($first_table, $needle, $search_sq[0], $search_sq[1]);
+    // var_dump($temp);
 
     return $result;
 }
 
-function foo(array $haystack, int $needle) {
+function foo() 
+{
+
+}
+
+function get_search_sq(array $index_table, int $needle)
+{
     $result = false;
 
-    foreach ($haystack as $key => $value) {
-        if ($value >= $needle) {
-            $result = $key;
+    foreach ($index_table as $key => $val) {
+        if ($val >= $needle) {
+            $start_pos = ($key - 1) > 0 ? $key - 1 : 0;
+            $end_pos = $start_pos + 1;
+            $result = [$start_pos, $end_pos];
             break;
         }
     }
 
     return $result;
 }
-
+function find_in_sq(array $haystack, int $needle, int $start_pos, int $end_pos)
+{
+    $result = false;
+    for ($i = $start_pos; $i <= $end_pos; $i++) {
+        if ($haystack[$i] == $needle) {
+            $result = $i;
+            break;
+        }
+    }
+    return $result;
+}
 
 // $ar = rand_sq(0, 1000, 5);
 // $ar = json_encode($ar);
@@ -130,8 +184,8 @@ $ar = json_decode(file_get_contents('array.txt'));
 // var_dump($ar);
 
 
-echo find_ln($ar, 256) . '<br>';
-echo find_isq($ar, 256) . '<br>';
+echo find_ln($ar, 2287) . '<br>';
+echo find_isq($ar, 2287) . '<br>';
 
 /**
  * Формирует индексную таблицу
@@ -151,9 +205,10 @@ function form_index_table(array $from, bool $include_end = true): array
         }
 
         # Фикс смещения, возникшего от 0 как начального ключа
-        if ($temp == INDEX_TABLE_RANGE) {
-            $temp--;
-        }
+        //*UPD Лучше не фиксить это, так как возникает проблема +- 1
+        // if ($temp == INDEX_TABLE_RANGE) {
+        //     $temp--;
+        // }
 
         $index_table[] = $from[$temp];
         $temp += INDEX_TABLE_RANGE;

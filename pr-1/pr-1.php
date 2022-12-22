@@ -19,7 +19,7 @@ require_once "../etc/tools.php";
 //  Задание 1.1 Дана строка «php». Сделайте из нее строку «PHP»
 
 // Решение
-format_problem(1.1);
+formatProblem(1.1);
 
 $var = 'php';
 $var = strtoupper($var);
@@ -31,7 +31,7 @@ echo $var;
 // Задача 1.2. Дана строка «PHP». Сделайте из нее строку «php».
 
 // Решение
-format_problem(1.2);
+formatProblem(1.2);
 
 $var = "PHP";
 $var = strtolower($var);
@@ -43,7 +43,7 @@ echo $var;
 // Задача 1.3. Дана строка «london». Сделайте из нее строку «London».
 
 // Решение
-format_problem(1.3);
+formatProblem(1.3);
 
 $var = "london";
 $var = ucfirst($var);
@@ -57,7 +57,7 @@ echo $var;
 */
 
 // Решение
-format_problem(1.5);
+formatProblem(1.5);
 
 $var = "london is the capital of great britain";
 $var = ucwords($var);
@@ -69,7 +69,7 @@ echo $var;
 // Задача 1.6. Дана строка «LONDON». Сделайте из нее строку «London».
 
 // Решение
-format_problem(1.6);
+formatProblem(1.6);
 
 $var = "LONDON";
 $var = strtolower($var);
@@ -87,7 +87,7 @@ echo $var;
 */
 
 // Решение
-format_problem(2.1);
+formatProblem(2.1);
 
 $password = "adad";
 $password_length = strlen($password);
@@ -106,7 +106,7 @@ echo 'jhfgjhgjhgjhg';
 */
 
 // Решение
-format_problem(3.1);
+formatProblem(3.1);
 
 $phrase = "html css php";
 
@@ -127,7 +127,7 @@ echo $var . "<br>";
 // Задача 3.2. Дана строка. Вырежьте и выведите на экран последние 3 символа этой строки.
 
 // Решение
-format_problem(3.2);
+formatProblem(3.2);
 
 $phrase = "html css php";
 $var = substr($phrase, -3, 3);
@@ -140,7 +140,7 @@ echo $var;
 выведите «да', если не так - «нет». */
 
 // Решение
-format_problem(3.3);
+formatProblem(3.3);
 
 $var = "http://boots_and_cats.com";
 echo ( substr($var, 0, 7) == "http://" ) ? "да" : "нет";
@@ -154,7 +154,7 @@ echo ( substr($var, 0, 7) == "http://" ) ? "да" : "нет";
 Если это так, выведите «да', если не так - «нет». */
 
 // Решение
-format_problem(3.4);
+formatProblem(3.4);
 
 $var = "https://boots_and_cats.com";
 echo ( substr($var, 0, 7) == "http://" or substr($var, 0, 8) == "https://" ) ? "да" : "нет";
@@ -167,7 +167,7 @@ echo ( substr($var, 0, 7) == "http://" or substr($var, 0, 8) == "https://" ) ? "
 выведите «да', если не так - «нет». */
 
 // Решение
-format_problem(3.5);
+formatProblem(3.5);
 
 $var = "./ocean/octopus.png";
 echo ( substr($var, -4, 4) == ".png" ) ? "да" : "нет";
@@ -180,7 +180,7 @@ echo ( substr($var, -4, 4) == ".png" ) ? "да" : "нет";
 Если это так, выведите «да', если не так - «нет» */
 
 // Решение
-format_problem(3.6);
+formatProblem(3.6);
 
 
 $var = "./ocean/octopus.jpg";
@@ -195,7 +195,7 @@ echo ( substr($var, -4, 4) == ".png" or substr($var, -4, 4) == ".jpg" ) ? "да"
 строке 5 и менее символов - просто выведите эту строку на экран. */
 
 // Решение
-format_problem(3.7);
+formatProblem(3.7);
 
 
 $string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam iste, eveniet reprehenderit cum tempore ipsam suscipit quos laboriosam? Quam, dolor natus. At sint atque odio quos sapiente quia animi voluptas.";
@@ -220,7 +220,7 @@ echo $var;
 // Задача 4.1. Дана строка «31.12.2022». Замените все точки на дефисы
 
 // Решение
-format_problem(4.1);
+formatProblem(4.1);
 
 
 $var = "31.12.2022";
@@ -234,7 +234,7 @@ echo $var;
 «a» на цифру 1, буквы «e» - на 2, а буквы «n» - на 3. */
 
 // Решение
-format_problem(4.2);
+formatProblem(4.2);
 
 
 $var = "She looked again at the calendar";
@@ -252,7 +252,7 @@ echo $var;
 Удалите из нее все цифры. То есть в нашем случае должна получится строка «abcbdefgh». */
 
 // Решение
-format_problem(4.3);
+formatProblem(4.3);
 
 $var = "1a2b3c4b5d6e7f8g9h0";
 $numbers = range(0, 9);
@@ -268,7 +268,7 @@ echo $var;
 «a» на цифру 1, буквы «e» - на 2, а буквы «n» - на 3. */
 
 // Решение
-format_problem(5.1);
+formatProblem(5.1);
 
 
 $var = "She looked again at the calendar";
@@ -285,7 +285,7 @@ echo $var;
 с 3-го символа (отсчет с нуля), 5 штук и вместо нее вставьте «!!!». */
 
 // Решение
-format_problem(6.1);
+formatProblem(6.1);
 
 $var = "the password cannot be empty";
 $var = substr_replace($var, "!!!", 4, 5);
@@ -298,7 +298,7 @@ echo $var;
 /** Задача 7.1. Дана строка «abc abc abc». Определите позицию первой буквы «b» */
 
 // Решение
-format_problem(7.1);
+formatProblem(7.1);
 
 $var = "abc abc abc";
 $var = strpos($var, "b");
@@ -311,7 +311,7 @@ echo $var;
 /** Задача 7.2. Дана строка «abc abc abc». Определите позицию последней буквы «b». */
 
 // Решение
-format_problem(7.2);
+formatProblem(7.2);
 
 $var = "abc abc abc";
 $var = strrpos($var, "b");
@@ -325,7 +325,7 @@ echo $var;
 буквы «b', если начать поиск не с начала строки, а с позиции 3. */
 
 // Решение
-format_problem(7.3);
+formatProblem(7.3);
 
 $var = "abc abc abc";
 $var = strpos($var, "b", 3);
@@ -339,7 +339,7 @@ echo $var;
 
 // Решение
 
-format_problem(7.4);
+formatProblem(7.4);
 
 $var = "aaa aaa aaa aaa aaa";
 $var = strpos($var, " ", strpos($var, " ") + 1);
@@ -355,7 +355,7 @@ echo $var;
 «есть', если не так - «нет». */
 
 // Решение
-format_problem(7.5);
+formatProblem(7.5);
 $var = ".. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi inventore voluptates adipisci repellendus earum. Voluptatibus optio, nobis sint fugit laudantium corrupti error beatae et, velit quibusdam quas distinctio nemo vitae.";
 
 // echo str_contains($var, "..") ? "есть" : "нет";
@@ -368,7 +368,7 @@ echo strpos($var, "..") !== false ? "есть" : "нет";
 «да', если не так - «нет». */
 
 // Решение
-format_problem(7.6);
+formatProblem(7.6);
 
 $var = "http://boots_and_cats.com";
 echo strpos($var, "http://") == 0 ? "да" : "нет";
@@ -381,7 +381,7 @@ echo strpos($var, "http://") == 0 ? "да" : "нет";
 /** Задача 8.1. Дана строка. Очистите ее от концевых пробелов. */
 
 // Решение
-format_problem(8.1);
+formatProblem(8.1);
 
 $var = " wet water ";
 $var = trim($var);
@@ -395,7 +395,7 @@ echo $var;
 слеши */
 
 // Решение
-format_problem(8.2);
+formatProblem(8.2);
 
 $var = "/php/";
 $var = trim($var, "/");
@@ -411,7 +411,7 @@ echo $var;
 Задачу решите через rtrim без всяких ифов. */
 
 // Решение
-format_problem(8.3);
+formatProblem(8.3);
 
 $var = "слова слова слова.......";
 $var = rtrim($var, ".");
@@ -425,7 +425,7 @@ echo $var;
 /** Задача 9.1. Дана строка «12345». Сделайте из нее строку «54321». */
 
 // Решение
-format_problem(9.1);
+formatProblem(9.1);
 
 $var = "12345";
 $var = strrev($var);
@@ -439,7 +439,7 @@ echo $var;
 направлениях, примеры таких слов: madam, otto, kayak, nun, level) */
 
 // Решение
-format_problem(9.2);
+formatProblem(9.2);
 
 $var = "madam";
 $rvar = strrev($var);
@@ -455,7 +455,7 @@ echo ( $var == $rvar ) ? "слово {$var} - палиндром" : "{$var} - п
 этой строки в случайном порядке. */
 
 // Решение
-format_problem(10.1);
+formatProblem(10.1);
 
 $var = "the password cannot be empty";
 $var = str_shuffle($var);
@@ -469,7 +469,7 @@ echo $var;
 
 // Решение
 
-format_problem(11.1);
+formatProblem(11.1);
 
 
 $var = "12345678";
@@ -483,7 +483,7 @@ echo $var;
 /** Задача 12.1. Дана строка «html, <b>php</b>, js». Удалите теги из этой строки. */
 
 // Решение
-format_problem(12.1);
+formatProblem(12.1);
 
 $var = "html, <b>php</b>, js";
 $var = strip_tags($var);
@@ -499,7 +499,7 @@ echo $var;
 
 // Решение
 
-format_problem(12.2);
+formatProblem(12.2);
 
 $var = "<div><span>the <a>password</a></span> cannot <b><i>be</i></b> <strong>empty</strong></div>";
 
@@ -514,7 +514,7 @@ echo $var;
 есть браузер не должен преобразовать <b> в жирный. */
 
 // Решение
-format_problem(12.3);
+formatProblem(12.3);
 
 $var = "html, <b>php</b>, js";
 $var = htmlspecialchars($var);
@@ -527,7 +527,7 @@ echo $var;
 /** Задача 13.1. Узнайте код символов «a', «b', «c', пробела */
 
 // Решение
-format_problem(13.1);
+formatProblem(13.1);
 
 $chars = [ 'a', 'b', 'c', ' ' ];
 
@@ -546,7 +546,7 @@ foreach($chars as $char)
 располагаются буквы английского алфавита */
 
 // Решение
-format_problem(13.2);
+formatProblem(13.2);
 
 $alphabete = array_merge(range('A', 'Z'), range('a', 'z'));
 $first_letter = $alphabete[0];
@@ -562,7 +562,7 @@ echo "английский алфавит кончается на " . ord($last_
 /** Задача 13.3. Выведите на экран символ с кодом 33. */
 
 // Решение
-format_problem(13.3);
+formatProblem(13.3);
 
 echo chr(33);
 
@@ -574,7 +574,7 @@ echo chr(33);
 числа соответствуют большим буквам латинского алфавита. */
 
 // Решение
-format_problem(13.4);
+formatProblem(13.4);
 
 $bounds = range('A', 'Z');
 $str = $bounds[ rand(0, count($bounds) - 1 ) ];
@@ -588,7 +588,7 @@ echo $str;
 большая. Выведите букву и результат на экран. */
 
 // Решение
-format_problem(13.6);
+formatProblem(13.6);
 
 $letter = "f";
 
@@ -603,7 +603,7 @@ echo ctype_lower($letter) ? "$letter буква маленькая" : "$letter �
 строку «-cd-ef». */
 
 // Решение
-format_problem(14.1);
+formatProblem(14.1);
 
 $var = "ab-cd-ef";
 $search_var = "-cd-ef";
@@ -619,7 +619,7 @@ echo $var;
 строку «-ef». Показать решение */
 
 // Решение
-format_problem(14.2);
+formatProblem(14.2);
 
 $var = "ab-cd-ef";
 $search_var = "-ef";
@@ -636,7 +636,7 @@ echo $var;
 строку «--cd--ef». */
 
 // Решение
-format_problem(15.1);
+formatProblem(15.1);
 
 $var = "ab--cd--ef";
 $var = strstr($var ,"--cd--ef");
@@ -651,7 +651,7 @@ echo $var;
 работать с любыми аналогичными строками. */
 
 // Решение
-format_problem("Дополнительное");
+formatProblem("Дополнительное");
 
 $var = "var_test_text";
 $var = str_to_pascal_case($var);

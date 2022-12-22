@@ -62,13 +62,13 @@ class Fox
         return $r;
     }
 
-    public function nap(int $rest_percent = 30): string
+    public function nap(int $restPercent = 30): string
     {
         # Clamp min=0 max=100
-        $rest_percent = $rest_percent < 0 ? 0 : $rest_percent;
-        $rest_percent = $rest_percent > 100 ? 100 : $rest_percent;
+        $restPercent = $restPercent < 0 ? 0 : $restPercent;
+        $restPercent = $restPercent > 100 ? 100 : $restPercent;
 
-        $this->energy += ($this->energy / 100) * $rest_percent;
+        $this->energy += ($this->energy / 100) * $restPercent;
 
         return "Я сплю";
     }
