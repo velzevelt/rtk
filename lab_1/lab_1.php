@@ -2,7 +2,13 @@
 
 const INDEX_TABLE_RANGE = 8;
 
-
+/**
+ * Создает возрастающую последовательность
+ * @param int $start
+ * @param int $length
+ * @param int $r_threshhold порог возможной разности между элементами
+ * @return array
+ */
 function rand_sq(int $start, int $length, int $r_threshhold = 20): array
 {
     $result = [$start];
@@ -27,7 +33,7 @@ function find_min_value(array $haystack): int
 {
     $result = $haystack[0];
 
-    foreach ($haystack as $key => $value) {
+    foreach ($haystack as $value) {
         if ($result > $value) {
             $result = $value;
         }
@@ -36,7 +42,7 @@ function find_min_value(array $haystack): int
 }
 
 # Возвращает ключ
-function find_ln(array $haystack, int $needle): string
+function find_ln(array $haystack, int $needle)
 {
     $result = false;
 
@@ -51,7 +57,7 @@ function find_ln(array $haystack, int $needle): string
 }
 
 # Возвращает ключ
-function find_bin(array $haystack, int $needle): string
+function find_bin(array $haystack, int $needle)
 {
     $result = false;
     $first = 0;
@@ -59,6 +65,7 @@ function find_bin(array $haystack, int $needle): string
 
     while ($first <= $last) {
         $mid_key = round(($first + $last) / 2);
+        // $mid_key = (int) $mid_key;
         $mid_value = $haystack[$mid_key];
 
         if ($mid_value < $needle) {
@@ -83,26 +90,31 @@ function find_isq(array $haystack, int $needle)
     $first_table = form_index_table($haystack);
     $second_table = form_index_table($first_table);
 
-
     var_dump($first_table);
+    echo "<br><br>";
     var_dump($second_table);
+    echo "<br><br>";
 
-    foreach ($second_table as $key => $value) {
+
+    $temp_res = foo($second_table, $needle);
+    $temp_res *= INDEX_TABLE_RANGE;
+    $temp_res--;
+    var_dump($temp_res);
+    echo "<br><br>";
+    $temp_res = foo($first_table, $needle);
+    var_dump($temp_res);
+    
+
+    return $result;
+}
+
+function foo(array $haystack, int $needle) {
+    $result = false;
+
+    foreach ($haystack as $key => $value) {
         if ($value >= $needle) {
-            # Значение больше искомого ? -> получаем диапозон для поиска из предыдущего ключа и текущего
-            $start_pos = ($key - 1 > 0) ? ($key - 1) : 0; # доп проверка, чтобы не выйти за границы массива
-            $end_pos = $key;
-
-            # Получаем ключи относительно первой таблицы
-            $start_pos *= INDEX_TABLE_RANGE;
-            $end_pos *= INDEX_TABLE_RANGE;
-
-            for ($i = $start_pos; $i <= $end_pos; $i++) {
-                if ($haystack[$i] == $needle) {
-                    $result = $i;
-                    break 2;
-                }
-            }
+            $result = $key;
+            break;
         }
     }
 
@@ -110,38 +122,35 @@ function find_isq(array $haystack, int $needle)
 }
 
 
-// $ar = rand_sq(0, 100);
+// $ar = rand_sq(0, 1000, 5);
 // $ar = json_encode($ar);
 // file_put_contents('array.txt', $ar);
 
 $ar = json_decode(file_get_contents('array.txt'));
-var_dump($ar);
+// var_dump($ar);
 
 
-echo find_ln($ar, 371) . '<br>';
-echo find_isq($ar, 371, 2) . '<br>';
+echo find_ln($ar, 256) . '<br>';
+echo find_isq($ar, 256) . '<br>';
 
-
+/**
+ * Формирует индексную таблицу
+ * @param array $from массив из которого формируется индексная таблица
+ * @param bool $include_end (optional) включить ли конец исходной таблицы в индексную
+ * @return array
+ */
 function form_index_table(array $from, bool $include_end = true): array
 {
     $index_table = [];
-    // $length = count($from);
-
-    // for($i = 0; $i < $length; $i += INDEX_TABLE_RANGE)
-    // {   
-    //     # Смещение второй итерации
-    //     if($i == INDEX_TABLE_RANGE) {
-    //         $i--;
-    //     } 
-
-    //     $index_table[] = $from[$i];
-    // }
 
     $temp = 0;
     foreach ($from as $key => $val) {
+        # Грязное прерывание цикла
         if (!isset($from[$temp])) {
             break;
         }
+
+        # Фикс смещения, возникшего от 0 как начального ключа
         if ($temp == INDEX_TABLE_RANGE) {
             $temp--;
         }
@@ -234,7 +243,7 @@ function find_greater_isq(array $haystack, int $needle = 30): array
 
     foreach ($index_table as $key => $value) {
         if ($value > $needle) {
-            $pos = ($key - 1 > 0) ? $key - 1 * INDEX_TABLE_RANGE : 0;
+            $pos = ($key - 1 > 0) ? ($key - 1) * INDEX_TABLE_RANGE : 0;
             break;
         }
     }
