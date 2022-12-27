@@ -99,10 +99,11 @@ function find_isq(array $haystack, int $needle)
         if(is_int($temp = find_in_sq($second_table, $needle, $search_sq[0], $search_sq[1])) ) {
             $result = $temp * INDEX_TABLE_RANGE * INDEX_TABLE_RANGE;
 
-            # Out of bounds
-            if ($result > $t = count($haystack)) {
-                $result = --$t;
-            }
+            // # Out of bounds
+            // if ($result > $t = count($haystack)) {
+            //     $result = --$t;
+            // }
+            if ($temp)
 
         } else {
             # Получаем второй диапозон поиска
