@@ -91,6 +91,7 @@ function find_isq(array $haystack, int $needle)
     $first_table = form_index_table($haystack);
     $second_table = form_index_table($first_table);
 
+    var_dump($second_table);
 
     # Получаем первый диапозон поиска
     if ($search_sq = get_search_sq($second_table, $needle)) {
@@ -127,26 +128,7 @@ function find_isq(array $haystack, int $needle)
 
     }
     
-
-    // var_dump($first_table);
-
-    // $search_sq = get_search_sq($second_table, $needle);
-    // var_dump($search_sq);
-    // // $temp = bar($second_table, $needle, $search_sq[0], $search_sq[1]);
-    // // var_dump($temp);
-
-    // # Повышаем уровень диапозона
-    // $search_sq[0] *= INDEX_TABLE_RANGE;
-    // $search_sq[1] *= INDEX_TABLE_RANGE;
-    // $temp = find_in_sq($first_table, $needle, $search_sq[0], $search_sq[1]);
-    // var_dump($temp);
-
     return $result;
-}
-
-function foo() 
-{
-
 }
 
 function get_search_sq(array $index_table, int $needle)
@@ -184,8 +166,8 @@ $ar = json_decode(file_get_contents('array.txt'));
 // var_dump($ar);
 
 
-echo find_ln($ar, 2287) . '<br>';
-echo find_isq($ar, 2287) . '<br>';
+echo find_ln($ar, 1321) . '<br>';
+echo find_isq($ar, 1321) . '<br>';
 
 /**
  * Формирует индексную таблицу
