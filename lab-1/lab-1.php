@@ -45,7 +45,6 @@ function find_bin(array $haystack, int $needle)
 
     while ($first <= $last) {
         $mid_key = round(($first + $last) / 2);
-        // $mid_key = (int) $mid_key;
         $mid_value = $haystack[$mid_key];
 
         if ($mid_value < $needle) {
