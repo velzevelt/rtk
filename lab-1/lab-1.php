@@ -3,6 +3,11 @@
 const INDEX_TABLE_RANGE = 8;
 
 
+function get_array() 
+{
+    return json_decode(file_get_contents('array.txt'));
+}
+
 #     Задача 1 Найти наименьший элемент в упорядоченном массиве А с помощью
 #       линейного, бинарного и индексно-последовательного поиска. 
 #
@@ -112,7 +117,7 @@ function find_isq(array $haystack, int $needle)
     return $result;
 }
 
-/** Получает промежуток */
+/** Получает промежуток для поиска */
 function get_search_sq(array $index_table, int $needle)
 {
     $result = false;
@@ -142,13 +147,6 @@ function find_in_sq(array $haystack, int $needle, int $start_pos, int $end_pos)
     return $result;
 }
 
-
-$ar = json_decode(file_get_contents('array.txt'));
-// var_dump($ar);
-
-
-echo find_ln($ar, 138) . '<br>';
-echo find_isq($ar, 138) . '<br>';
 
 
 /**
@@ -224,7 +222,7 @@ function find_greater_bin(array $haystack, int $needle = 30): array
     $pos = $last;
     $temp = $last;
 
-    #region Поиск ключа, большего чем needle
+    # Поиск ключа, большего чем needle
     while (true) {
         if ($mid_value > $needle and $temp >= 0) {
             $mid_key = round($temp / 2);
@@ -242,7 +240,6 @@ function find_greater_bin(array $haystack, int $needle = 30): array
             }
         }
     }
-    #endregion
 
     for ($i = $pos; $i <= $last; $i++) {
         array_push($result, $haystack[$i]);
