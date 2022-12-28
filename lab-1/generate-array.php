@@ -20,8 +20,8 @@ function rand_sq(int $start, int $length, int $r_threshhold = 20): array
     return $result;
 }
 
-// $ar = rand_sq(100, 1000, 5);
-// $ar = json_encode($ar);
-// file_put_contents('array.txt', $ar);
+$ar = rand_sq(100, 1000, 5);
+$ar = json_encode($ar);
+file_put_contents('array.txt', $ar);
 
-echo 'Array generated:' . __DIR__ . 'array.txt';
+echo 'Array generated in: ' . __DIR__;
