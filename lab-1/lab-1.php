@@ -2,26 +2,6 @@
 
 const INDEX_TABLE_RANGE = 8;
 
-/**
- * Создает возрастающую последовательность
- * @param int $start
- * @param int $length
- * @param int $r_threshhold порог возможной разности между элементами
- * @return array
- */
-function rand_sq(int $start, int $length, int $r_threshhold = 20): array
-{
-    $result = [$start];
-
-    for ($i = 1; $i < $length; $i++) {
-        while ($result[$i] <= $result[$i - 1]) {
-            $result[$i] += rand(1, $r_threshhold);
-        }
-    }
-
-    return $result;
-}
-
 
 #     Задача 1 Найти наименьший элемент в упорядоченном массиве А с помощью
 #       линейного, бинарного и индексно-последовательного поиска. 
@@ -133,6 +113,7 @@ function find_isq(array $haystack, int $needle)
     return $result;
 }
 
+/** Получает промежуток */
 function get_search_sq(array $index_table, int $needle)
 {
     $result = false;
@@ -149,6 +130,7 @@ function get_search_sq(array $index_table, int $needle)
     return $result;
 }
 
+/** Ищет значения в промежутке */
 function find_in_sq(array $haystack, int $needle, int $start_pos, int $end_pos)
 {
     $result = false;
@@ -161,9 +143,6 @@ function find_in_sq(array $haystack, int $needle, int $start_pos, int $end_pos)
     return $result;
 }
 
-// $ar = rand_sq(100, 1000, 5);
-// $ar = json_encode($ar);
-// file_put_contents('array.txt', $ar);
 
 $ar = json_decode(file_get_contents('array.txt'));
 // var_dump($ar);
@@ -171,6 +150,7 @@ $ar = json_decode(file_get_contents('array.txt'));
 
 echo find_ln($ar, 138) . '<br>';
 echo find_isq($ar, 138) . '<br>';
+
 
 /**
  * Формирует индексную таблицу
