@@ -101,7 +101,7 @@ function find_isq(array $haystack, int $needle)
         if(is_int($temp = find_in_sq($second_table, $needle, $search_sq[0], $search_sq[1])) ) {
             $result = $temp * INDEX_TABLE_RANGE * INDEX_TABLE_RANGE;
 
-            //* Out of bounds fix
+            //* Out of bounds quick fix. Problem reason: index table length not multiple to 8
             if ($temp == array_key_last($second_table)) {
                 $result = array_key_last($haystack);
             }
@@ -148,6 +148,7 @@ function get_search_sq(array $index_table, int $needle)
 
     return $result;
 }
+
 function find_in_sq(array $haystack, int $needle, int $start_pos, int $end_pos)
 {
     $result = false;
@@ -174,7 +175,7 @@ echo find_isq($ar, 138) . '<br>';
 /**
  * Формирует индексную таблицу
  * @param array $from массив из которого формируется индексная таблица
- * @param bool $include_end (optional) включить ли конец исходной таблицы в индексную
+ * @param bool $include_end (optional) включить ли конечный элемент исходной таблицы в индексную
  * @return array
  */
 function form_index_table(array $from, bool $include_end = true): array
